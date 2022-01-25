@@ -1,0 +1,53 @@
+.gp-sky {
+    height: calc(100vh - 8rem);
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    > .stars {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        z-index: -10000;
+        pointer-events: none;
+        > canvas {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+    }
+    > .gp-hero {
+        position: fixed;
+        inset: 0;
+        margin: 64px auto;
+        max-width: 1024px;
+        z-index: 0;
+        display: flex;
+        > .main {
+            padding: 16px;
+            .icon {
+                width: 96px;
+                height: 96px;
+            }
+            h1 {
+                font-size: 3rem;
+            }
+            flex: 1;
+        }
+
+        > .timeline {
+            flex: 1;
+            padding: 16px;
+        }
+    }
+}
+
+.gp-container {
+    position: relative;
+    background: var(--bg);
+    z-index: 10;
+    .gp-article {
+        z-index: 10;
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+}
