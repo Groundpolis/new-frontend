@@ -186,25 +186,30 @@ export default function WelcomePage() {
           <h2 className="text-dimmed">Groundpolis には多くの機能があります。</h2>
           <div className="gp-features">
             <div className="column">
-              <FeatureCard title="リアクション" src={featuresImageReaction}>
-                <p>「いいね」だけじゃ物足りませんか。リアクションを付けて細かな気持ちを伝えましょう。</p>
+              <FeatureCard title="投稿、フォロー、会話" src="http://placehold.jp/320x180.png">
+                <p>好きなことをたくさんつぶやこう。</p>
+                <p>好きなユーザーをフォローして、つながろう。</p>
               </FeatureCard>
               <FeatureCard title="リアクション" src={featuresImageReaction}>
-                <p>「いいね」だけじゃ物足りませんか。リアクションを付けて細かな気持ちを伝えましょう。</p>
+                <p>いいねだけじゃ伝わらない気持ちに。多種多様な絵文字を使った「リアクション」で、細かなニュアンスを伝えましょう。</p>
               </FeatureCard>
-              <FeatureCard title="リアクション" src={featuresImageReaction}>
-                <p>「いいね」だけじゃ物足りませんか。リアクションを付けて細かな気持ちを伝えましょう。</p>
+              <FeatureCard title="テーマ" src="http://placehold.jp/320x180.png">
+                <p>あなたの気分に応じて、好きなテーマを選んでGroundpolisを楽しみましょう。テーマは自作できますし、テーマストアで多くのテーマが公開されています。</p>
               </FeatureCard>
             </div>
             <div className="column">
-              <FeatureCard title="リアクション" src={featuresImageReaction}>
-                <p>「いいね」だけじゃ物足りませんか。リアクションを付けて細かな気持ちを伝えましょう。</p>
+              <FeatureCard title="ファイル" src="http://placehold.jp/320x180.png">
+                <p>
+                  添付ファイルは全て、ユーザーに割り振られた一定（本サーバーでは{meta.driveCapacityPerLocalUserMb / 1024}GB）の領域に保存されます。
+                  そのため、アップロードし直すことなくファイルを再度共有することもできます。
+                </p>
+                <p>ファイルは全て名前を付けたり、フォルダ分けしたりと柔軟に管理できます。</p>
               </FeatureCard>
-              <FeatureCard title="リアクション" src={featuresImageReaction}>
-                <p>「いいね」だけじゃ物足りませんか。リアクションを付けて細かな気持ちを伝えましょう。</p>
+              <FeatureCard title="ペイント" src="http://placehold.jp/320x180.png">
+                <p>筆圧検知にも対応した本格的なペイントツールを搭載。描いた絵はそのまま投稿できます。</p>
               </FeatureCard>
-              <FeatureCard title="リアクション" src={featuresImageReaction}>
-                <p>「いいね」だけじゃ物足りませんか。リアクションを付けて細かな気持ちを伝えましょう。</p>
+              <FeatureCard title="文字装飾" src="http://placehold.jp/320x180.png">
+                <p>高機能な文字装飾フォーマット「GPFM」を覚えれば、装飾を取り入れたノートもお手の物。入力支援ツールも完備しています。</p>
               </FeatureCard>
             </div>
           </div>
