@@ -1,5 +1,5 @@
 .gp-sky {
-    height: calc(100vh - 8rem);
+    height: calc(100vh - 32px);
     white-space: nowrap;
     overflow: hidden;
     position: relative;
@@ -11,6 +11,7 @@
         pointer-events: none;
         > canvas {
             position: absolute;
+            opacity: 0.2;
             inset: 0;
             pointer-events: none;
         }
@@ -19,24 +20,57 @@
         position: fixed;
         inset: 0;
         margin: 64px auto;
-        max-width: 1024px;
+        max-width: 1152px;
         z-index: 0;
-        display: flex;
+        display: grid;
+        white-space: normal;
+        grid-template-columns: 1fr 400px;
         > .main {
             padding: 16px;
-            .icon {
-                width: 96px;
-                height: 96px;
-            }
             h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
+                > .icon {
+                    height: 64px;
+                    margin-right: 8px;
+                }
             }
-            flex: 1;
+            .logo {
+                height: 80px;
+            }
+            .desc {
+                padding-left: 1rem;
+            }
+            .registration {
+                width: 350px;
+            }
+            flex-grow: 2;
         }
 
         > .timeline {
-            flex: 1;
             padding: 16px;
+        }
+        @media screen and (max-width: 800px) {
+            margin: 0 auto;
+            margin-top: 3rem;
+            display: block;
+            > .main {
+                text-align: center;
+                h1 {
+                    font-size: 2.5rem;
+                    > .icon {
+                        width: 64px;
+                        height: 64px;
+                    }
+                }
+                .desc {
+                    padding-left: 0;
+                }
+                .registration {
+                    margin: 0 auto;
+                    width: 100%;
+                    max-width: 350px;
+                }
+            }
         }
     }
 }
@@ -49,5 +83,54 @@
         z-index: 10;
         max-width: 1024px;
         margin: 0 auto;
+    }
+}
+
+.gp-instance-window {
+    padding: 32px;
+    .gp-data {
+        padding: 16px 24px;
+        background: var(--black);
+        color: var(--white);
+        > h1 {
+            font-size: 1.5rem; 
+            color: var(--primary);
+        }
+        > dl {
+            > dt {
+                color: var(--primary);
+            }
+        }
+        > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.gp-features {
+    display: flex;
+    --margin: 32px;
+    gap: var(--margin);
+    .column {
+        flex: 1;
+        img {
+            width: 100%;
+            margin-bottom: var(--margin);
+        }
+
+        &:nth-child(2) {
+            padding-top: calc(2 * var(--margin));
+        }
+
+        > * + * {
+            margin-top: var(--margin);
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        display: block;
+        .column:nth-child(2) {
+            padding-top: var(--margin);
+        }
     }
 }

@@ -1,3 +1,6 @@
+$bezier: cubic-bezier(0, .5, .5, 1);
+$speed: 0.5s;
+
 .gp-modal {
     display: flex;
     position: fixed;
@@ -5,4 +8,24 @@
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    animation: $speed $bezier fadeIn;
+    > * {
+        animation: $speed $bezier dialogIn;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes dialogIn {
+    from {
+        opacity: 0;
+        transform: translateY(48px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }

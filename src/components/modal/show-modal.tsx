@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import ReactDOM from 'react-dom';
 import { ModalProp } from './ModalProp';
 
-export function showModal<P extends ModalProp = ModalProp>(Modal: ModalFunction<P>, props?: P): string {
+export function showModal<P extends ModalProp = ModalProp>(Modal: ModalFunction<P>, props?: Omit<P, 'close'>): string {
   const modalParent = document.getElementById('modal');
   const modalEl = document.createElement('div');
   modalEl.id = uuid();

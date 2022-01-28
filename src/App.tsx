@@ -5,9 +5,6 @@ import {
   Route
 } from 'react-router-dom';
 
-import 'xeltica-ui/dist/css/xeltica-ui.min.css';
-import './style.scss';
-
 import IndexPage from './pages/IndexPage';
 import DebugPage from './pages/DebugPage';
 

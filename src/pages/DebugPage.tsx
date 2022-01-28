@@ -1,6 +1,6 @@
 import React from 'react';
 import TestModal from '../components/TestModal';
-import { showModal } from '../modal/show-modal';
+import { showModal } from '../components/modal/show-modal';
 
 export default function DebugPage() {
   const onClick = () => {
