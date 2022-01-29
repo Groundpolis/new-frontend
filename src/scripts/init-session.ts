@@ -1,4 +1,8 @@
+import { storage } from './storage';
+
 export function initSession() {
-  window.localStorage.removeItem('host');
+  storage.remove('host');
+  storage.remove('token');
+  storage.remove('usercache');
   window.location.reload();
 }

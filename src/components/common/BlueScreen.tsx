@@ -1,5 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { FaDizzy } from 'react-icons/fa';
+import { initSession } from '../../scripts/init-session';
 
 export default function BlueScreen(p: {message: string, stack?: string}) {
   useLayoutEffect(() => {
@@ -8,11 +9,6 @@ export default function BlueScreen(p: {message: string, stack?: string}) {
 
   const reload = () => {
     location.reload();
-  };
-
-  const init = () => {
-    localStorage.removeItem('host');
-    reload();
   };
 
   return (
@@ -35,7 +31,7 @@ export default function BlueScreen(p: {message: string, stack?: string}) {
       </ul>
       <div className="hstack wrap">
         <button className="btn flat text-white" onClick={reload}>再読み込みする</button>
-        <button className="btn danger" onClick={init}>サーバーURLを入れ直して再読み込みする</button>
+        <button className="btn danger" onClick={initSession}>サーバーURLを入れ直して再読み込みする</button>
       </div>
     </div>
   );
