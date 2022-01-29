@@ -1,8 +1,8 @@
 import React, { KeyboardEvent, useEffect, useRef } from 'react';
 import { useState } from 'react';
-import Modal from './modal/Modal';
+import Modal from '../modal/Modal';
 
-import { ModalProp } from './modal/ModalProp';
+import { ModalProp } from '../modal/ModalProp';
 
 export type DialogProp = ModalProp & {
   title?: string;

@@ -1,32 +1,37 @@
-import React from 'react';
-import { FaIcons, FaSlidersH } from 'react-icons/fa';
+import React, { PropsWithChildren } from 'react';
+import { IconType } from 'react-icons';
+import { FaIcons, FaProjectDiagram, FaSlidersH } from 'react-icons/fa';
+
 import { Article } from './styled/Article';
 import FeatureCard from './FeatureCard';
 import { Features } from './styled/Features';
-
 import featuresImageReaction from '../../assets/features/reaction.png';
 import { PropsWithMeta } from '../../models/PropsWithMeta';
+
+function DescriptionCard(p: PropsWithChildren<{title: string, icon: IconType}>) {
+  return (
+    <div className="col-4 col-12-sm vstack f-middle text-center">
+      <p.icon fontSize="3rem" color="var(--primary)" />
+      <h2>{p.title}</h2>
+      {p.children}
+    </div>
+  );
+}
 
 export default function AboutGroundpolis({meta}: PropsWithMeta) {
   return (
     <>
       <Article className="pa-4">
         <div className="row">
-          <div className="col-4 col-12-sm vstack f-middle text-center">
-            <FaSlidersH fontSize="3rem" color="var(--primary)" />
-            <h2>カスタマイズ</h2>
+          <DescriptionCard title="カスタマイズ" icon={FaSlidersH}>
             <p>柔軟なカスタマイズ機能により、あなた好みに仕立てましょう。</p>
-          </div>
-          <div className="col-4 col-12-sm vstack f-middle text-center">
-            <FaIcons fontSize="3rem" color="var(--primary)" />
-            <h2>多機能</h2>
+          </DescriptionCard>
+          <DescriptionCard title="多機能" icon={FaIcons}>
             <p>お絵かきツール、ページ作成ツール、ミニゲームなど、様々な機能を搭載。</p>
-          </div>
-          <div className="col-4 col-12-sm vstack f-middle text-center">
-            <FaIcons fontSize="3rem" color="var(--primary)" />
-            <h2>分散</h2>
-            <p>業界標準分散SNSプロトコル「ActivityPub」対応。Mastodon, Misskey等の他サーバーにいるユーザーとも、アカウントを変えずにやり取りできます。</p>
-          </div>
+          </DescriptionCard>
+          <DescriptionCard title="分散" icon={FaProjectDiagram}>
+            <p>業界標準分散SNSプロトコル「ActivityPub」対応。</p>
+          </DescriptionCard>
         </div>
       </Article>
       <Article className="pa-4">

@@ -14,6 +14,10 @@ import { Sky } from '../components/welcome/styled/Sky';
 import { Container } from '../components/welcome/styled/Container';
 import AboutGroundpolis from '../components/welcome/AboutGroundpolis';
 import AboutServer from '../components/welcome/AboutServer';
+import DisabledRegisterCard from '../components/welcome/DisabledRegisterCard';
+import { showModal } from '../components/common/modal/show-modal';
+import RegisterAccountDialog from '../components/common/dialogs/RegisterAccountDialog';
+import LoginDialog from '../components/common/dialogs/LoginDialog';
 
 const sky: ISourceOptions = {
   particles: {
@@ -41,6 +45,8 @@ export default function WelcomePage() {
 
   const instanceName = meta.name || 'Groundpolis';
 
+  const isDisabledRegistration = meta.disableRegistration && meta.disableInvitation;
+
   useEffect(() => {
     const onResize = () => {
       setWidth(document.body.clientWidth);
@@ -58,6 +64,14 @@ export default function WelcomePage() {
       setInvisible(false);
     }
   }, [isInvisible]);
+
+  const createNew = () => {
+    showModal(RegisterAccountDialog);
+  };
+
+  const login = () => {
+    showModal(LoginDialog);
+  };
 
   return (
     <>
@@ -88,28 +102,20 @@ export default function WelcomePage() {
               </p>
               <div className="card acrylic shadow-1 mt-4 registration">
                 <div className="body pa-2">
-                  {meta.disableRegistration && meta.disableInvitation && (
-                    <div className="alert bg-warn lift down mb-2">
-                      <div className="text-bold mb-1">
-                        <FaExclamationTriangle className="icon"/>
-                        現在、登録はできません。
-                      </div>
-                      <div className="ml-1">{meta.disableInvitationReason}</div>
-                    </div>
-                  )}
+                  {isDisabledRegistration && <DisabledRegisterCard meta={meta}/>}
                   <div className="hstack">
-                    {meta.disableRegistration && meta.disableInvitation ? (
+                    {isDisabledRegistration ? (
                       <a href="https://join.misskey.page/instances" className="btn shadow-1 text-bold primary" target="_blank" rel="noreferrer noopener">
                         サーバーを探す <FaExternalLinkAlt className="ml-1"/>
                       </a>
                     ) : (
-                      <button className="btn shadow-1 text-bold primary">新規登録</button>
+                      <button className="btn shadow-1 text-bold primary" onClick={createNew}>新規登録</button>
                     )}
                     <button className="btn shadow-1 text-bold" onClick={() => descriptionRef.current?.scrollIntoView({behavior: 'smooth'})}>
                       詳しく
                     </button>
                   </div>
-                  <p className="mt-2">アカウントをお持ちなら、<a href="#">ログイン</a></p>
+                  <p className="mt-2">アカウントをお持ちなら、<button className="btn link pa-0" onClick={login}>ログイン</button></p>
                 </div>
               </div>
               <VersionInfo meta={meta} />

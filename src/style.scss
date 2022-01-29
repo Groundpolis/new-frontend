@@ -23,3 +23,8 @@ body {
         margin-left: 0;
     }
 }
+
+.gp-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}

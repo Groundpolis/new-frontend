@@ -7,7 +7,7 @@ import { api } from 'misskey-js';
 import * as serviceWorker from './serviceWorker';
 
 import { showModal } from './components/common/modal/show-modal';
-import Dialog from './components/common/Dialog';
+import Dialog from './components/common/dialogs/Dialog';
 import BlueScreen from './components/common/BlueScreen';
 import { setHost, setMeta, setStats } from './store/session';
 

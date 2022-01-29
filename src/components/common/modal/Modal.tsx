@@ -20,7 +20,7 @@ const dialogIn = keyframes`
   }
 `;
 
-const duration = '0.5s';
+const duration = '0.3s';
 const bezier = 'cubic-bezier(0, .5, .5, 1)';
 
 const Backdrop = styled.div`
