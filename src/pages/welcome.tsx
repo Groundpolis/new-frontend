@@ -15,10 +15,8 @@ import { Container } from '../components/welcome/styled/Container';
 import AboutGroundpolis from '../components/welcome/AboutGroundpolis';
 import AboutServer from '../components/welcome/AboutServer';
 import DisabledRegisterCard from '../components/welcome/DisabledRegisterCard';
-import { useMisskeyClient } from '../hooks/useMisskeyClient';
 import { useAuthenticate } from '../hooks/useAuthenticate';
 import { Article } from '../components/welcome/styled/Article';
-import XelticaSymbol from '../components/common/XelticaSymbol';
 
 const sky: ISourceOptions = {
   particles: {
@@ -37,9 +35,7 @@ export default function WelcomePage() {
   const authenticate = useAuthenticate();
 
   const { meta, host } = useAppSelector(state => state.session);
-  if (meta === null) throw new TypeError();
-
-  const api = useMisskeyClient({ origin: host });
+  if (meta === null || host === null) throw new TypeError();
 
   const [width, setWidth] = useState(document.body.clientWidth);
   const [isInvisible, setInvisible] = useState(false);
@@ -134,8 +130,7 @@ export default function WelcomePage() {
         <AboutGroundpolis meta={meta} />
         <Article>
           <footer className="text-center py-4 text-dimmed">
-            <div><XelticaSymbol className="ma-2 text-200" style={{fill: 'var(--dimmed)'}} /></div>
-            <div>(C)2022 Xeltica Studio &amp; Groundpolis HQ</div>
+            <div>(C){new Date().getFullYear()} {meta.maintainerName}</div>
           </footer>
         </Article>
       </Container>

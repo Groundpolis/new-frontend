@@ -6,7 +6,6 @@ import { showModal } from '../components/common/modal/show-modal';
 import { useAppSelector } from '../store';
 
 const name ='Groundpolis New Frontend';
-const icon = 'https://raw.githubusercontent.com/Groundpolis/Groundpolis/develop/assets/favicon.png';
 const callback = encodeURI(`${location.origin}/miauth`);
 
 const permission = [

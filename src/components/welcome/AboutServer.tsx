@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaPencilAlt, FaProjectDiagram, FaUser } from 'react-icons/fa';
+import { FaPencilAlt, FaProjectDiagram, FaStar, FaUser } from 'react-icons/fa';
 import { PropsWithMeta } from '../../models/PropsWithMeta';
 import { useAppSelector } from '../../store';
 import { InstanceData } from './styled/InstanceData';
@@ -14,6 +14,14 @@ export default function AboutServer({meta}: PropsWithMeta) {
       </InstanceData>
       <InstanceData style={{flex: 1}}>
         <dl>
+          {meta.maintainerName && (
+            <>
+              <dt><FaStar/>&ensp;管理者</dt>
+              <dd>
+                {meta.maintainerEmail ? <a style={{color: 'inherit'}} href={`mailto:${meta.maintainerEmail}`}>{meta.maintainerName}</a> : meta.maintainerName}
+              </dd>
+            </>
+          )}
           <dt><FaPencilAlt/>&ensp;ノート数</dt>
           <dd>
             {stats ? <><span className="text-200">{stats.originalNotesCount}</span> ノート</> : '取得中…'}
