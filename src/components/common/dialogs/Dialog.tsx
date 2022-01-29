@@ -11,7 +11,7 @@ export type DialogProp = ModalProp & {
   buttonType?: DialogButtonType;
   customButtons?: DialogButton[];
   input?: string;
-  allowEmpty: boolean;
+  allowEmpty?: boolean;
   onClick?: (buttonIndex: number) => void;
   onSubmit?: (value: string) => void;
 };
@@ -62,7 +62,7 @@ function InnerText(p: DialogProp) {
   return (
     <div className="hstack">
       {generateButton(p.buttonType, p.customButtons).map((b, i) => (
-        <button className={`btn ${b.class ?? 'flat'}`} key={i} onClick={() => { if (p.onClick) p.onClick(i); }}>
+        <button className={`btn ${b.class ?? 'flat'}`} key={i} onClick={() => { if (p.onClick) p.onClick(i); p.close(); }}>
           {b.text}
         </button>
       ))}
@@ -105,7 +105,7 @@ export default function Dialog(p: DialogProp) {
   return (
     <Modal close={p.close} innerClassName="card shadow-3">
       <div className="body">
-        {p.title && <h1>{p.title}</h1>}
+        {p.title && <h1 className="mt-1">{p.title}</h1>}
         <p>{p.message}</p>
         {p.type === 'text' ? (
           <InnerText {...p}/>

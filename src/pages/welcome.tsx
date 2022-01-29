@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Particles from 'react-tsparticles';
 import { ISourceOptions } from 'tsparticles';
-import { FaExclamationTriangle, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 import Skyline from '../components/welcome/Skyline';
 import { useDarkTheme } from '../hooks/useDarkTheme';
@@ -15,9 +15,10 @@ import { Container } from '../components/welcome/styled/Container';
 import AboutGroundpolis from '../components/welcome/AboutGroundpolis';
 import AboutServer from '../components/welcome/AboutServer';
 import DisabledRegisterCard from '../components/welcome/DisabledRegisterCard';
-import { showModal } from '../components/common/modal/show-modal';
-import RegisterAccountDialog from '../components/common/dialogs/RegisterAccountDialog';
-import LoginDialog from '../components/common/dialogs/LoginDialog';
+import { useMisskeyClient } from '../hooks/useMisskeyClient';
+import { useAuthenticate } from '../hooks/useAuthenticate';
+import { Article } from '../components/welcome/styled/Article';
+import XelticaSymbol from '../components/common/XelticaSymbol';
 
 const sky: ISourceOptions = {
   particles: {
@@ -33,8 +34,12 @@ const sky: ISourceOptions = {
 
 export default function WelcomePage() {
   useDarkTheme();
-  const { meta } = useAppSelector(state => state.session);
+  const authenticate = useAuthenticate();
+
+  const { meta, host } = useAppSelector(state => state.session);
   if (meta === null) throw new TypeError();
+
+  const api = useMisskeyClient({ origin: host });
 
   const [width, setWidth] = useState(document.body.clientWidth);
   const [isInvisible, setInvisible] = useState(false);
@@ -44,7 +49,6 @@ export default function WelcomePage() {
   const descriptionRef = useRef<HTMLDivElement>(null);
 
   const instanceName = meta.name || 'Groundpolis';
-
   const isDisabledRegistration = meta.disableRegistration && meta.disableInvitation;
 
   useEffect(() => {
@@ -65,13 +69,13 @@ export default function WelcomePage() {
     }
   }, [isInvisible]);
 
-  const createNew = () => {
-    showModal(RegisterAccountDialog);
-  };
+  // const createNew = () => {
+  //   showModal(RegisterAccountDialog);
+  // };
 
-  const login = () => {
-    showModal(LoginDialog);
-  };
+  // const login = () => {
+  //   showModal(LoginDialog);
+  // };
 
   return (
     <>
@@ -109,13 +113,13 @@ export default function WelcomePage() {
                         サーバーを探す <FaExternalLinkAlt className="ml-1"/>
                       </a>
                     ) : (
-                      <button className="btn shadow-1 text-bold primary" onClick={createNew}>新規登録</button>
+                      <button className="btn shadow-1 text-bold primary" onClick={authenticate}>ログイン</button>
                     )}
                     <button className="btn shadow-1 text-bold" onClick={() => descriptionRef.current?.scrollIntoView({behavior: 'smooth'})}>
                       詳しく
                     </button>
                   </div>
-                  <p className="mt-2">アカウントをお持ちなら、<button className="btn link pa-0" onClick={login}>ログイン</button></p>
+                  {/* <p className="mt-2">アカウントをお持ちなら、<button className="btn link pa-0" onClick={login}>ログイン</button></p> */}
                 </div>
               </div>
               <VersionInfo meta={meta} />
@@ -128,6 +132,12 @@ export default function WelcomePage() {
         <AboutServer meta={meta} />
         <div className="bg-primary mx-auto" style={{width: '80%', height: 1, marginTop: '5rem', marginBottom: '5rem'}} />
         <AboutGroundpolis meta={meta} />
+        <Article>
+          <footer className="text-center py-4 text-dimmed">
+            <div><XelticaSymbol className="ma-2 text-200" style={{fill: 'var(--dimmed)'}} /></div>
+            <div>(C)2022 Xeltica Studio &amp; Groundpolis HQ</div>
+          </footer>
+        </Article>
       </Container>
     </>
   );
