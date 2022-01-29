@@ -1,7 +1,25 @@
+// Global SCSS
+// 全体的なスタイリングに留める
+// 基本的には Styled Components をつかってください
+
 body {
     font-family: "Koruri", sans-serif;
     --primary: #60B241;
     --primary-d: #1c3d11;
     --primary-l: #8eb97e;
     font-size: 18px;
+}
+
+.vstack:not(.dense) {
+    gap: var(--stack-margin);
+    > * + * {
+        margin-top: 0;
+    }
+}
+
+.hstack:not(.dense) {
+    gap: var(--stack-margin);
+    > * + * {
+        margin-left: 0;
+    }
 }

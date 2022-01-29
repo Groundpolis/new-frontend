@@ -5,8 +5,8 @@ import {
   Route
 } from 'react-router-dom';
 
-import IndexPage from './pages/IndexPage';
-import DebugPage from './pages/DebugPage';
+import IndexPage from './pages';
+import DebugPage from './pages/debug';
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import WelcomePage from './WelcomePage';
+import WelcomePage from './welcome';
 
 export default function IndexPage() {
   return <WelcomePage />;
