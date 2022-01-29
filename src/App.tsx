@@ -4,6 +4,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
+import BasicLayout from './layout/BasicLayout';
 
 import IndexPage from './pages';
 import DebugPage from './pages/debug';
@@ -12,11 +13,13 @@ import MiAuthPage from './pages/miauth';
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/debug" element={<DebugPage />} />
-        <Route path="/miauth" element={<MiAuthPage />} />
-      </Routes>
+      <BasicLayout>
+        <Routes>
+          <Route path="/" element={<IndexPage />} />
+          <Route path="/debug" element={<DebugPage />} />
+          <Route path="/miauth" element={<MiAuthPage />} />
+        </Routes>
+      </BasicLayout>
     </BrowserRouter>
   );
 }

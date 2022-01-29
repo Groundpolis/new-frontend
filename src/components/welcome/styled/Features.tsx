@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ON_MOBILE } from '../../../const';
 
 export const Features = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ export const Features = styled.div`
       }
   }
 
-  @media screen and (max-width: 800px) {
+  ${ON_MOBILE} {
       display: block;
       .column:nth-child(2) {
           padding-top: var(--margin);

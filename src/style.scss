@@ -7,6 +7,7 @@ body {
     --primary: #60B241;
     --primary-d: #1c3d11;
     --primary-l: #8eb97e;
+    --fg: var(--tone-9);
     font-size: 18px;
 }
 
@@ -27,4 +28,19 @@ body {
 .gp-disabled {
     opacity: 0.5;
     pointer-events: none;
+}
+
+.menu.large .item {
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: var(--radius);
+    width: 100%;
+    > .icon {
+        color: currentColor;
+        margin-right: var(--margin);
+    }
+    &.active {
+        color: var(--primary);
+    }
 }

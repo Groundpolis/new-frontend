@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ON_MOBILE } from '../../../const';
 
 export const Hero = styled.div`
 position: fixed;
@@ -28,7 +29,7 @@ grid-template-columns: 1fr 400px;
     width: 350px;
   }
   flex-grow: 2;
-  @media screen and (max-width: 800px) {
+  ${ON_MOBILE} {
     margin: 0 auto;
     margin-top: 3rem;
     display: block;

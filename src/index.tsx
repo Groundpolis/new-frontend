@@ -9,7 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import { showModal } from './components/common/modal/show-modal';
 import Dialog from './components/common/dialogs/Dialog';
 import BlueScreen from './components/common/BlueScreen';
-import { setHost, setMeta, setStats } from './store/session';
+import { setHost, setMeta, setStats, setUserCache } from './store/session';
 
 import 'xeltica-ui/dist/css/xeltica-ui.min.css';
 import './style.scss';
@@ -31,12 +31,15 @@ if (!host) {
 }
 
 async function initializeReact() {
-  const {host} = store.getState().session;
+  const {host, token} = store.getState().session;
   if (!host) throw new TypeError();
   const origin = 'https://' + host;
   const cli = new api.APIClient({origin});
   try {
     cli.request('stats').then(s => store.dispatch(setStats(s)));
+    if (token) {
+      cli.request('i').then(u => store.dispatch(setUserCache(u)));
+    }
     store.dispatch(setMeta(await cli.request('meta', {detail: true})));
     ReactDOM.render(
       <React.StrictMode>

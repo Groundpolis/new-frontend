@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Stats, UserDetailed } from 'misskey-js/built/entities';
+import { Stats, User, UserDetailed } from 'misskey-js/built/entities';
 import { Instance } from '../models/Instance';
 import { storage } from '../scripts/storage';
 
@@ -8,7 +8,7 @@ const initialState = {
   meta: null as Instance | null,
   stats: null as Stats | null,
   token: storage.get('token'),
-  userCache: JSON.parse(storage.get('usercache') ?? 'null') as UserDetailed | null,
+  userCache: JSON.parse(storage.get('usercache') ?? 'null') as User | null,
 };
 
 const sessionSlice = createSlice({
@@ -29,7 +29,7 @@ const sessionSlice = createSlice({
       state.token = payload;
       storage.set('token', payload);
     },
-    setUserCache(state, {payload}: PayloadAction<UserDetailed>) {
+    setUserCache(state, {payload}: PayloadAction<User>) {
       state.userCache = payload;
       storage.set('usercache', payload);
     },
