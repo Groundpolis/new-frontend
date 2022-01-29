@@ -7,6 +7,7 @@ import {
 
 import IndexPage from './pages';
 import DebugPage from './pages/debug';
+import MiAuthPage from './pages/miauth';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<IndexPage />} />
         <Route path="/debug" element={<DebugPage />} />
+        <Route path="/miauth" element={<MiAuthPage />} />
       </Routes>
     </BrowserRouter>
   );

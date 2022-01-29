@@ -2,6 +2,7 @@ import React from 'react';
 import { FaPencilAlt, FaProjectDiagram, FaStar, FaUser } from 'react-icons/fa';
 import { PropsWithMeta } from '../../models/PropsWithMeta';
 import { useAppSelector } from '../../store';
+import { Gpfm } from '../common/Gpfm';
 import { InstanceData } from './styled/InstanceData';
 import { InstanceWindow } from './styled/InstanceWindow';
 
@@ -10,7 +11,7 @@ export default function AboutServer({meta}: PropsWithMeta) {
   return (
     <InstanceWindow style={{background: meta.backgroundImageUrl ? `url(${meta.backgroundImageUrl})` : 'var(--bg)'}}>
       <InstanceData style={{flex: 3}}>
-        {meta.description && <div dangerouslySetInnerHTML={{__html: meta.description}} />}
+        {meta.description && <Gpfm text={meta.description ?? ''} />}
       </InstanceData>
       <InstanceData style={{flex: 1}}>
         <dl>

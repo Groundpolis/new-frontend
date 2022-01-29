@@ -40,6 +40,8 @@ export const {
   setHost,
   setMeta,
   setStats,
+  setToken,
+  setUserCache,
 } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

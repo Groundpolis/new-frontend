@@ -5962,6 +5962,12 @@ methods@~1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
 
+mfm-js@groundpolis/gpfm.js:
+  version "0.20.0-gp-1.0.3"
+  resolved "https://codeload.github.com/groundpolis/gpfm.js/tar.gz/b0524e02107e6dd87175c3f87f2adcd3dd1c7968"
+  dependencies:
+    twemoji-parser "13.1.x"
+
 micromatch@^4.0.2, micromatch@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.4.tgz#896d519dfe9db25fce94ceb7a500919bf881ebf9"
@@ -8378,6 +8384,11 @@ tsutils@^3.21.0:
   integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
   dependencies:
     tslib "^1.8.1"
+
+twemoji-parser@13.1.x:
+  version "13.1.0"
+  resolved "https://registry.yarnpkg.com/twemoji-parser/-/twemoji-parser-13.1.0.tgz#65e7e449c59258791b22ac0b37077349127e3ea4"
+  integrity sha512-AQOzLJpYlpWMy8n+0ATyKKZzWlZBJN+G0C+5lhX7Ftc2PeEVdUU/7ns2Pn2vVje26AIZ/OHwFoUbdv6YYD/wGg==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
