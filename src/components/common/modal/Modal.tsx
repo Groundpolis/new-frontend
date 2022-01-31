@@ -1,27 +1,10 @@
 import React, { PropsWithChildren } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import { animationFade, animationFadeUp } from '../../../animation';
 import { ModalProp } from './ModalProp';
 
 export type ModalFunction<P extends ModalProp = ModalProp> = (prop: P) => JSX.Element;
 
-const fadeIn = keyframes`
-  from { opacity: 0; }
-  to { opacity: 1; }
-`;
-
-const dialogIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(48px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-`;
-
-const duration = '0.3s';
-const bezier = 'cubic-bezier(0, .5, .5, 1)';
 
 const Backdrop = styled.div`
   display: flex;
@@ -30,9 +13,9 @@ const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
-  animation: ${duration} ${bezier} ${fadeIn};
+  ${animationFade}
   > * {
-    animation: ${duration} ${bezier} ${dialogIn};
+    ${animationFadeUp}
   }
 `;
 

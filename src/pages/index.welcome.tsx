@@ -17,6 +17,7 @@ import AboutServer from '../components/welcome/AboutServer';
 import DisabledRegisterCard from '../components/welcome/DisabledRegisterCard';
 import { useAuthenticate } from '../hooks/useAuthenticate';
 import { Article } from '../components/welcome/styled/Article';
+import { useFixedLayout } from '../hooks/useFixedLayout';
 
 const sky: ISourceOptions = {
   particles: {
@@ -32,6 +33,7 @@ const sky: ISourceOptions = {
 
 export default function WelcomePage() {
   useDarkTheme();
+  useFixedLayout('zen');
   const authenticate = useAuthenticate();
 
   const { meta, host } = useAppSelector(state => state.session);
@@ -91,9 +93,9 @@ export default function WelcomePage() {
               )}
             </h1>
             <div className="desc">
-              <h2 className="text-primary shadow-1-t">
-                <span className="text-200">進化</span>し続ける、
-                <span className="text-200">洗練</span>された、<br/>
+              <h2 className="text-primary shadow-1-t text-125">
+                <span className="text-150">進化</span>し続ける、
+                <span className="text-150">洗練</span>された、<br/>
                 ミニブログ プラットフォーム。
               </h2>
               <p className="shadow-1-t">

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ON_MOBILE } from '../../../const';
+import { BREAKPOINT_SM } from '../../../const';
 
 export const Features = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ export const Features = styled.div`
       }
   }
 
-  ${ON_MOBILE} {
+  @media screen and (max-width: ${BREAKPOINT_SM}) {
       display: block;
       .column:nth-child(2) {
           padding-top: var(--margin);

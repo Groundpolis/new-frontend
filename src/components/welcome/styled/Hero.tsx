@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ON_MOBILE } from '../../../const';
+import { BREAKPOINT_SM } from '../../../const';
 
 export const Hero = styled.div`
 position: fixed;
@@ -9,9 +9,10 @@ max-width: 1152px;
 z-index: 0;
 display: grid;
 white-space: normal;
-grid-template-columns: 1fr 400px;
+display: flex;
 > .main {
   padding: 16px;
+  flex: 1;
   h1 {
     font-size: 2.5rem;
     > .icon {
@@ -29,12 +30,15 @@ grid-template-columns: 1fr 400px;
     width: 350px;
   }
   flex-grow: 2;
-  ${ON_MOBILE} {
+}
+
+@media screen and (max-width: ${BREAKPOINT_SM}) {
     margin: 0 auto;
     margin-top: 3rem;
     display: block;
     > .main {
       text-align: center;
+      padding: 8px;
       h1 {
         font-size: 2.5rem;
         > .icon {
@@ -52,5 +56,7 @@ grid-template-columns: 1fr 400px;
       }
     }
   }
+.timeline {
+  width: 400px;
 }
 `;

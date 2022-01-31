@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ThemeType, TimelineType, Language } from '../models/unions';
+import { ThemeType, Language } from '../models/unions';
 
 interface SettingState {
 	/** テーマモード */
   themeMode: ThemeType;
-	/** 現在のタイムライン */
-	currentTimeline: TimelineType,
 	/** 文字装飾のアニメーションを減らすかどうか */
 	reduceTextAnimation: boolean,
 	/** UIのアニメーションを減らすかどうか */
@@ -20,7 +18,6 @@ interface SettingState {
 
 const initialState: SettingState = {
   themeMode: 'system',
-  currentTimeline: 'everyone',
   reduceTextAnimation: false,
   reduceUIAnimation: false,
   reduceEmojiAnimation: false,

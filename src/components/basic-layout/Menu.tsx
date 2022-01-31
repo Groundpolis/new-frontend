@@ -1,5 +1,5 @@
 import { UserDetailed } from 'misskey-js/built/entities';
-import React, { DOMAttributes, MouseEventHandler, useMemo } from 'react';
+import React, { DOMAttributes, HTMLProps, MouseEventHandler, useMemo } from 'react';
 import { IconType } from 'react-icons';
 import { FaBell, FaChevronDown, FaCloud, FaCog, FaEllipsisH, FaEnvelope, FaHashtag, FaHome, FaServer } from 'react-icons/fa';
 import { NavLink, To } from 'react-router-dom';
@@ -50,14 +50,13 @@ function Item(p: ItemProp) {
   );
 }
 
-
-export default function Menu() {
+export default function Menu(p: HTMLProps<HTMLDivElement>) {
   const {userCache} = useAppSelector(state => state.session);
 
   const isLoggedIn = Boolean(userCache);
 
   return (
-    <div>
+    <div {...p}>
       {userCache && (
         <ProfileButton className="card clickable fluid circle px-2 py-1 mb-2 flex f-left f-middle">
           <img src={userCache?.avatarUrl} className="circle mr-2" style={{height: 48}} />

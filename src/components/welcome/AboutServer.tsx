@@ -9,7 +9,7 @@ import { InstanceWindow } from './styled/InstanceWindow';
 export default function AboutServer({meta}: PropsWithMeta) {
   const {stats} = useAppSelector(state => state.session);
   return (
-    <InstanceWindow style={{background: meta.backgroundImageUrl ? `url(${meta.backgroundImageUrl})` : 'var(--bg)'}}>
+    <InstanceWindow style={{backgroundImage: meta.backgroundImageUrl ? `url(${meta.backgroundImageUrl})` : 'var(--bg)'}}>
       <InstanceData style={{flex: 3}}>
         {meta.description && <Gpfm text={meta.description ?? ''} />}
       </InstanceData>

@@ -21,6 +21,7 @@ export default function SettingsPage() {
     showModal(Dialog, {
       type: 'text',
       message: '本当にログアウトしてよろしいですか？',
+      buttonType: 'yesNo',
       onClick(i) {
         if (i === 0) initSession(); 
       },

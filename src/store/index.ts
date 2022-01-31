@@ -3,12 +3,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import session from './session';
 import timeline from './timeline';
 import setting from './setting';
+import screen from './screen';
 
 export const store = configureStore({
   reducer: {
     session,
     timeline,
     setting,
+    screen,
   },
 });
 

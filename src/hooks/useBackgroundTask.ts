@@ -1,9 +1,11 @@
-import { Stream, Channels } from 'misskey-js';
+import { Stream, Channels, Endpoints } from 'misskey-js';
 import { Note } from 'misskey-js/built/entities';
 import { useEffect, useState } from 'react';
+import { batch } from 'react-redux';
 import { TimelineSource } from '../models/timeline-source';
 import { useAppDispatch, useAppSelector } from '../store';
-import timeline, { appendNote } from '../store/timeline';
+import timeline, { appendNote, clearNotes, setFetchingNotes, setNotes } from '../store/timeline';
+import { useMisskeyClient } from './useMisskeyClient';
 
 type ChannelName = keyof Channels;
 
@@ -17,6 +19,18 @@ const getTimelineChannelName = (timeline: TimelineSource): ChannelName | null =>
   }
 };
 
+const getTimelineEndpoint = (timeline: TimelineSource): keyof Endpoints => {
+  switch (timeline) {
+  case 'home': return 'notes/timeline';
+  case 'local': return 'notes/local-timeline';
+  case 'social': return 'notes/hybrid-timeline';
+  case 'global': return 'notes/global-timeline';
+  case 'list': return 'notes/user-list-timeline';
+  case 'antenna': return 'antennas/notes';
+  default: throw new TypeError();
+  }
+};
+
 /**
  * バックグラウンド タスク
  */
@@ -26,6 +40,8 @@ export function useBackgroundTask() {
   const dispatch = useAppDispatch();
 
   const [stream, setStream] = useState<Stream | null>(null);
+
+  const api = useMisskeyClient();
 
   // ストリーム接続
   useEffect(() => {
@@ -57,10 +73,24 @@ export function useBackgroundTask() {
       console.info(note);
       dispatch(appendNote(note));
     });
+    
     return () => {
       console.log('Disposing timeline...');
       channel.dispose();
     };
   }, [stream, currentTimeline]);
+
+  useEffect(() => {
+    batch(() => {
+      dispatch(clearNotes());
+      dispatch(setFetchingNotes(true));
+    });
+    api.request(getTimelineEndpoint(currentTimeline), { limit: 10 }, token).then((notes) => {
+      batch(() => {
+        dispatch(setNotes(notes));
+        dispatch(setFetchingNotes(false));
+      });
+    });
+  }, [api, currentTimeline]);
 
 }
