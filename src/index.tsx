@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { store } from './store';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import { api } from 'misskey-js';
 import * as serviceWorker from './serviceWorker';
 
@@ -38,14 +38,14 @@ async function initializeReact() {
   try {
     cli.request('stats').then(s => store.dispatch(setStats(s)));
     if (token) {
-      cli.request('i').then(u => store.dispatch(setUserCache(u)));
+      cli.request('i', {}, token).then(u => store.dispatch(setUserCache(u)));
     }
     store.dispatch(setMeta(await cli.request('meta', {detail: true})));
     ReactDOM.render(
       <React.StrictMode>
-        <Provider store={store}>
+        <ReduxProvider store={store}>
           <App />
-        </Provider>
+        </ReduxProvider>
       </React.StrictMode>,
       document.getElementById('root')
     );

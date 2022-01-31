@@ -2,6 +2,9 @@ export const storageKeys = [
   'host',
   'token',
   'usercache',
+  'currentTimeline',
+  'currentList',
+  'currentAntenna',
 ] as const;
 
 export type StorageKey = typeof storageKeys[number];

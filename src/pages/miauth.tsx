@@ -4,7 +4,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Spinner } from '../components/common/Spinner';
-import { useMisskeyClient } from '../hooks/useMisskeyClient';
 import { MiAuthResponse } from '../models/miauth-response';
 import { useAppSelector } from '../store';
 import { setToken, setUserCache } from '../store/session';
@@ -22,7 +21,6 @@ export default function MiAuthPage() {
   const {host} = useAppSelector(state => state.session);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cli = useMisskeyClient({origin: host ?? ''});
 
   const [message, setMessage] = useState('Please wait...');
 
@@ -46,7 +44,7 @@ export default function MiAuthPage() {
       navigate('/');
     });
 
-  }, [searchParam, host, cli, dispatch, navigate]);
+  }, [searchParam, host, dispatch, navigate]);
   return (
     <LoadingWrapper>
       <div className="vstack f-middle">
