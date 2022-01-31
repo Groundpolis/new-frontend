@@ -86,7 +86,6 @@ export default function SessionPage() {
         <div className="vstack">
           {notes.map(n => <NoteView note={n} key={n.id}/>)}
         </div>
-        <button className="btn danger" onClick={initSession}>ログアウト</button>
       </div>
     </>
   );

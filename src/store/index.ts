@@ -2,11 +2,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import session from './session';
 import timeline from './timeline';
+import setting from './setting';
 
 export const store = configureStore({
   reducer: {
     session,
     timeline,
+    setting,
   },
 });
 

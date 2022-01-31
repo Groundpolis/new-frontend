@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ON_MOBILE, ON_TABLET } from '../const';
 import Menu from '../components/basic-layout/Menu';
 import Widgets from '../components/basic-layout/Widgets';
+import { useTheme } from '../hooks/useTheme';
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -40,6 +41,7 @@ const LayoutContainer = styled.div`
 `;
 
 export default function BasicLayout(prop: PropsWithChildren<unknown>) {
+  useTheme();
   return (
     <LayoutContainer>
       <div className="sidebar">

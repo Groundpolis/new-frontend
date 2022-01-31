@@ -11,6 +11,7 @@ import IndexPage from './pages';
 import DebugPage from './pages/debug';
 import MiAuthPage from './pages/miauth';
 import { useBackgroundTask } from './hooks/useBackgroundTask';
+import SettingsPage from './pages/settings';
 
 function App() {
   useBackgroundTask();
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<IndexPage />}/>
           <Route path="/debug" element={<DebugPage />} />
           <Route path="/miauth" element={<MiAuthPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </BasicLayout>
     </BrowserRouter>
