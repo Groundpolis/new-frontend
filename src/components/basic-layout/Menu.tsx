@@ -13,7 +13,7 @@ const ProfileButton = styled.button`
 `;
 
 const ProfileName = styled.span`
-  width: 160px;
+  width: 140px;
   text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -58,7 +58,7 @@ export default function Menu(p: HTMLProps<HTMLDivElement>) {
   return (
     <div {...p}>
       {userCache && (
-        <ProfileButton className="card clickable fluid circle px-2 py-1 mb-2 flex f-left f-middle">
+        <ProfileButton className="card circle clickable fluid px-2 py-1 mb-2 flex f-left f-middle">
           <img src={userCache?.avatarUrl} className="circle mr-2" style={{height: 48}} />
           <ProfileName>{userCache?.name}</ProfileName>
           <FaChevronDown className="ml-auto" />

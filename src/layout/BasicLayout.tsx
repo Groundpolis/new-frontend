@@ -16,7 +16,6 @@ const LayoutContainer = styled.div`
   margin: 0 auto;
   padding: 0 var(--margin);
 
-
   > .sidebar {
     position: relative;
   }
@@ -27,11 +26,16 @@ const LayoutContainer = styled.div`
     min-width: 0;
   }
 
+  > .widgets {
+    position: relative;
+    width: 320px;
+  }
+
   @media screen and (max-width: ${BREAKPOINT_TB}) {
     > .sidebar {
       width: 96px;
     }
-    > .widget {
+    > .widgets {
       display: none;
     }
   }
@@ -47,7 +51,6 @@ const LayoutContainer = styled.div`
 const Stick = styled.div`
   position: sticky;
   padding-top: var(--margin);
-  width: 300px;
   height: min-content;
   min-height: 100vh;
 `;
@@ -70,7 +73,7 @@ export default function BasicLayout(prop: PropsWithChildren<unknown>) {
         <Stick ref={menuRef}><Menu /></Stick>
       </div>
       <main className="main">{prop.children}</main>
-      <div className="sidebar">
+      <div className="widgets">
         <div ref={widgetsSpacerRef} />
         <Stick ref={widgetsRef}><Widgets /></Stick>
       </div>
