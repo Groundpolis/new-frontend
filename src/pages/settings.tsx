@@ -1,5 +1,6 @@
 import React, { ChangeEventHandler, useCallback } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
+import ActionBar from '../components/common/ActionBar';
 import Dialog from '../components/common/dialogs/Dialog';
 import { showModal } from '../components/common/modal/show-modal';
 import { initSession } from '../scripts/init-session';
@@ -29,35 +30,39 @@ export default function SettingsPage() {
   };
   return (
     <>
-      <h1>設定</h1>
-      <h2>アピアランス</h2>
-      <div className="card">
-        <div className="body">
-          <h1>表示設定</h1>
-          <h2 className="text-dimmed">テーマ</h2>
-          <label className="input-check">
-            <input type="radio" checked={themeMode === 'light'} onChange={onCheckThemeModeLight}/>
-            <span>ライトテーマ</span>
-          </label>
-          <label className="input-check">
-            <input type="radio" checked={themeMode === 'dark'} onChange={onCheckThemeModeDark}/>
-            <span>ダークテーマ</span>
-          </label>
-          <label className="input-check">
-            <input type="radio" checked={themeMode === 'system'} onChange={onCheckThemeModeSystem}/>
-            <span>システム設定に準ずる</span>
-          </label>
-        </div>
-      </div>
-      <h2>危険な設定</h2>
-      <div className="list-form">
-        <button className="item text-danger" onClick={onClickLogout}>
-          <FaSignOutAlt className="icon"/>
+      <ActionBar>
+        <h1>設定</h1>
+      </ActionBar>
+      <div className="container">
+        <h2>アピアランス</h2>
+        <div className="card">
           <div className="body">
-            <h1>ログアウト</h1>
-            <p className="desc">ログアウトしても、アカウントは削除されません。</p>
+            <h1>表示設定</h1>
+            <h2 className="text-dimmed">テーマ</h2>
+            <label className="input-check">
+              <input type="radio" checked={themeMode === 'light'} onChange={onCheckThemeModeLight}/>
+              <span>ライトテーマ</span>
+            </label>
+            <label className="input-check">
+              <input type="radio" checked={themeMode === 'dark'} onChange={onCheckThemeModeDark}/>
+              <span>ダークテーマ</span>
+            </label>
+            <label className="input-check">
+              <input type="radio" checked={themeMode === 'system'} onChange={onCheckThemeModeSystem}/>
+              <span>システム設定に準ずる</span>
+            </label>
           </div>
-        </button>
+        </div>
+        <h2>危険な設定</h2>
+        <div className="list-form">
+          <button className="item text-danger" onClick={onClickLogout}>
+            <FaSignOutAlt className="icon"/>
+            <div className="body">
+              <h1>ログアウト</h1>
+              <p className="desc">ログアウトしても、アカウントは削除されません。</p>
+            </div>
+          </button>
+        </div>
       </div>
     </>
   );

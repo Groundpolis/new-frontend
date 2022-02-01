@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -13,6 +13,8 @@ import { useBackgroundTask } from './hooks/useBackgroundTask';
 import SettingsPage from './pages/settings';
 import ZenLayout from './layout/ZenLayout';
 import { useAppSelector } from './store';
+import NotificationsPage from './pages/notifications';
+import ManagePage from './pages/manage';
 
 function App() {
   useBackgroundTask();
@@ -32,9 +34,11 @@ function App() {
       <CurrentLayout>
         <Routes>
           <Route path="/" element={<IndexPage />}/>
+          <Route path="/notifications" element={<NotificationsPage />}/>
           <Route path="/debug" element={<DebugPage />} />
-          <Route path="/miauth" element={<MiAuthPage />} />
+          <Route path="/manage" element={<ManagePage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/miauth" element={<MiAuthPage />} />
         </Routes>
       </CurrentLayout>
     </BrowserRouter>
