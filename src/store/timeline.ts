@@ -1,5 +1,6 @@
 import { createSlice, DeepPartial, PayloadAction } from '@reduxjs/toolkit';
 import { Note } from 'misskey-js/built/entities';
+import { NoteUpdatedEvent } from 'misskey-js/built/streaming.types';
 import { TimelineSource } from '../models/timeline-source';
 import { storage } from '../scripts/storage';
 
@@ -33,11 +34,58 @@ const sessionSlice = createSlice({
     appendNote(state, {payload}: PayloadAction<Note>) {
       state.notes.unshift(payload);
     },
+    appendNotesToTop(state, {payload}: PayloadAction<Note[]>) {
+      state.notes.unshift(...payload);
+    },
+    appendNotesToBottom(state, {payload}: PayloadAction<Note[]>) {
+      state.notes.push(...payload);
+    },
     setNotes(state, {payload}: PayloadAction<Note[]>) {
       state.notes = (payload);
     },
-    updateNote(state, {payload}: PayloadAction<DeepPartial<Note>>) {
-      // TODO
+    updateNote(state, {payload: e}: PayloadAction<NoteUpdatedEvent & {currentUserId?: string}>) {
+      switch (e.type as string) {
+      case 'reacted': {
+        const {reaction, userId, emoji} = e.body as {reaction: string, userId: string, emoji?: {name: string, url: string}};
+        const note = state.notes.find(n => n.id === e.id);
+        const rs = note?.reactions;
+        if (!note || !rs) return;
+        rs[reaction] = (rs[reaction] ?? 0) + 1;
+        if (emoji) {
+          note.emojis.push(emoji);
+        }
+        console.log('created reaction');
+        if (userId === e.currentUserId) {
+          note.myReaction = undefined;
+          console.log('wow it was mine');
+        }
+        break;
+      }
+      case 'unreacted': {
+        const {reaction, userId} = e.body as {reaction: string, userId: string};
+        const note = state.notes.find(n => n.id === e.id);
+        const rs = note?.reactions;
+        if (!note || !rs) return;
+        if (rs[reaction] <= 1) {
+          delete rs[reaction];
+        } else {
+          rs[reaction] = rs[reaction] - 1;
+        }
+        console.log('deleted reaction');
+        if (userId === e.currentUserId) {
+          note.myReaction = undefined;
+          console.log('wow it was mine');
+        }
+        break;
+      }
+      case 'deleted':
+        state.notes = state.notes.filter(n => n.id !== e.id);
+        console.log(`deleted note ${e.id}`);
+        break;
+      default:
+        console.warn('Unsupported or not implemented updateNote event type: ' + e.type);
+        break;
+      }
     },
     setFetchingNotes(state, {payload}: PayloadAction<boolean>) {
       state.isFetchingNotes = payload;
@@ -51,6 +99,8 @@ export const {
   setCurrentAntenna,
   clearNotes,
   appendNote,
+  appendNotesToTop,
+  appendNotesToBottom,
   setNotes,
   updateNote,
   setFetchingNotes,

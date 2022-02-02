@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { batch } from 'react-redux';
 import { TimelineSource } from '../models/timeline-source';
 import { useAppDispatch, useAppSelector } from '../store';
-import timeline, { appendNote, clearNotes, setFetchingNotes, setNotes } from '../store/timeline';
+import { appendNote, clearNotes, setFetchingNotes, setNotes, updateNote } from '../store/timeline';
 import { useMisskeyClient } from './useMisskeyClient';
 
 type ChannelName = keyof Channels;
@@ -19,7 +19,7 @@ const getTimelineChannelName = (timeline: TimelineSource): ChannelName | null =>
   }
 };
 
-const getTimelineEndpoint = (timeline: TimelineSource): keyof Endpoints => {
+const getTimelineEndpoint = (timeline: TimelineSource) => {
   switch (timeline) {
   case 'home': return 'notes/timeline';
   case 'local': return 'notes/local-timeline';
@@ -35,7 +35,7 @@ const getTimelineEndpoint = (timeline: TimelineSource): keyof Endpoints => {
  * バックグラウンド タスク
  */
 export function useBackgroundTask() {
-  const {token, host} = useAppSelector(state => state.session);
+  const {token, host, userCache} = useAppSelector(state => state.session);
   const {currentTimeline} = useAppSelector(state => state.timeline);
   const dispatch = useAppDispatch();
 
@@ -46,15 +46,18 @@ export function useBackgroundTask() {
   // ストリーム接続
   useEffect(() => {
     if (!token || !host) return;
-    console.log('Initializing stream...');
     const stream = new Stream('https://' + host, {token});
     const mainChannel = stream.useChannel('main');
 
     setStream(stream);
 
+    stream.on('noteUpdated', (e) => {
+      console.log(e);
+      dispatch(updateNote({...e, currentUserId: userCache?.id}));
+    });
+
     // Dispose
     return () => {
-      console.log('Disposing stream...');
       mainChannel.dispose();
       stream.close();
     };
@@ -62,20 +65,18 @@ export function useBackgroundTask() {
 
   // タイムライン購読
   useEffect(() => {
-    console.log('Initializing Timeline...');
     if (!stream) return;
     const channelName = getTimelineChannelName(currentTimeline);
-    console.log('Channel name is ' + channelName);
     if (!channelName) return;
     const channel = stream.useChannel(channelName);
     channel.on('note', (note: Note) => {
-      console.info('Note Received');
-      console.info(note);
       dispatch(appendNote(note));
+      stream.send('sn', {
+        id: note.id,
+      });
     });
     
     return () => {
-      console.log('Disposing timeline...');
       channel.dispose();
     };
   }, [stream, currentTimeline]);
@@ -90,7 +91,13 @@ export function useBackgroundTask() {
         dispatch(setNotes(notes));
         dispatch(setFetchingNotes(false));
       });
+      notes.forEach(n => {
+        stream?.send('sn', {
+          id: n.id,
+        });
+      });
     });
-  }, [api, currentTimeline]);
+  }, [api, currentTimeline, stream]);
 
+  return stream;
 }

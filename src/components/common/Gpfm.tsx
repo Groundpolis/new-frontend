@@ -1,16 +1,18 @@
 import { MfmNode, parse, parsePlain } from 'mfm-js';
+import { CustomEmoji } from 'misskey-js/built/entities';
 import React, { CSSProperties, useMemo } from 'react';
 import { useAppSelector } from '../../store';
+import EmojiView from './Emoji';
+import UnicodeEmoji from './Emoji';
 
 export type MfmProps = {
     plain?: boolean;
     text: string;
+    emojis?: CustomEmoji[];
 };
 
-const Tree: React.VFC<{tree: MfmNode, plain?: boolean}> = ({tree, plain}) => {
-  const {host, meta} = useAppSelector(state => state.session);
-  const emojis = meta?.emojis ?? null;
-
+const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmoji[]}> = ({tree, plain, emojis}) => {
+  const {meta} = useAppSelector(state => state.session);
   switch (tree.type) {
   case 'text': {
     const text = tree.props.text.replace(/(\r\n|\n|\r)/g, '\n');
@@ -66,13 +68,13 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean}> = ({tree, plain}) => {
     }
     case 'font': {
       const family =
-                        tree.props.args.serif ? 'serif' :
-                          tree.props.args.monospace ? 'monospace' :
-                            tree.props.args.cursive ? 'cursive' :
-                              tree.props.args.fantasy ? 'fantasy' :
-                                tree.props.args.emoji ? 'emoji' :
-                                  tree.props.args.math ? 'math' :
-                                    null;
+        tree.props.args.serif ? 'serif' :
+          tree.props.args.monospace ? 'monospace' :
+            tree.props.args.cursive ? 'cursive' :
+              tree.props.args.fantasy ? 'fantasy' :
+                tree.props.args.emoji ? 'emoji' :
+                  tree.props.args.math ? 'math' :
+                    null;
       if (family) style = { fontFamily: family };
       break;
     }
@@ -103,13 +105,13 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean}> = ({tree, plain}) => {
   }
 
   case 'mention': {
-    return <a href={`https://${host}/${tree.props.acct}`} target="_blank" rel="noopener noreferrer">
+    return <a href={`${location.origin}/${tree.props.acct}`} target="_blank" rel="noopener noreferrer">
       {tree.props.acct}
     </a>;
   }
 
   case 'hashtag': {
-    return <a href={`https://${host}/tags/${encodeURIComponent(tree.props.hashtag)}`} target="_blank" rel="noopener noreferrer">
+    return <a href={`${location.origin}/tags/${encodeURIComponent(tree.props.hashtag)}`} target="_blank" rel="noopener noreferrer">
       #{tree.props.hashtag}
     </a>;
   }
@@ -133,17 +135,11 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean}> = ({tree, plain}) => {
   }
 
   case 'emojiCode': {
-    if (!emojis) return null;
-    const emoji = emojis.find(e => e.name === tree.props.name);
-    if (!emoji) {
-      return <span>:{tree.props.name}:</span>;
-    } else {
-      return <img src={emoji.url} alt={emoji.name} style={{width: '2rem', height: '2rem'}} />;
-    }
+    return <EmojiView emoji={`:${tree.props.name}:`} customEmojis={emojis} />;
   }
 
   case 'unicodeEmoji': {
-    return <>{tree.props.emoji}</>;
+    return <EmojiView emoji={tree.props.emoji} customEmojis={emojis} />;
   }
 
   case 'mathInline': {
@@ -180,7 +176,7 @@ const Forest: React.VFC<{forest?: MfmNode[], plain?: boolean}> = ({forest, plain
   return !forest ? null : <>{forest.map((n, i) => <Tree key={i} tree={n}  plain={plain}/>)}</>;
 };
 
-export const Gpfm: React.VFC<MfmProps> = ({plain, text}) => {
+export const Gpfm: React.VFC<MfmProps> = ({plain, text, emojis}) => {
   const forest = useMemo(() => plain ? parsePlain(text) : parse(text), [text, plain]);
   return (
     <span>

@@ -25,6 +25,11 @@ body {
     }
 }
 
+.vstack:not(.dense).slim,
+.hstack:not(.dense).slim {
+    gap: 4px;
+}
+
 .gp-disabled {
     opacity: 0.5;
     pointer-events: none;

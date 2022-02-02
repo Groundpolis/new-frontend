@@ -61,7 +61,7 @@ const generateButton = (type?: DialogButtonType, customButtons?: DialogButton[])
 
 function InnerText(p: DialogProp) {
   return (
-    <div className="hstack">
+    <div className="hstack f-center">
       {generateButton(p.buttonType, p.customButtons).map((b, i) => (
         <button className={`btn ${b.class ?? 'flat'}`} key={i} onClick={() => { if (p.onClick) p.onClick(i); p.close(); }}>
           {b.text}
@@ -94,7 +94,7 @@ function InnerInput(p: DialogProp) {
   return (
     <div className="vstack">
       <input type="text" className="input-field" ref={inputRef} value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyPress={keypress}/>
-      <div className="hstack">
+      <div className="hstack f-center">
         <button className="btn flat" onClick={p.close}>キャンセル</button>
         <button className="btn primary" disabled={!canSend} onClick={submit}>送信</button>
       </div>

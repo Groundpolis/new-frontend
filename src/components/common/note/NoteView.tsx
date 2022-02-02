@@ -1,7 +1,7 @@
 import React, { MouseEvent, useState } from 'react';
 import { Note, UserDetailed } from 'misskey-js/built/entities';
 import { FaCopy, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import { animationFade } from '../../../animation';
 import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
@@ -12,10 +12,12 @@ import { Gpfm } from '../Gpfm';
 import { showModal } from '../../../scripts/show-modal';
 import NoteHeader from './NoteHeader';
 import { getName } from '../../../scripts/get-name';
-import { showPopup, showPopupAt } from '../../../scripts/show-popup';
+import { showPopupAt } from '../../../scripts/show-popup';
 import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
 import copyToClipboard from '../../../scripts/copy-to-clipboard';
-import { getPopupPositionByElement } from '../../../scripts/get-popup-position-by-element';
+import { useBreakpoints } from '../../../hooks/useBreakpoints';
+import EmojiView from '../Emoji';
+import { getSimilarEmojiFromLocal } from '../../../scripts/get-similar-emoji-from-local';
 
 export type NoteViewProp = {
   note: Note,
@@ -84,6 +86,39 @@ const QuoteContainer = styled.blockquote`
   border: 1px solid var(--tone-4);
 `;
 
+const ReactionButton = styled.button<{active?: boolean}>`
+  padding: 2px 8px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  &:not(:disabled) {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    &:hover, &:focus {
+      border: 1px solid var(--primary);
+      background: var(--hover);
+    }
+    &:active {
+      box-shadow: none;
+      transform: translateY(1px);
+    }
+    ${props => props.active ? css`{
+      box-shadow: none;
+      transform: translateY(1px);
+      background: var(--primary);
+      &:hover, &:focus {
+        background: var(--primary);
+      }
+      &:active {
+        transform: translateY(2px);
+      }
+    }` : null}
+  }
+  > span {
+    color: var(--fg);
+    margin-left: 4px;
+  }
+`;
+
 const Commands = styled.div`
   > button {
     font-size: 1em;
@@ -92,7 +127,10 @@ const Commands = styled.div`
 
 export default function NoteView(p: NoteViewProp) {
   const api = useMisskeyClient();
-  const {userCache} = useAppSelector(state => state.session);
+  const {isMobile} = useBreakpoints();
+  const {meta, userCache} = useAppSelector(state => state.session);
+
+  if (!meta) throw new TypeError();
 
   const [isCwOpened, setCwOpened] = useState(false);
 
@@ -153,6 +191,23 @@ export default function NoteView(p: NoteViewProp) {
     copyToClipboard(`${location.origin}/notes/${appearNote.id}`);
   };
 
+  const toggleReaction = (emoji: string) => {
+    if (appearNote.myReaction === emoji) {
+      api.request('notes/reactions/delete', { noteId: appearNote.id });
+    } else {
+      const reaction = emoji.startsWith(':') ? getSimilarEmojiFromLocal(emoji, meta) : emoji;
+      if (!reaction) {
+        showModal(Dialog, {
+          type: 'text',
+          message: 'そのリアクション絵文字は、本サーバーには登録されていないため利用できません。',
+          buttonType: 'ok',
+        });
+        return;
+      }
+      api.request('notes/reactions/create', { noteId: appearNote.id, reaction });
+    }
+  };
+
   const onClickReply = () => {
     notImpl();
   };
@@ -162,7 +217,13 @@ export default function NoteView(p: NoteViewProp) {
   };
 
   const onClickReaction = () => {
-    notImpl();
+    showModal(Dialog, {
+      type: 'input',
+      message: 'リアクションに使う絵文字を入力してください\n**例:**\n・`🥴`\n・`:iihanashi:`',
+      onSubmit(reaction: string) {
+        api.request('notes/reactions/create', { noteId: appearNote.id, reaction });
+      },
+    });
   };
 
   const onClickMore = (e: MouseEvent) => {
@@ -172,7 +233,7 @@ export default function NoteView(p: NoteViewProp) {
       icon: FaCopy,
       label: '内容をコピー',
       onClick: copyContent,
-    },{
+    }, {
       type: 'button',
       icon: FaLink,
       label: 'リンクをコピー',
@@ -208,7 +269,7 @@ export default function NoteView(p: NoteViewProp) {
           </div>
         )}
         <div className="hstack">
-          <AvatarWrapper size={64} className={(appearNote.user as UserDetailed).isCat ? 'animated cat' : ''}>
+          <AvatarWrapper size={isMobile ? 48 : 64} className={(appearNote.user as UserDetailed).isCat ? 'animated cat' : ''}>
             <img src={user.avatarUrl} className="circle" style={{
               position: 'absolute',
               inset: 0,
@@ -238,6 +299,14 @@ export default function NoteView(p: NoteViewProp) {
                 )}
               </>
             )}
+            <div className="hstack wrap slim mt-2">
+              {Object.entries(appearNote.reactions).map(([emoji, count]) => (
+                <ReactionButton key={emoji} active={appearNote.myReaction === emoji} onClick={() => toggleReaction(emoji)}>
+                  <EmojiView emoji={emoji} customEmojis={appearNote.emojis} normal />
+                  <span>{count}</span>
+                </ReactionButton>
+              ))}
+            </div>
           </main>
         </div>
         <Commands className="hstack f-right">

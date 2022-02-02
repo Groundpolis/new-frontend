@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { createContext, useEffect, useMemo } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -17,9 +17,12 @@ import NotificationsPage from './pages/notifications';
 import ManagePage from './pages/manage';
 import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB } from './const';
 import { setLaptop, setMobile, setTablet } from './store/screen';
+import { Stream } from 'misskey-js';
+
+export const StreamingContext = createContext<Stream | null>(null);
 
 function App() {
-  useBackgroundTask();
+  const stream = useBackgroundTask();
 
   const dispatch = useAppDispatch();
   const {layoutType} = useAppSelector(state => state.screen);
@@ -54,18 +57,20 @@ function App() {
   }, [layoutType]);
 
   return (
-    <BrowserRouter>
-      <CurrentLayout>
-        <Routes>
-          <Route path="/" element={<IndexPage />}/>
-          <Route path="/notifications" element={<NotificationsPage />}/>
-          <Route path="/debug" element={<DebugPage />} />
-          <Route path="/manage" element={<ManagePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/miauth" element={<MiAuthPage />} />
-        </Routes>
-      </CurrentLayout>
-    </BrowserRouter>
+    <StreamingContext.Provider value={stream}>
+      <BrowserRouter>
+        <CurrentLayout>
+          <Routes>
+            <Route path="/" element={<IndexPage />}/>
+            <Route path="/notifications" element={<NotificationsPage />}/>
+            <Route path="/debug" element={<DebugPage />} />
+            <Route path="/manage" element={<ManagePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/miauth" element={<MiAuthPage />} />
+          </Routes>
+        </CurrentLayout>
+      </BrowserRouter>
+    </StreamingContext.Provider>
   );
 }
 

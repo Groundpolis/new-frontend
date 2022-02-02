@@ -1,12 +1,11 @@
-import React, { MouseEvent, MouseEventHandler, useCallback, useState } from 'react';
+import React, { MouseEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { FaChevronDown, FaEnvelope, FaEyeSlash, FaGlobe, FaHome, FaLock, FaRegLaugh, FaTimes } from 'react-icons/fa';
+import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaFish, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaRegLaugh, FaTimes } from 'react-icons/fa';
 import { useAppSelector } from '../../store';
 import { VisibilityIcon } from './VisibilityIcon';
 import { noteVisibilities } from 'misskey-js';
-import { notImpl } from '../../scripts/not-impl';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
-import { showPopup, showPopupAt } from '../../scripts/show-popup';
+import { showPopupAt } from '../../scripts/show-popup';
 import MenuPopup from './popup/MenuPopup';
 
 const CwButton = styled.button`
@@ -98,16 +97,19 @@ export default function NoteEditor() {
           <input type="text" className="input-field" placeholder="注釈" disabled={isSending} value={cwMessage} onChange={onChangeCw} />
         </div>
       ) : (
-        <CwButton className="btn text-left px-1 text-dimmed" disabled={isSending} onClick={onClickEnableCw}>
-          <FaEyeSlash/> 投稿内容を伏せる
+        <CwButton className="btn flat text-left px-1 text-dimmed" disabled={isSending} onClick={onClickEnableCw}>
+          <FaEyeSlash className="mr-1"/>投稿内容を伏せる
         </CwButton>
       )}
       <Textarea className="input-field mt-2" disabled={isSending} placeholder="好きなことを書きましょう。" value={text} onChange={onChangeText} />
       <div className="hstack dense mt-2">
-        <button className="btn flat" disabled={isSending}><FaRegLaugh /></button>
-        <div className="hstack ml-auto f-middle">
+        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPlusCircle /></button>
+        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPollH /></button>
+        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaBullhorn /></button>
+        <button className="btn flat text-125 pa-1" disabled={true}><FaFish /></button>
+        <div className="hstack dense ml-auto f-middle">
           <b className={`text-dimmed ${textLimit < 0 ? 'text-danger' : ''}`}>{textLimit}</b>
-          <div className="hgroup">
+          <div className="hgroup ml-1">
             <button className="btn primary" disabled={isSending || !canSend} onClick={onClickSend}>
               <VisibilityIcon visibility={visibility} />
               <span className="ml-1">{isSending ? '送信中…' : '送信'}</span>
