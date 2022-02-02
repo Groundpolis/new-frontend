@@ -4,6 +4,7 @@ import { useAppSelector } from '../store';
 
 export const useTheme = () => {
   const {themeMode} = useAppSelector(state => state.setting);
+  const {enforceDark} = useAppSelector(state => state.screen);
 
   const [systemTheme, setSystemTheme] = useState<ThemeType>('light');
 
@@ -15,15 +16,14 @@ export const useTheme = () => {
 		
     return () => q.removeListener(sync);
   }, []);
-	
-  const setTheme = (mode: ThemeType) => {
-    console.log('setTheme: ' + mode);
-    if (mode === 'dark') {
+
+  useEffect(() => {
+    const mode = themeMode === 'system' ? systemTheme : themeMode;
+    if (mode === 'dark' || enforceDark) {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
     }
-  };
+  }, [enforceDark, systemTheme, themeMode]);
 
-  setTheme(themeMode === 'system' ? systemTheme : themeMode);
 };

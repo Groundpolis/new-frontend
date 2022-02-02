@@ -6,6 +6,7 @@ const initialState = {
   isMobile: false,
   isTablet: false,
   isLaptop: false,
+  enforceDark: false,
 };
 
 const screen = createSlice({
@@ -24,6 +25,9 @@ const screen = createSlice({
     setLaptop(state, {payload}: PayloadAction<boolean>) {
       state.isLaptop = payload;
     },
+    setEnforceDark(state, {payload}: PayloadAction<boolean>) {
+      state.enforceDark = payload;
+    },
   },
 });
 
@@ -32,6 +36,7 @@ export const {
   setMobile,
   setTablet,
   setLaptop,
+  setEnforceDark,
 } = screen.actions;
 
 export default screen.reducer;

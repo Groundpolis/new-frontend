@@ -1,14 +1,16 @@
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../store';
+import { setEnforceDark } from '../store/screen';
 
 /**
  * ダークテーマを強制します。
  */
 export function useDarkTheme() {
-  // TODO: 元々ダークテーマのときに消えないようにする
-  useLayoutEffect(() => {
-    document.body.classList.add('dark');
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setEnforceDark(true));
     return () => {
-      document.body.classList.remove('dark');
+      dispatch(setEnforceDark(false));
     };
   }, []);
 }
