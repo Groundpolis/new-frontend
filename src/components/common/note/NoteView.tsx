@@ -2,6 +2,7 @@ import React, { MouseEvent, useState } from 'react';
 import { Note, UserDetailed } from 'misskey-js/built/entities';
 import { FaCopy, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
 import styled, { keyframes } from 'styled-components';
+
 import { animationFade } from '../../../animation';
 import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
 import { notImpl } from '../../../scripts/not-impl';
@@ -11,11 +12,10 @@ import { Gpfm } from '../Gpfm';
 import { showModal } from '../../../scripts/show-modal';
 import NoteHeader from './NoteHeader';
 import { getName } from '../../../scripts/get-name';
-import { showPopup } from '../../../scripts/show-popup';
+import { showPopup, showPopupAt } from '../../../scripts/show-popup';
 import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
-import { ItemProp } from '../Menu';
 import copyToClipboard from '../../../scripts/copy-to-clipboard';
-import { User } from '../../../models/user';
+import { getPopupPositionByElement } from '../../../scripts/get-popup-position-by-element';
 
 export type NoteViewProp = {
   note: Note,
@@ -30,7 +30,6 @@ const BodyWrapper = styled.p`
   word-wrap: normal;
   margin: 0;
 `;
-
 
 const earwiggleleft = keyframes`
 	from { transform: rotate(37.6deg) skew(30deg); }
@@ -47,8 +46,11 @@ const earwiggleright = keyframes`
 	to { transform: rotate(-37.6deg) skew(-30deg); }
 `;
 
-const AvatarWrapper = styled.div`
+const AvatarWrapper = styled.div<{size: number}>`
 position: relative;
+width: ${props => props.size ?? 64}px;
+height: ${props => props.size ?? 64}px;
+background-size: cover;
 &.cat {
   &:before, &:after {
       background: #df548f;
@@ -164,8 +166,8 @@ export default function NoteView(p: NoteViewProp) {
   };
 
   const onClickMore = (e: MouseEvent) => {
-    const sections: MenuItemSection[] = [];
-    sections.push([{
+    const items: MenuItemSection[] = [];
+    items.push([{
       type: 'button',
       icon: FaCopy,
       label: '内容をコピー',
@@ -177,7 +179,7 @@ export default function NoteView(p: NoteViewProp) {
       onClick: copyLink,
     }]);
     if (appearNote.user.host) {
-      sections.push([{
+      items.push([{
         type: 'button',
         icon: FaExternalLinkAlt,
         label: 'リモートで見る',
@@ -185,18 +187,14 @@ export default function NoteView(p: NoteViewProp) {
       }]);
     }
     if (isMyNote) {
-      sections.push([{
+      items.push([{
         type: 'button',
         icon: FaTrashAlt,
         label: '削除',
         onClick: deleteNote,
       }]);
     }
-    showPopup(MenuPopup, {
-      left: e.clientX,
-      top: e.clientY,
-      items: sections,
-    });
+    showPopupAt(MenuPopup, e.target as Element, { items });
   };
 
   return (
@@ -210,7 +208,7 @@ export default function NoteView(p: NoteViewProp) {
           </div>
         )}
         <div className="hstack">
-          <AvatarWrapper className={(appearNote.user as UserDetailed).isCat ? 'animated cat' : ''} style={{width: 64, height: 64}}>
+          <AvatarWrapper size={64} className={(appearNote.user as UserDetailed).isCat ? 'animated cat' : ''}>
             <img src={user.avatarUrl} className="circle" style={{
               position: 'absolute',
               inset: 0,

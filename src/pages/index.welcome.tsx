@@ -106,13 +106,13 @@ export default function WelcomePage() {
                 <div className="body pa-2">
                   {isDisabledRegistration && <DisabledRegisterCard meta={meta}/>}
                   <div className="hstack">
-                    {isDisabledRegistration ? (
-                      <a href="https://join.misskey.page/instances" className="btn shadow-1 text-bold primary" target="_blank" rel="noreferrer noopener">
-                        サーバーを探す <FaExternalLinkAlt className="ml-1"/>
-                      </a>
-                    ) : (
-                      <button className="btn shadow-1 text-bold primary" onClick={authenticate}>ログイン</button>
-                    )}
+                    {/* {isDisabledRegistration ? ( */}
+                    {/* <a href="https://join.misskey.page/instances" className="btn shadow-1 text-bold primary" target="_blank" rel="noreferrer noopener"> */}
+                    {/* サーバーを探す <FaExternalLinkAlt className="ml-1"/> */}
+                    {/* </a> */}
+                    {/* ) : ( */}
+                    <button className="btn shadow-1 text-bold primary" onClick={authenticate}>ログイン</button>
+                    {/* )} */}
                     <button className="btn shadow-1 text-bold" onClick={() => descriptionRef.current?.scrollIntoView({behavior: 'smooth'})}>
                       詳しく
                     </button>

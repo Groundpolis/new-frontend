@@ -4,5 +4,5 @@ export function initSession() {
   storage.remove('host');
   storage.remove('token');
   storage.remove('usercache');
-  window.location.reload();
+  window.location.href = '/';
 }

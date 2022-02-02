@@ -7,6 +7,7 @@ const Backdrop = styled.div`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
+  padding: var(--margin);
   justify-content: center;
   align-items: center;
   z-index: 1000;

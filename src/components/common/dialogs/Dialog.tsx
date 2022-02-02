@@ -1,5 +1,6 @@
 import React, { KeyboardEvent, useEffect, useRef } from 'react';
 import { useState } from 'react';
+import { Gpfm } from '../Gpfm';
 import Modal from '../Modal';
 
 import { ModalProp } from '../Modal';
@@ -106,7 +107,9 @@ export default function Dialog(p: DialogProp) {
     <Modal close={p.close} innerClassName="card shadow-3" closeByBackdrop={p.closeByBackdrop}>
       <div className="body">
         {p.title && <h1 className="mt-1">{p.title}</h1>}
-        <p>{p.message}</p>
+        <div className="my-2">
+          <Gpfm text={p.message} />
+        </div>
         {p.type === 'text' ? (
           <InnerText {...p}/>
         ) : p.type === 'input' ? (

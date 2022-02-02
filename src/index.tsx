@@ -16,10 +16,17 @@ import './style.scss';
 
 const host = store.getState().session.host;
 
+const message = `パブリックプレビューにご参加いただき、ありがとうございます。
+まだまだ開発中のため、不具合や未実装の機能が多くあります。
+
+今お使いのインスタンスURL(例: groundpolis.app)を入力してはじめましょう。
+<small>Misskeyでも動作するかもしれませんが、サポート対象外です。</small>`;
+
 if (!host) {
   showModal(Dialog, {
     type: 'input',
-    message: 'お使いのサーバーURLを入力してください',
+    title: 'Groundpolis New Frontend',
+    message,
     allowEmpty: false,
     onSubmit(value) {
       store.dispatch(setHost(value));

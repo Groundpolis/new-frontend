@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaBullhorn, FaChevronDown, FaComments, FaGlobe, FaHome, FaShareAlt } from 'react-icons/fa';
 import styled from 'styled-components';
 import ActionBar from '../components/common/action-bar/ActionBar';
@@ -31,6 +31,13 @@ export default function SessionPage() {
     { key: 'social', element: <FaShareAlt /> },
     { key: 'global', element: <FaGlobe /> },
   ];
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, [currentTimeline]);
 
   return (
     <>

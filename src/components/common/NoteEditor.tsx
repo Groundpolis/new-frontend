@@ -6,7 +6,7 @@ import { VisibilityIcon } from './VisibilityIcon';
 import { noteVisibilities } from 'misskey-js';
 import { notImpl } from '../../scripts/not-impl';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
-import { showPopup } from '../../scripts/show-popup';
+import { showPopup, showPopupAt } from '../../scripts/show-popup';
 import MenuPopup from './popup/MenuPopup';
 
 const CwButton = styled.button`
@@ -51,9 +51,7 @@ export default function NoteEditor() {
   }, []);
 
   const onClickVisibility = (e: MouseEvent<HTMLButtonElement>) => {
-    new Promise<typeof noteVisibilities[number]>(res => showPopup(MenuPopup, {
-      left: e.clientX,
-      top: e.clientY,
+    new Promise<typeof noteVisibilities[number]>(res => showPopupAt(MenuPopup, e.target as Element, {
       items: [[{
         type: 'button',
         icon: FaGlobe,
