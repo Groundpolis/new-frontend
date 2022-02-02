@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Stats, User, UserDetailed } from 'misskey-js/built/entities';
+import { Stats } from 'misskey-js/built/entities';
 import { Instance } from '../models/Instance';
+import { User } from '../models/user';
 import { storage } from '../scripts/storage';
 
 const initialState = {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { ModalFunction } from './Modal';
+import { ModalFunction } from '../modal/Modal';
 import { v4 as uuid } from 'uuid';
 import ReactDOM from 'react-dom';
-import { ModalProp } from './ModalProp';
+import { ModalProp } from '../modal/ModalProp';
 import { store } from '../../../store';
 import { Provider } from 'react-redux';
 

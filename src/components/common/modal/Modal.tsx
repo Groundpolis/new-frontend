@@ -13,6 +13,7 @@ const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
+  z-index: 1000;
   ${animationFade}
   > * {
     ${animationFadeUp}

@@ -1,11 +1,12 @@
 import React, { PropsWithChildren, useRef } from 'react';
 import styled from 'styled-components';
 
-import { BREAKPOINT_SM, BREAKPOINT_TB } from '../const';
-import Menu from '../components/basic-layout/Menu';
+import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB } from '../const';
+import Sidebar from '../components/basic-layout/Sidebar';
 import Widgets from '../components/basic-layout/Widgets';
 import { useTheme } from '../hooks/useTheme';
 import { useStickyScroll } from '../hooks/useStickyScroll';
+import { useBreakpoints } from '../hooks/useBreakpoints';
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -28,19 +29,23 @@ const LayoutContainer = styled.div`
 
   > .widgets {
     position: relative;
-    width: 320px;
+    width: 300px;
   }
 
-  @media screen and (max-width: ${BREAKPOINT_TB}) {
+  @media screen and (max-width: ${BREAKPOINT_LAPTOP}) {
     > .sidebar {
       width: 96px;
     }
+  }
+
+  @media screen and (max-width: ${BREAKPOINT_TB}) {
     > .widgets {
       display: none;
     }
   }
 
   @media screen and (max-width: ${BREAKPOINT_SM}) {
+    padding: 0;
     > .sidebar {
       display: none;
     }
@@ -58,6 +63,8 @@ const Stick = styled.div`
 export default function BasicLayout(prop: PropsWithChildren<unknown>) {
   useTheme();
 
+  const {isLaptop} = useBreakpoints();
+
   const menuSpacerRef = useRef<HTMLDivElement>(null);
   const widgetsSpacerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -70,7 +77,7 @@ export default function BasicLayout(prop: PropsWithChildren<unknown>) {
     <LayoutContainer>
       <div className="sidebar">
         <div ref={menuSpacerRef} />
-        <Stick ref={menuRef}><Menu /></Stick>
+        <Stick ref={menuRef}><Sidebar slim={isLaptop} /></Stick>
       </div>
       <main className="main">{prop.children}</main>
       <div className="widgets">

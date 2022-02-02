@@ -1,5 +1,5 @@
 import React from 'react';
-import ActionBar from '../components/common/ActionBar';
+import ActionBar from '../components/common/action-bar/ActionBar';
 
 export default function ManagePage() {
   return (

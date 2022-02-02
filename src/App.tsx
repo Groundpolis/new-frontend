@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -12,14 +12,38 @@ import MiAuthPage from './pages/miauth';
 import { useBackgroundTask } from './hooks/useBackgroundTask';
 import SettingsPage from './pages/settings';
 import ZenLayout from './layout/ZenLayout';
-import { useAppSelector } from './store';
+import { useAppDispatch, useAppSelector } from './store';
 import NotificationsPage from './pages/notifications';
 import ManagePage from './pages/manage';
+import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB } from './const';
+import { setLaptop, setMobile, setTablet } from './store/screen';
 
 function App() {
   useBackgroundTask();
 
+  const dispatch = useAppDispatch();
   const {layoutType} = useAppSelector(state => state.screen);
+
+  useEffect(() => {
+    const qTablet = window.matchMedia(`(max-width: ${BREAKPOINT_TB})`);
+    const qMobile = window.matchMedia(`(max-width: ${BREAKPOINT_SM})`);
+    const qLaptop = window.matchMedia(`(max-width: ${BREAKPOINT_LAPTOP})`);
+    const syncMobile = (ev: MediaQueryListEvent) => dispatch(setMobile(ev.matches));
+    const syncTablet = (ev: MediaQueryListEvent) => dispatch(setTablet(ev.matches));
+    const syncLaptop = (ev: MediaQueryListEvent) => dispatch(setLaptop(ev.matches));
+    dispatch(setMobile(qMobile.matches));
+    dispatch(setTablet(qTablet.matches));
+    dispatch(setLaptop(qTablet.matches));
+    qTablet.addListener(syncTablet);
+    qMobile.addListener(syncMobile);
+    qLaptop.addListener(syncLaptop);
+		
+    return () => {
+      qTablet.removeListener(syncTablet);
+      qMobile.removeListener(syncMobile);
+      qLaptop.removeListener(syncLaptop);
+    };
+  }, []);
 
   const CurrentLayout = useMemo(() => {
     switch (layoutType) {

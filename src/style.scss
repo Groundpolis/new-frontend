@@ -44,3 +44,25 @@ body {
         color: var(--primary);
     }
 }
+
+.menu.slim .item {
+    margin: 0 auto;
+    display: flex;
+    height: 50px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    > .icon {
+        font-size: 1.25em;
+        margin: 0;
+    }
+    > .label {
+        display: none;
+    }
+}
+
+.vgroup.outline {
+    > * + * {
+        border-top: 1px solid var(--tone-2);
+    }
+}

@@ -103,7 +103,7 @@ function InnerInput(p: DialogProp) {
 
 export default function Dialog(p: DialogProp) {
   return (
-    <Modal close={p.close} innerClassName="card shadow-3">
+    <Modal close={p.close} innerClassName="card shadow-3" closeByBackdrop={p.closeByBackdrop}>
       <div className="body">
         {p.title && <h1 className="mt-1">{p.title}</h1>}
         <p>{p.message}</p>

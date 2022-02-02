@@ -8,7 +8,7 @@
 
 ```
 yarn install
-yarn dev
+yarn start
 ```
 
 ## 不具合報告

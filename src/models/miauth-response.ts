@@ -1,4 +1,4 @@
-import { User, UserDetailed } from 'misskey-js/built/entities';
+import { UserDetailed } from 'misskey-js/built/entities';
 
 export interface MiAuthResponse {
   token: string;

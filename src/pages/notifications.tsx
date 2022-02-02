@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaFilter } from 'react-icons/fa';
-import ActionBar from '../components/common/ActionBar';
-import ActionBarButton from '../components/common/ActionBarButton';
+import ActionBar from '../components/common/action-bar/ActionBar';
+import ActionBarButton from '../components/common/action-bar/ActionBarButton';
 
 export default function NotificationsPage() {
   return (

@@ -6,7 +6,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { api } from 'misskey-js';
 import * as serviceWorker from './serviceWorker';
 
-import { showModal } from './components/common/modal/show-modal';
+import { showModal } from './components/common/note/show-modal';
 import Dialog from './components/common/dialogs/Dialog';
 import BlueScreen from './components/common/BlueScreen';
 import { setHost, setMeta, setStats, setUserCache } from './store/session';
