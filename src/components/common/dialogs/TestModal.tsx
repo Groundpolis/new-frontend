@@ -1,9 +1,9 @@
 import React from 'react';
-import Modal from '../common/modal/Modal';
+import Modal from '../Modal';
 
-import { ModalProp } from '../common/modal/ModalProp';
+import { ModalProp } from '../Modal';
 
-export default function TestModal(prop: ModalProp) {
+export default function TestDialog(prop: ModalProp) {
   return (
     <Modal close={prop.close} closeByBackdrop innerClassName="card shadow-3">
       <div className="body">

@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, useCallback } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import ActionBar from '../components/common/action-bar/ActionBar';
 import Dialog from '../components/common/dialogs/Dialog';
-import { showModal } from '../components/common/note/show-modal';
+import { showModal } from '../scripts/show-modal';
 import { initSession } from '../scripts/init-session';
 import { useAppDispatch, useAppSelector } from '../store';
 import { set } from '../store/setting';
@@ -23,7 +23,7 @@ export default function SettingsPage() {
       type: 'text',
       message: '本当にログアウトしてよろしいですか？',
       buttonType: 'yesNo',
-      onClick(i) {
+      onClick(i: number) {
         if (i === 0) initSession(); 
       },
     });

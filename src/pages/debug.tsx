@@ -1,10 +1,10 @@
 import React from 'react';
-import TestModal from '../components/debug/TestModal';
-import { showModal } from '../components/common/note/show-modal';
+import TestDialog from '../components/common/dialogs/TestModal';
+import { showModal } from '../scripts/show-modal';
 
 export default function DebugPage() {
   const onClick = () => {
-    showModal(TestModal);
+    showModal(TestDialog);
   };
   return <button className="btn primary" onClick={onClick}>Test Modal</button>;
 }

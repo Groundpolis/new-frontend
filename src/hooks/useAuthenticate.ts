@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import Dialog from '../components/common/dialogs/Dialog';
-import { showModal } from '../components/common/note/show-modal';
+import { showModal } from '../scripts/show-modal';
 import { useAppSelector } from '../store';
 
 const name ='Groundpolis New Frontend';

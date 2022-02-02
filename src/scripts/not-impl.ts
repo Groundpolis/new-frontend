@@ -1,5 +1,5 @@
 import Dialog from '../components/common/dialogs/Dialog';
-import { showModal } from '../components/common/note/show-modal';
+import { showModal } from './show-modal';
 
 export function notImpl(e?: React.BaseSyntheticEvent) {
   showModal(Dialog, {

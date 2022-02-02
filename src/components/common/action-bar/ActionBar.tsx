@@ -7,7 +7,7 @@ top: 0;
 display: flex;
 height: 50px;
 overflow: hidden;
-z-index: 10;
+z-index: 11;
 > h1 {
   margin: auto 0;
   font-size: 1.5em;

@@ -17,9 +17,10 @@ export function Menu(p: MenuProp) {
 
 export const MenuSection = styled.section``;
 
-type ItemProp = {
+export type ItemProp = {
   icon: IconType,
   label: string,
+  onClick?: MouseEventHandler<HTMLElement>,
 } & ({
   type: 'link',
   to: To,
@@ -28,16 +29,15 @@ type ItemProp = {
   href: string,
 } | ({
   type: 'button',
-  onClick?: MouseEventHandler<HTMLButtonElement>,
 }));
 
 export function MenuItem(p: ItemProp) {
   return p.type === 'link' ? (
-    <NavLink className={({isActive}) => `item clickable ${isActive ? 'active' : ''}`} to={p.to}>
+    <NavLink className={({isActive}) => `item clickable ${isActive ? 'active' : ''}`} to={p.to} onClick={p.onClick}>
       <p.icon className="icon" /><span className="label">{p.label}</span>
     </NavLink>
   ) : p.type === 'a' ? (
-    <a className="item clickable" href={p.href} target="_blank" rel="noreferrer noopener">
+    <a className="item clickable" href={p.href} target="_blank" rel="noreferrer noopener" onClick={p.onClick}>
       <p.icon className="icon" /><span className="label">{p.label}</span>
     </a>
   ) : (

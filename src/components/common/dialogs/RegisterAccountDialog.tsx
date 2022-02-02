@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FaAt } from 'react-icons/fa';
 import { useAppSelector } from '../../../store';
-import Modal from '../modal/Modal';
-import { ModalProp } from '../modal/ModalProp';
+import Modal from '../Modal';
+import { ModalProp } from '../Modal';
 
 export default function RegisterAccountDialog(p: ModalProp) {
   const [isAgreeTos, setAgreeTos] = useState(false);

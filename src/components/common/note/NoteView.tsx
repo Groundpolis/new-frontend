@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
-import { Note } from 'misskey-js/built/entities';
-import { FaEllipsisH, FaPlus, FaReply, FaRetweet, FaSmile } from 'react-icons/fa';
-import styled from 'styled-components';
+import React, { MouseEvent, useState } from 'react';
+import { Note, UserDetailed } from 'misskey-js/built/entities';
+import { FaCopy, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
+import styled, { keyframes } from 'styled-components';
 import { animationFade } from '../../../animation';
 import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
 import { notImpl } from '../../../scripts/not-impl';
 import { useAppSelector } from '../../../store';
 import Dialog from '../dialogs/Dialog';
 import { Gpfm } from '../Gpfm';
-import { showModal } from './show-modal';
+import { showModal } from '../../../scripts/show-modal';
 import NoteHeader from './NoteHeader';
 import { getName } from '../../../scripts/get-name';
+import { showPopup } from '../../../scripts/show-popup';
+import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
+import { ItemProp } from '../Menu';
+import copyToClipboard from '../../../scripts/copy-to-clipboard';
+import { User } from '../../../models/user';
 
 export type NoteViewProp = {
   note: Note,
@@ -24,6 +29,53 @@ const BodyWrapper = styled.p`
   word-break: break-all;
   word-wrap: normal;
   margin: 0;
+`;
+
+
+const earwiggleleft = keyframes`
+	from { transform: rotate(37.6deg) skew(30deg); }
+	25% { transform: rotate(10deg) skew(30deg); }
+	50% { transform: rotate(20deg) skew(30deg); }
+	75% { transform: rotate(0deg) skew(30deg); }
+	to { transform: rotate(37.6deg) skew(30deg); }
+`;
+const earwiggleright = keyframes`
+	from { transform: rotate(-37.6deg) skew(-30deg); }
+	30% { transform: rotate(-10deg) skew(-30deg); }
+	55% { transform: rotate(-20deg) skew(-30deg); }
+	75% { transform: rotate(0deg) skew(-30deg); }
+	to { transform: rotate(-37.6deg) skew(-30deg); }
+`;
+
+const AvatarWrapper = styled.div`
+position: relative;
+&.cat {
+  &:before, &:after {
+      background: #df548f;
+      border: solid 4px currentColor;
+      box-sizing: border-box;
+      content: '';
+      display: inline-block;
+      height: 50%;
+      width: 50%;
+  }
+  &:before {
+      border-radius: 0 75% 75%;
+      transform: rotate(37.5deg) skew(30deg);
+  }
+  &:after {
+      border-radius: 75% 0 75% 75%;
+      transform: rotate(-37.5deg) skew(-30deg);
+  }
+  &.animated:hover {
+      &:before {
+          animation: ${earwiggleleft} 1s infinite;
+      }
+      &:after {
+          animation: ${earwiggleright} 1s infinite;
+      }
+  }
+}
 `;
 
 const QuoteContainer = styled.blockquote`
@@ -46,18 +98,15 @@ export default function NoteView(p: NoteViewProp) {
   const isRenote = Boolean(p.note.renote);
   const appearNote = p.note.renote && !p.note.text ? p.note.renote : p.note;
   const reply = appearNote.reply;
-  const renote = appearNote.renote;
+  const quote = appearNote.renote;
   const user = appearNote.user;
   const renotedUser = isRenote ? p.note.user : null;
-  const canRenote = !!userCache && (appearNote.visibility !== 'followers' || appearNote.userId === userCache.id);
 
   const isVisibleBody = !appearNote.cw || isCwOpened;
+  const isMyNote = user.id === userCache?.id;
+  const canRenote = !!userCache && (appearNote.visibility !== 'followers' || isMyNote);
 
-  const onClickReply = () => {
-    notImpl();
-  };
-
-  const onClickRenote = () => {
+  const renote = () => {
     showModal(Dialog, {
       type: 'text',
       message: '本当にリノートしますか？',
@@ -73,12 +122,81 @@ export default function NoteView(p: NoteViewProp) {
     });
   };
 
+  const deleteNote = () => {
+    showModal(Dialog, {
+      type: 'text',
+      message: 'このノートを削除しますか？',
+      closeByBackdrop: true,
+      buttonType: 'yesNo',
+      onClick(i) {
+        if (i === 0) {
+          api.request('notes/delete', {
+            noteId: appearNote.id,
+          });
+        }
+      },
+    });
+  };
+
+  const copyContent = () => {
+    if (!appearNote.text) return;
+    copyToClipboard(appearNote.text);
+  };
+
+  const showOnRemote = () => {
+    window.open(appearNote.url || appearNote.uri, '_blank');
+  };
+
+  const copyLink = () => {
+    copyToClipboard(`${location.origin}/notes/${appearNote.id}`);
+  };
+
+  const onClickReply = () => {
+    notImpl();
+  };
+
+  const onClickRenote = () => {
+    renote();
+  };
+
   const onClickReaction = () => {
     notImpl();
   };
 
-  const onClickMore = () => {
-    notImpl();
+  const onClickMore = (e: MouseEvent) => {
+    const sections: MenuItemSection[] = [];
+    sections.push([{
+      type: 'button',
+      icon: FaCopy,
+      label: '内容をコピー',
+      onClick: copyContent,
+    },{
+      type: 'button',
+      icon: FaLink,
+      label: 'リンクをコピー',
+      onClick: copyLink,
+    }]);
+    if (appearNote.user.host) {
+      sections.push([{
+        type: 'button',
+        icon: FaExternalLinkAlt,
+        label: 'リモートで見る',
+        onClick: showOnRemote,
+      }]);
+    }
+    if (isMyNote) {
+      sections.push([{
+        type: 'button',
+        icon: FaTrashAlt,
+        label: '削除',
+        onClick: deleteNote,
+      }]);
+    }
+    showPopup(MenuPopup, {
+      left: e.clientX,
+      top: e.clientY,
+      items: sections,
+    });
   };
 
   return (
@@ -92,7 +210,15 @@ export default function NoteView(p: NoteViewProp) {
           </div>
         )}
         <div className="hstack">
-          <img src={user.avatarUrl} className="circle" style={{width: 64, height: 64}} />
+          <AvatarWrapper className={(appearNote.user as UserDetailed).isCat ? 'animated cat' : ''} style={{width: 64, height: 64}}>
+            <img src={user.avatarUrl} className="circle" style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 10,
+            }} />
+          </AvatarWrapper>
           <main style={{flex: 1, minWidth: 0}}>
             <NoteHeader note={appearNote} />
             {appearNote.cw && (
@@ -106,10 +232,10 @@ export default function NoteView(p: NoteViewProp) {
             {isVisibleBody && (
               <>
                 {appearNote.text && <BodyWrapper className="mt-1"><Gpfm text={appearNote.text}/></BodyWrapper>}
-                {renote && appearNote.text && (
+                {quote && appearNote.text && (
                   <QuoteContainer className="rounded mt-1 pa-1">
-                    <NoteHeader note={renote} />
-                    {renote.text && <BodyWrapper className="mt-1"><Gpfm text={renote.text}/></BodyWrapper>}
+                    <NoteHeader note={quote} />
+                    {quote.text && <BodyWrapper className="mt-1"><Gpfm text={quote.text}/></BodyWrapper>}
                   </QuoteContainer>
                 )}
               </>

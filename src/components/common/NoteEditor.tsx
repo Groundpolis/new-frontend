@@ -1,11 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import React, { MouseEvent, MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { FaChevronDown, FaEyeSlash, FaRegLaugh, FaTimes } from 'react-icons/fa';
+import { FaChevronDown, FaEnvelope, FaEyeSlash, FaGlobe, FaHome, FaLock, FaRegLaugh, FaTimes } from 'react-icons/fa';
 import { useAppSelector } from '../../store';
 import { VisibilityIcon } from './VisibilityIcon';
 import { noteVisibilities } from 'misskey-js';
 import { notImpl } from '../../scripts/not-impl';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
+import { showPopup } from '../../scripts/show-popup';
+import MenuPopup from './popup/MenuPopup';
 
 const CwButton = styled.button`
 	border-color: var(--dimmed) !important;
@@ -48,6 +50,36 @@ export default function NoteEditor() {
     setText(e.target.value);
   }, []);
 
+  const onClickVisibility = (e: MouseEvent<HTMLButtonElement>) => {
+    new Promise<typeof noteVisibilities[number]>(res => showPopup(MenuPopup, {
+      left: e.clientX,
+      top: e.clientY,
+      items: [[{
+        type: 'button',
+        icon: FaGlobe,
+        label: 'パブリック',
+        onClick: () => res('public'),
+      },{
+        type: 'button',
+        icon: FaHome,
+        label: '未収載',
+        onClick: () => res('home'),
+      },{
+        type: 'button',
+        icon: FaLock,
+        label: 'フォロワー',
+        onClick: () => res('followers'),
+      },{
+        type: 'button',
+        icon: FaEnvelope,
+        label: 'ダイレクト',
+        onClick: () => res('specified'),
+      },]],
+    })).then((res) => {
+      setVisibility(res);
+    });
+  };
+
   const onClickSend = useCallback(() => {
     setSending(true);
     api.request('notes/create', {
@@ -82,7 +114,7 @@ export default function NoteEditor() {
               <VisibilityIcon visibility={visibility} />
               <span className="ml-1">{isSending ? '送信中…' : '送信'}</span>
             </button>
-            <button className="btn primary pa-1" style={{marginLeft: 1}} onClick={notImpl}>
+            <button className="btn primary pa-1" style={{marginLeft: 1}} onClick={onClickVisibility}>
               <FaChevronDown />
             </button>
           </div>
