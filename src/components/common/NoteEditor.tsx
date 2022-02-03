@@ -1,4 +1,4 @@
-import React, { MouseEvent, useCallback, useState } from 'react';
+import React, { KeyboardEvent, MouseEvent, useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaFish, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaRegLaugh, FaTimes } from 'react-icons/fa';
 import { useAppSelector } from '../../store';
@@ -21,6 +21,8 @@ export default function NoteEditor() {
 
   const api = useMisskeyClient();
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const [isEnableCw, setEnableCw] = useState(false);
   const [cwMessage, setCwMessage] = useState('');
   const [text, setText] = useState('');
@@ -32,6 +34,20 @@ export default function NoteEditor() {
   const canSend = textLimit > 0 && (
     text.length > 0
   );
+
+  const send = useCallback(() => {
+    if (!canSend) return;
+    setSending(true);
+    api.request('notes/create', {
+      text,
+      cw: isEnableCw ? cwMessage : null,
+      visibility,
+    }).then(() => {
+      setSending(false);
+      setText('');
+    });
+    textareaRef.current?.focus();
+  }, [text, canSend, isEnableCw, cwMessage, visibility]);
 
   const onClickEnableCw = useCallback(() => {
     setEnableCw(true);
@@ -78,16 +94,15 @@ export default function NoteEditor() {
   };
 
   const onClickSend = useCallback(() => {
-    setSending(true);
-    api.request('notes/create', {
-      text,
-      cw: isEnableCw ? cwMessage : null,
-      visibility,
-    }).then(() => {
-      setSending(false);
-      setText('');
-    });
-  }, [text, isEnableCw, cwMessage, visibility]);
+    send();
+  }, [send]);
+
+  const onKeyDownTextarea = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Enter') console.log(e);
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      send();
+    }
+  }, [send]);
 
   return (
     <div>
@@ -101,7 +116,7 @@ export default function NoteEditor() {
           <FaEyeSlash className="mr-1"/>投稿内容を伏せる
         </CwButton>
       )}
-      <Textarea className="input-field mt-2" disabled={isSending} placeholder="好きなことを書きましょう。" value={text} onChange={onChangeText} />
+      <Textarea className="input-field mt-2" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
       <div className="hstack dense mt-2">
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPlusCircle /></button>
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPollH /></button>

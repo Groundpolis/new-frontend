@@ -2,8 +2,7 @@ import { MfmNode, parse, parsePlain } from 'mfm-js';
 import { CustomEmoji } from 'misskey-js/built/entities';
 import React, { CSSProperties, useMemo } from 'react';
 import { useAppSelector } from '../../store';
-import EmojiView from './Emoji';
-import UnicodeEmoji from './Emoji';
+import EmojiView from './EmojiView';
 
 export type MfmProps = {
     plain?: boolean;

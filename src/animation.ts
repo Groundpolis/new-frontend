@@ -8,7 +8,7 @@ to { opacity: 1; }
 export const fadeUp = keyframes`
 from {
   opacity: 0;
-  transform: translateY(48px);
+  transform: translateY(24px);
 }
 to {
   opacity: 1;

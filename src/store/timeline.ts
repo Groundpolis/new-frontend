@@ -1,4 +1,5 @@
 import { createSlice, DeepPartial, PayloadAction } from '@reduxjs/toolkit';
+import { WritableDraft } from 'immer/dist/internal';
 import { Note } from 'misskey-js/built/entities';
 import { NoteUpdatedEvent } from 'misskey-js/built/streaming.types';
 import { TimelineSource } from '../models/timeline-source';
@@ -48,39 +49,38 @@ const sessionSlice = createSlice({
       case 'reacted': {
         const {reaction, userId, emoji} = e.body as {reaction: string, userId: string, emoji?: {name: string, url: string}};
         const note = state.notes.find(n => n.id === e.id);
-        const rs = note?.reactions;
-        if (!note || !rs) return;
-        rs[reaction] = (rs[reaction] ?? 0) + 1;
-        if (emoji) {
-          note.emojis.push(emoji);
-        }
-        console.log('created reaction');
-        if (userId === e.currentUserId) {
-          note.myReaction = undefined;
-          console.log('wow it was mine');
-        }
+        state.notes.filter(n => n.renoteId === e.id).map(n => n.renote).concat(note).forEach((n?: Note) => {
+          const rs = n?.reactions;
+          if (!n || !rs) return;
+          rs[reaction] = (rs[reaction] ?? 0) + 1;
+          if (emoji) {
+            n.emojis.push(emoji);
+          }
+          if (userId === e.currentUserId) {
+            n.myReaction = reaction;
+          }
+        });
         break;
       }
       case 'unreacted': {
         const {reaction, userId} = e.body as {reaction: string, userId: string};
         const note = state.notes.find(n => n.id === e.id);
-        const rs = note?.reactions;
-        if (!note || !rs) return;
-        if (rs[reaction] <= 1) {
-          delete rs[reaction];
-        } else {
-          rs[reaction] = rs[reaction] - 1;
-        }
-        console.log('deleted reaction');
-        if (userId === e.currentUserId) {
-          note.myReaction = undefined;
-          console.log('wow it was mine');
-        }
+        state.notes.filter(n => n.renoteId === e.id).map(n => n.renote).concat(note).forEach((n?: Note) => {
+          const rs = n?.reactions;
+          if (!n || !rs) return;
+          if (rs[reaction] <= 1) {
+            delete rs[reaction];
+          } else {
+            rs[reaction] = rs[reaction] - 1;
+          }
+          if (userId === e.currentUserId) {
+            n.myReaction = undefined;
+          }
+        });
         break;
       }
       case 'deleted':
-        state.notes = state.notes.filter(n => n.id !== e.id);
-        console.log(`deleted note ${e.id}`);
+        state.notes = state.notes.filter(n => n.id !== e.id && n.renoteId !== e.id);
         break;
       default:
         console.warn('Unsupported or not implemented updateNote event type: ' + e.type);

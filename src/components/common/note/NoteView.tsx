@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from 'react';
-import { Note, UserDetailed } from 'misskey-js/built/entities';
+import { CustomEmoji, Note, UserDetailed } from 'misskey-js/built/entities';
 import { FaCopy, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
 import styled, { css, keyframes } from 'styled-components';
 
@@ -16,8 +16,9 @@ import { showPopupAt } from '../../../scripts/show-popup';
 import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
 import copyToClipboard from '../../../scripts/copy-to-clipboard';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
-import EmojiView from '../Emoji';
+import EmojiView from '../EmojiView';
 import { getSimilarEmojiFromLocal } from '../../../scripts/get-similar-emoji-from-local';
+import { isBlacklistedEmojiName } from '../../../scripts/is-blacklisted-emoji';
 
 export type NoteViewProp = {
   note: Note,
@@ -99,17 +100,13 @@ const ReactionButton = styled.button<{active?: boolean}>`
     }
     &:active {
       box-shadow: none;
-      transform: translateY(1px);
     }
     ${props => props.active ? css`{
       box-shadow: none;
-      transform: translateY(1px);
       background: var(--primary);
+      transform: translateY(2px);
       &:hover, &:focus {
         background: var(--primary);
-      }
-      &:active {
-        transform: translateY(2px);
       }
     }` : null}
   }
@@ -191,18 +188,51 @@ export default function NoteView(p: NoteViewProp) {
     copyToClipboard(`${location.origin}/notes/${appearNote.id}`);
   };
 
-  const toggleReaction = (emoji: string) => {
+  const toggleReaction = async (emoji: string,) => {
     if (appearNote.myReaction === emoji) {
       api.request('notes/reactions/delete', { noteId: appearNote.id });
     } else {
-      const reaction = emoji.startsWith(':') ? getSimilarEmojiFromLocal(emoji, meta) : emoji;
+      let reaction = emoji.startsWith(':') ? getSimilarEmojiFromLocal(emoji, meta) : emoji;
       if (!reaction) {
-        showModal(Dialog, {
-          type: 'text',
-          message: 'そのリアクション絵文字は、本サーバーには登録されていないため利用できません。',
-          buttonType: 'ok',
-        });
-        return;
+        const u = userCache as UserDetailed;
+        const [name, host] = emoji.substring(1, emoji.length - 1).split('@');
+        if (!isBlacklistedEmojiName(name) && (u?.isModerator || u?.isAdmin)) {
+          const i = await new Promise<number>(res => showModal(Dialog, {
+            type: 'text',
+            message: 'そのリアクション絵文字は、まだ本サーバーには登録されていません。コピーしますか？\n<small>（コピー元絵文字は著作権で保護されている場合があります。必ずご確認ください。）</small>',
+            buttonType: 'yesNo',
+            onClick: res,
+          }));
+
+          if (i === 0) {
+            const theEmoji = (await api.request('admin/emoji/list-remote', {
+              limit: 100,
+              query: name,
+              host,
+            }) as unknown[] as CustomEmoji[]).find(e => e.name === name);
+            if (!theEmoji) {
+              showModal(Dialog, {
+                type: 'text',
+                message: '不明なエラーが発生しました。',
+                buttonType: 'ok',
+              });
+              return;
+            }
+            await api.request('admin/emoji/copy', {
+              emojiId: theEmoji.id,
+            });
+            reaction = `:${theEmoji.name}:`;
+          } else {
+            return;
+          }
+        } else {
+          showModal(Dialog, {
+            type: 'text',
+            message: 'そのリアクション絵文字は、本サーバーには登録されていないため利用できません。',
+            buttonType: 'ok',
+          });
+          return;
+        }
       }
       api.request('notes/reactions/create', { noteId: appearNote.id, reaction });
     }
@@ -301,7 +331,7 @@ export default function NoteView(p: NoteViewProp) {
             )}
             <div className="hstack wrap slim mt-2">
               {Object.entries(appearNote.reactions).map(([emoji, count]) => (
-                <ReactionButton key={emoji} active={appearNote.myReaction === emoji} onClick={() => toggleReaction(emoji)}>
+                <ReactionButton className="clickable" key={emoji} active={appearNote.myReaction === emoji} onClick={() => toggleReaction(emoji)}>
                   <EmojiView emoji={emoji} customEmojis={appearNote.emojis} normal />
                   <span>{count}</span>
                 </ReactionButton>

@@ -11,6 +11,20 @@ body {
     font-size: 16px;
 }
 
+button.btn {
+    border-color: var(--dimmed);
+    color: var(--fg);
+    &:active, &:focus {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+}
+
+button.btn.primary:disabled {
+    background: transparent;
+    color: var(--dimmed);
+}
+
 .vstack:not(.dense) {
     gap: var(--stack-margin);
     > * + * {

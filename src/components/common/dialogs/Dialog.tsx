@@ -95,8 +95,8 @@ function InnerInput(p: DialogProp) {
     <div className="vstack">
       <input type="text" className="input-field" ref={inputRef} value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyPress={keypress}/>
       <div className="hstack f-center">
-        <button className="btn flat" onClick={p.close}>キャンセル</button>
         <button className="btn primary" disabled={!canSend} onClick={submit}>送信</button>
+        <button className="btn" onClick={p.close}>キャンセル</button>
       </div>
     </div>
   );
