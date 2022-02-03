@@ -93,7 +93,7 @@ const ReactionButton = styled.button<{active?: boolean}>`
   border: 1px solid transparent;
   cursor: pointer;
   &:not(:disabled) {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     &:hover, &:focus {
       border: 1px solid var(--primary);
       background: var(--hover);

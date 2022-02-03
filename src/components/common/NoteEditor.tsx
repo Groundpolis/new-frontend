@@ -8,10 +8,6 @@ import { useMisskeyClient } from '../../hooks/useMisskeyClient';
 import { showPopupAt } from '../../scripts/show-popup';
 import MenuPopup from './popup/MenuPopup';
 
-const CwButton = styled.button`
-	border-color: var(--dimmed) !important;
-`;
-
 const Textarea = styled.textarea`
 	height: 7em;
 `;
@@ -112,9 +108,9 @@ export default function NoteEditor() {
           <input type="text" className="input-field" placeholder="注釈" disabled={isSending} value={cwMessage} onChange={onChangeCw} />
         </div>
       ) : (
-        <CwButton className="btn flat text-left px-1 text-dimmed" disabled={isSending} onClick={onClickEnableCw}>
+        <button className="btn text-left px-1 fluid" disabled={isSending} onClick={onClickEnableCw}>
           <FaEyeSlash className="mr-1"/>投稿内容を伏せる
-        </CwButton>
+        </button>
       )}
       <Textarea className="input-field mt-2" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
       <div className="hstack dense mt-2">
