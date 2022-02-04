@@ -33,36 +33,40 @@ export default function SettingsPage() {
       <ActionBar>
         <h1>設定</h1>
       </ActionBar>
-      <div className="container">
-        <h2>アピアランス</h2>
-        <div className="card">
-          <div className="body">
-            <h1>表示設定</h1>
-            <h2 className="text-dimmed">テーマ</h2>
-            <label className="input-check">
-              <input type="radio" checked={themeMode === 'light'} onChange={onCheckThemeModeLight}/>
-              <span>ライトテーマ</span>
-            </label>
-            <label className="input-check">
-              <input type="radio" checked={themeMode === 'dark'} onChange={onCheckThemeModeDark}/>
-              <span>ダークテーマ</span>
-            </label>
-            <label className="input-check">
-              <input type="radio" checked={themeMode === 'system'} onChange={onCheckThemeModeSystem}/>
-              <span>システム設定に準ずる</span>
-            </label>
-          </div>
-        </div>
-        <h2>危険な設定</h2>
-        <div className="list-form">
-          <button className="item text-danger" onClick={onClickLogout}>
-            <FaSignOutAlt className="icon"/>
+      <div className="container vstack">
+        <article>
+          <h1>アピアランス</h1>
+          <div className="card">
             <div className="body">
-              <h1>ログアウト</h1>
-              <p className="desc">ログアウトしても、アカウントは削除されません。</p>
+              <h1>表示設定</h1>
+              <h2 className="text-dimmed">テーマ</h2>
+              <label className="input-check">
+                <input type="radio" checked={themeMode === 'light'} onChange={onCheckThemeModeLight}/>
+                <span>ライトテーマ</span>
+              </label>
+              <label className="input-check">
+                <input type="radio" checked={themeMode === 'dark'} onChange={onCheckThemeModeDark}/>
+                <span>ダークテーマ</span>
+              </label>
+              <label className="input-check">
+                <input type="radio" checked={themeMode === 'system'} onChange={onCheckThemeModeSystem}/>
+                <span>システム設定に準ずる</span>
+              </label>
             </div>
-          </button>
-        </div>
+          </div>
+        </article>
+        <article>
+          <h1>危険な設定</h1>
+          <div className="list-form">
+            <button className="item text-danger" onClick={onClickLogout}>
+              <FaSignOutAlt className="icon"/>
+              <div className="body">
+                <h1>ログアウト</h1>
+                <p className="desc">ログアウトしても、アカウントは削除されません。</p>
+              </div>
+            </button>
+          </div>
+        </article>
       </div>
     </>
   );
