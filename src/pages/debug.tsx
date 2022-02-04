@@ -1,5 +1,4 @@
 import React, { MouseEvent, useCallback, useMemo, useState } from 'react';
-import TestDialog from '../components/common/dialogs/TestModal';
 import { showModal } from '../scripts/show-modal';
 
 import pantaNote from '../assets/panta.min.json';
@@ -8,6 +7,7 @@ import ActionBar from '../components/common/action-bar/ActionBar';
 import { showPopupAt } from '../scripts/show-popup';
 import EmojiPicker from '../components/common/popup/EmojiPicker';
 import Dialog from '../components/common/dialogs/Dialog';
+import { Note } from 'misskey-js/built/entities';
 
 export default function DebugPage() {
   const onClickOpenEmojiPicker = (e: MouseEvent) => {
@@ -27,7 +27,7 @@ export default function DebugPage() {
   const onClickCreateNotes = useCallback(() => {
     setNotesCount(input);
   }, [input, notesCount]);
-  const note = useMemo(() => <NoteView note={pantaNote as any} />, []);
+  const note = useMemo(() => <NoteView note={pantaNote as unknown as Note} />, []);
   const notes = useMemo(() => new Array(notesCount).fill(note) as JSX.Element[], [note, notesCount]);
   return (
     <>

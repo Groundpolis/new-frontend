@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Particles from 'react-tsparticles';
 import { ISourceOptions } from 'tsparticles';
-import { FaExternalLinkAlt } from 'react-icons/fa';
 
 import Skyline from '../components/welcome/Skyline';
 import { useDarkTheme } from '../hooks/useDarkTheme';

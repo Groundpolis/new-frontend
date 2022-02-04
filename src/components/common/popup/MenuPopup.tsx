@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ItemProp, Menu, MenuItem, MenuProp } from '../Menu';
+import { ItemProp, Menu, MenuItem } from '../Menu';
 import Popup, { PopupProp } from '../Popup';
 
 export type MenuItemSection = {

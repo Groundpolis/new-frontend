@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import { animationFade, animationFadeUp } from '../../animation';
+import { animationFadeUp } from '../../animation';
 
 export type ModalFunction<P extends PopupProp = PopupProp> = (prop: P) => JSX.Element;
 

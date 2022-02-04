@@ -1,7 +1,7 @@
-import { createSlice, DeepPartial, PayloadAction } from '@reduxjs/toolkit';
-import { WritableDraft } from 'immer/dist/internal';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Note } from 'misskey-js/built/entities';
 import { NoteUpdatedEvent } from 'misskey-js/built/streaming.types';
+
 import { TimelineSource } from '../models/timeline-source';
 import { storage } from '../scripts/storage';
 

@@ -19,6 +19,7 @@ import { useBreakpoints } from '../../../hooks/useBreakpoints';
 import EmojiView from '../EmojiView';
 import { getSimilarEmojiFromLocal } from '../../../scripts/get-similar-emoji-from-local';
 import { isBlacklistedEmojiName } from '../../../scripts/is-blacklisted-emoji';
+import NoteMedia from './NoteMedia';
 
 export type NoteViewProp = {
   note: Note,
@@ -327,6 +328,7 @@ export default function NoteView(p: NoteViewProp) {
                     {quote.text && <BodyWrapper className="mt-1"><Gpfm text={quote.text}/></BodyWrapper>}
                   </QuoteContainer>
                 )}
+                {appearNote.files.length > 0 && <NoteMedia files={appearNote.files} />}
               </>
             )}
             <div className="hstack wrap slim mt-2">

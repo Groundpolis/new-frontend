@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, MouseEvent, useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaFish, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaRegLaugh, FaTimes } from 'react-icons/fa';
+import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaFish, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaTimes } from 'react-icons/fa';
 import { useAppSelector } from '../../store';
 import { VisibilityIcon } from './VisibilityIcon';
 import { noteVisibilities } from 'misskey-js';
@@ -94,7 +94,6 @@ export default function NoteEditor() {
   }, [send]);
 
   const onKeyDownTextarea = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Enter') console.log(e);
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       send();
     }

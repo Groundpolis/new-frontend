@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
-import { FaAsterisk, FaSmile } from 'react-icons/fa';
 import styled from 'styled-components';
-import { emojiList } from '../../../models/emoji-list';
+
 import { useAppSelector } from '../../../store';
-import EmojiView, { EmojiViewProp } from '../EmojiView';
+import EmojiView from '../EmojiView';
 import Popup, { PopupProp } from '../Popup';
 
 const ITEM_WIDTH = 48;
@@ -47,7 +46,7 @@ export default function EmojiPicker(p: EmojiPopupProp) {
   if (!meta) throw new TypeError();
 
   useEffect(() => {
-    console.log(emojiList);
+    // console.log(emojiList);
   }, []);
 
   const {emojis} = meta;

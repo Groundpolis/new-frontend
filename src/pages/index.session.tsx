@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FaBullhorn, FaChevronDown, FaComments, FaGlobe, FaHome, FaShareAlt } from 'react-icons/fa';
-import styled from 'styled-components';
+
 import ActionBar from '../components/common/action-bar/ActionBar';
 import ActionBarButton from '../components/common/action-bar/ActionBarButton';
 import NoteEditor from '../components/common/NoteEditor';
@@ -10,12 +10,6 @@ import { Tab } from '../components/common/Tab';
 import { TimelineSource } from '../models/timeline-source';
 import { useAppDispatch, useAppSelector } from '../store';
 import { setCurrentTimeline } from '../store/timeline';
-
-const NoteEditorCard = styled.div`
-  position: sticky;
-  top: 50px;
-  z-index: 500;
-`;
 
 export default function SessionPage() {
   const {userCache, host, token} = useAppSelector(state => state.session);
