@@ -36,15 +36,15 @@ function App() {
     const syncLaptop = (ev: MediaQueryListEvent) => dispatch(setLaptop(ev.matches));
     dispatch(setMobile(qMobile.matches));
     dispatch(setTablet(qTablet.matches));
-    dispatch(setLaptop(qTablet.matches));
-    qTablet.addListener(syncTablet);
-    qMobile.addListener(syncMobile);
-    qLaptop.addListener(syncLaptop);
+    dispatch(setLaptop(qLaptop.matches));
+    qTablet.addEventListener('change', syncTablet);
+    qMobile.addEventListener('change', syncMobile);
+    qLaptop.addEventListener('change', syncLaptop);
 		
     return () => {
-      qTablet.removeListener(syncTablet);
-      qMobile.removeListener(syncMobile);
-      qLaptop.removeListener(syncLaptop);
+      qTablet.removeEventListener('change', syncTablet);
+      qMobile.removeEventListener('change', syncMobile);
+      qLaptop.removeEventListener('change', syncLaptop);
     };
   }, []);
 

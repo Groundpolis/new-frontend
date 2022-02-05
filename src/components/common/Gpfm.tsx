@@ -1,14 +1,16 @@
 import { MfmNode, parse, parsePlain } from 'mfm-js';
 import React, { CSSProperties, useMemo } from 'react';
-
+import { Link } from 'react-router-dom';
 import { CustomEmojiLite } from '../../models/custom-emoji-lite';
+import { WithStyle } from '../../models/with-style';
 import EmojiView from './EmojiView';
 
-export type MfmProps = {
-    plain?: boolean;
-    text: string;
-    emojis?: CustomEmojiLite[];
-};
+
+export type MfmProps = WithStyle<{
+  plain?: boolean;
+  text: string;
+  emojis?: CustomEmojiLite[];
+}>;
 
 const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[]}> = ({tree, plain, emojis}) => {
   switch (tree.type) {
@@ -97,21 +99,27 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
   }
 
   case 'link': {
-    return <a href={tree.props.url} target="_blank" rel="noopener noreferrer">
-      {<Forest forest={tree.children}/>}
-    </a>;
+    return (
+      <a href={tree.props.url} target="_blank" rel="noopener noreferrer">
+        {<Forest forest={tree.children}/>}
+      </a>
+    );
   }
 
   case 'mention': {
-    return <a href={`${location.origin}/${tree.props.acct}`} target="_blank" rel="noopener noreferrer">
-      {tree.props.acct}
-    </a>;
+    return (
+      <Link to={`/${tree.props.acct}`} target="_blank" rel="noopener noreferrer">
+        {tree.props.acct}
+      </Link>
+    );
   }
 
   case 'hashtag': {
-    return <a href={`${location.origin}/tags/${encodeURIComponent(tree.props.hashtag)}`} target="_blank" rel="noopener noreferrer">
-      #{tree.props.hashtag}
-    </a>;
+    return (
+      <Link to={`/tags/${encodeURIComponent(tree.props.hashtag)}`} target="_blank" rel="noopener noreferrer">
+        #{tree.props.hashtag}
+      </Link>
+    );
   }
 
   case 'blockCode': {
@@ -174,10 +182,14 @@ const Forest: React.VFC<{forest?: MfmNode[], plain?: boolean, emojis?: CustomEmo
   return !forest ? null : <>{forest.map((n, i) => <Tree key={i} tree={n}  plain={plain} emojis={emojis} />)}</>;
 };
 
-export const Gpfm: React.VFC<MfmProps> = ({plain, text, emojis}) => {
-  const forest = useMemo(() => plain ? parsePlain(text) : parse(text), [text, plain]);
+export const Gpfm: React.VFC<MfmProps> = (p) => {
+  const forest = useMemo(() => p.plain ? parsePlain(p.text) : parse(p.text), [p.text, p.plain]);
 
-  const inner = <Forest forest={forest} plain={plain} emojis={emojis} />;
+  const inner = <Forest forest={forest} plain={p.plain} emojis={p.emojis} />;
 
-  return plain ? <span>{inner}</span> : <div>{inner}</div>;
+  return p.plain ? (
+    <span className={p.className} style={p.style}>{inner}</span>
+  ) : (
+    <div className={p.className} style={p.style}>{inner}</div>
+  );
 };
