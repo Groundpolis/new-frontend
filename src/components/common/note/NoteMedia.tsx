@@ -3,14 +3,17 @@ import React from 'react';
 import { FaDownload } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
+import { showModal } from '../../../scripts/show-modal';
 import AspectView from '../AspectView';
+import ImagePreviewDialog from '../dialogs/ImagePreviewDialog';
 
 export const ImageGrid = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
   min-height: 0;
-  gap: 4px;
+  gap: 2px;
+  overflow: hidden;
   &.layout-2 {
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 1fr;
@@ -55,12 +58,14 @@ export default function NoteMedia(p: {files: DriveFile[]}) {
   const nonImageFiles = p.files.filter(f => !f.type.startsWith('image') && !f.type.startsWith('video'));
   const awayedImageFiles = imageFiles.splice(4, imageFiles.length - 4);
 
+  const allImageFiles = [...imageFiles, ...awayedImageFiles];
+
   return (
     <div className="vstack slim">
       {nonImageFiles.map(f => <MediaView file={f} key={f.id} />)}
       <AspectView aspectRatio={16 / 9}>
-        <ImageGrid className={`layout-${imageFiles.length}`}>
-          {imageFiles.map(f => <MediaView file={f} key={f.id} />)}
+        <ImageGrid className={`layout-${imageFiles.length} rounded`}>
+          {imageFiles.map(f => <MediaView file={f} key={f.id} allFiles={allImageFiles}/>)}
         </ImageGrid>
       </AspectView>
       {awayedImageFiles.map(f => <MediaView file={f} key={f.id} />)}
@@ -68,9 +73,15 @@ export default function NoteMedia(p: {files: DriveFile[]}) {
   );
 }
 
-export function MediaView({file}: {file: DriveFile}) {
+export function MediaView({file, allFiles}: {file: DriveFile, allFiles?: DriveFile[]}) {
+  const preview = () => showModal(ImagePreviewDialog, {
+    files: allFiles ?? [file],
+    initialIndex: allFiles?.findIndex(f => f.id === file.id) ?? 0,
+  });
   if (file.type.startsWith('image/')) {
-    return <Img src={file.thumbnailUrl} alt={file.name} className="rounded block bg-black"/>;
+    return (
+      <Img src={file.thumbnailUrl} alt={file.name} className="block bg-black" onClick={preview}/>
+    );
   } else if (file.type.startsWith('audio/')) {
     return <audio src={file.url} controls  className="rounded block"/>;
   } else if (file.type.startsWith('video/')) {

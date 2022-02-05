@@ -5,6 +5,8 @@ import { getName } from '../../../scripts/get-name';
 import { NoteViewProp } from './NoteView';
 import UserNameView from '../UserNameView';
 import { VisibilityIcon } from '../VisibilityIcon';
+import TimeView from '../TimeView';
+import { Gpfm } from '../Gpfm';
 
 const Container = styled.header`
   white-space: nowrap;
@@ -22,11 +24,17 @@ export default function NoteHeader({note}: NoteViewProp) {
   return (
     <Container className="text-100 flex f-center f-middle">
       <Link className="item" to={`/@${user.username}${user.host ? `@${user.host}` : ''}`}>
-        <b className="item">{getName(user)}</b>
+        <b className="item"><Gpfm plain emojis={user.emojis} text={getName(user)} /></b>
         <UserNameView user={user} />
       </Link>
-      <a href="#" className="text-dimmed ml-auto mr-1 time">TBD</a>
-      <VisibilityIcon visibility={note.visibility} hiddenGlobal />
+      <Link to={`/notes/${note.id}`} className="text-dimmed ml-auto time">
+        <TimeView time={note.createdAt} />
+      </Link>
+      {note.visibility !== 'public' || note.localOnly && (
+        <span className="ml-1">
+          <VisibilityIcon visibility={note.visibility} hiddenGlobal />
+        </span>
+      )}
     </Container>
   );
 }

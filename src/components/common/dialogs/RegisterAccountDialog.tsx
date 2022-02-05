@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaAt } from 'react-icons/fa';
+
 import { useAppSelector } from '../../../store';
 import Modal from '../Modal';
 import { ModalProp } from '../Modal';

@@ -296,7 +296,7 @@ export default function NoteView(p: NoteViewProp) {
           <div className="text-dimmed flex f-middle mb-2">
             <FaRetweet className="mr-1 text-125"/>
             <img src={renotedUser.avatarUrl} className="circle mr-1" style={{width: '1.5em', height: '1.5em'}} />
-            {getName(renotedUser)}さんがリノートしました
+            <Gpfm plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
           </div>
         )}
         <div className="hstack">

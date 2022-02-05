@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { HTMLAttributes, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { animationFade, animationFadeUp } from '../../animation';
 
@@ -22,7 +22,8 @@ export type ModalFunction<P extends ModalProp = ModalProp> = (prop: P) => JSX.El
 export type ModalProp = {
   close: VoidFunction;
   closeByBackdrop?: boolean;
-  innerClassName?: string;
+  innerClassName?: HTMLAttributes<HTMLDivElement>['className'];
+  innerStyle?: HTMLAttributes<HTMLDivElement>['style'];
 };
 
 export default function Modal(prop: PropsWithChildren<ModalProp>) {
@@ -34,7 +35,7 @@ export default function Modal(prop: PropsWithChildren<ModalProp>) {
 
   return (
     <Backdrop onClick={onClickModal}>
-      <div className={prop.innerClassName} onClick={e => e.stopPropagation()}>
+      <div className={prop.innerClassName} style={prop.innerStyle} onClick={e => e.stopPropagation()}>
         {prop.children}
       </div>
     </Backdrop>

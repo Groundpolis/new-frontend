@@ -1,17 +1,16 @@
 import { MfmNode, parse, parsePlain } from 'mfm-js';
-import { CustomEmoji } from 'misskey-js/built/entities';
 import React, { CSSProperties, useMemo } from 'react';
-import { useAppSelector } from '../../store';
+
+import { CustomEmojiLite } from '../../models/custom-emoji-lite';
 import EmojiView from './EmojiView';
 
 export type MfmProps = {
     plain?: boolean;
     text: string;
-    emojis?: CustomEmoji[];
+    emojis?: CustomEmojiLite[];
 };
 
-const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmoji[]}> = ({tree, plain, emojis}) => {
-  const {meta} = useAppSelector(state => state.session);
+const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[]}> = ({tree, plain, emojis}) => {
   switch (tree.type) {
   case 'text': {
     const text = tree.props.text.replace(/(\r\n|\n|\r)/g, '\n');
@@ -134,11 +133,11 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmoji[]}> 
   }
 
   case 'emojiCode': {
-    return <EmojiView emoji={`:${tree.props.name}:`} customEmojis={emojis} />;
+    return <EmojiView emoji={`:${tree.props.name}:`} customEmojis={emojis} normal={plain} />;
   }
 
   case 'unicodeEmoji': {
-    return <EmojiView emoji={tree.props.emoji} customEmojis={emojis} />;
+    return <EmojiView emoji={tree.props.emoji} customEmojis={emojis} normal={plain} />;
   }
 
   case 'mathInline': {
@@ -171,15 +170,14 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmoji[]}> 
   }
 };
 
-const Forest: React.VFC<{forest?: MfmNode[], plain?: boolean}> = ({forest, plain}) => {
-  return !forest ? null : <>{forest.map((n, i) => <Tree key={i} tree={n}  plain={plain}/>)}</>;
+const Forest: React.VFC<{forest?: MfmNode[], plain?: boolean, emojis?: CustomEmojiLite[]}> = ({forest, plain, emojis}) => {
+  return !forest ? null : <>{forest.map((n, i) => <Tree key={i} tree={n}  plain={plain} emojis={emojis} />)}</>;
 };
 
 export const Gpfm: React.VFC<MfmProps> = ({plain, text, emojis}) => {
   const forest = useMemo(() => plain ? parsePlain(text) : parse(text), [text, plain]);
-  return (
-    <span>
-      <Forest forest={forest} plain={plain} />
-    </span>
-  );
+
+  const inner = <Forest forest={forest} plain={plain} emojis={emojis} />;
+
+  return plain ? <span>{inner}</span> : <div>{inner}</div>;
 };
