@@ -16,7 +16,7 @@ import './style.scss';
 
 const host = store.getState().session.host;
 
-const message = `パブリックプレビューにご参加いただき、ありがとうございます。
+const message = `Groundpolis New パブリックプレビュープログラムにご参加いただき、ありがとうございます。
 まだまだ開発中のため、不具合や未実装の機能が多くあります。
 
 今お使いのインスタンスURL(例: groundpolis.app)を入力してはじめましょう。
@@ -25,7 +25,6 @@ const message = `パブリックプレビューにご参加いただき、あり
 if (!host) {
   showModal(Dialog, {
     type: 'input',
-    title: 'Groundpolis New Frontend',
     message,
     allowEmpty: false,
     onSubmit(value) {

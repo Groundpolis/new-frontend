@@ -296,7 +296,9 @@ export default function NoteView(p: NoteViewProp) {
           <div className="text-dimmed flex f-middle mb-2">
             <FaRetweet className="mr-1 text-125"/>
             <img src={renotedUser.avatarUrl} className="circle mr-1" style={{width: '1.5em', height: '1.5em'}} />
-            <Gpfm plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
+            <span>
+              <Gpfm plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
+            </span>
           </div>
         )}
         <div className="hstack">
@@ -313,7 +315,7 @@ export default function NoteView(p: NoteViewProp) {
             <NoteHeader note={appearNote} />
             {appearNote.cw && (
               <aside className="mt-1">
-                {appearNote.cw}
+                <Gpfm text={appearNote.cw} />
                 <button className="btn flat text-75 ml-1 text-white" style={{padding: '4px 8px', background: 'var(--tone-4)'}} onClick={() => setCwOpened(!isCwOpened)}>
                   {isCwOpened ? '隠す' : `もっと見る(${appearNote.text?.length ?? 0}文字${appearNote.files && appearNote.files.length > 0 ? ', ' + appearNote.files.length + 'ファイル' : ''})`}
                 </button>
