@@ -18,6 +18,7 @@ import ManagePage from './pages/manage';
 import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB } from './const';
 import { setLaptop, setMobile, setTablet } from './store/screen';
 import { Stream } from 'misskey-js';
+import NotePage from './pages/note';
 
 export const StreamingContext = createContext<Stream | null>(null);
 
@@ -62,6 +63,7 @@ function App() {
         <CurrentLayout>
           <Routes>
             <Route path="/" element={<IndexPage />}/>
+            <Route path="/notes/:noteId" element={<NotePage />}/>
             <Route path="/notifications" element={<NotificationsPage />}/>
             <Route path="/debug" element={<DebugPage />} />
             <Route path="/manage" element={<ManagePage />} />

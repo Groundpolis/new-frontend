@@ -101,17 +101,19 @@ export default function NoteEditor() {
 
   return (
     <div>
-      {isEnableCw ? (
-        <div className="hstack dense">
-          <button className="btn flat pa-1 mr-1" onClick={onClickDisableCw} disabled={isSending}><FaTimes /></button>
-          <input type="text" className="input-field" placeholder="注釈" disabled={isSending} value={cwMessage} onChange={onChangeCw} />
-        </div>
-      ) : (
-        <button className="btn text-left px-1 fluid" disabled={isSending} onClick={onClickEnableCw}>
-          <FaEyeSlash className="mr-1"/>投稿内容を伏せる
-        </button>
-      )}
-      <Textarea className="input-field mt-2" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
+      <div className="vstack">
+        {isEnableCw ? (
+          <div className="hstack dense">
+            <button className="btn flat pa-1 mr-1" onClick={onClickDisableCw} disabled={isSending}><FaTimes /></button>
+            <input type="text" className="input-field" placeholder="注釈" disabled={isSending} value={cwMessage} onChange={onChangeCw} />
+          </div>
+        ) : (
+          <button className="btn text-left px-1 fluid" disabled={isSending} onClick={onClickEnableCw}>
+            <FaEyeSlash className="mr-1"/>投稿内容を伏せる
+          </button>
+        )}
+        <Textarea className="input-field" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
+      </div>
       <div className="hstack dense mt-2">
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPlusCircle /></button>
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPollH /></button>
