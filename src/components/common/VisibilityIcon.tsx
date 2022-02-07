@@ -1,6 +1,6 @@
-import React from 'react';
 import { noteVisibilities } from 'misskey-js';
-import { FaGlobe, FaHome, FaLock, FaEnvelope, FaQuestion } from 'react-icons/fa';
+import React from 'react';
+import { FaEnvelope, FaGlobe, FaHome, FaLock, FaQuestion } from 'react-icons/fa';
 
 type VisibilityIconProp = {
   visibility: typeof noteVisibilities[number];

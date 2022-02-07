@@ -1,12 +1,12 @@
 import React, { PropsWithChildren, useRef } from 'react';
 import styled from 'styled-components';
-
-import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB } from '../const';
 import Sidebar from '../components/basic-layout/Sidebar';
 import Widgets from '../components/basic-layout/Widgets';
-import { useTheme } from '../hooks/useTheme';
-import { useStickyScroll } from '../hooks/useStickyScroll';
+import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB } from '../const';
 import { useBreakpoints } from '../hooks/useBreakpoints';
+import { useStickyScroll } from '../hooks/useStickyScroll';
+import { useTheme } from '../hooks/useTheme';
+
 
 const LayoutContainer = styled.div`
   display: flex;

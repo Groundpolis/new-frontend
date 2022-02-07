@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-
 import { ModalFunction, ModalProp } from '../components/common/Modal';
 import { store } from '../store';
+
 
 export function showModal<P extends ModalProp = ModalProp>(Modal: ModalFunction<P>, props?: Omit<P, 'close'>): string {
   const modalParent = document.getElementById('modal');

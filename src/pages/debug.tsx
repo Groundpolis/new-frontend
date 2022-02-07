@@ -1,16 +1,16 @@
-import React, { MouseEvent, useCallback, useMemo, useState } from 'react';
-import { showModal } from '../scripts/show-modal';
-
-import pantaNote from '../assets/panta.min.json';
-import NoteView from '../components/common/note/NoteView';
-import ActionBar from '../components/common/action-bar/ActionBar';
-import { showPopupAt } from '../scripts/show-popup';
-import EmojiPicker from '../components/common/popup/EmojiPicker';
-import Dialog from '../components/common/dialogs/Dialog';
 import { Note } from 'misskey-js/built/entities';
+import React, { MouseEvent, useCallback, useMemo, useState } from 'react';
 import { FaSmile } from 'react-icons/fa';
-import { ImageGrid } from '../components/common/note/NoteMedia';
 import styled from 'styled-components';
+import pantaNote from '../assets/panta.min.json';
+import ActionBar from '../components/common/action-bar/ActionBar';
+import Dialog from '../components/common/dialogs/Dialog';
+import { ImageGrid } from '../components/common/note/NoteMedia';
+import NoteView from '../components/common/note/NoteView';
+import EmojiPicker from '../components/common/popup/EmojiPicker';
+import { showModal } from '../scripts/show-modal';
+import { showPopupAt } from '../scripts/show-popup';
+
 
 const ImageGridContainer = styled.div`
   width: 400px;

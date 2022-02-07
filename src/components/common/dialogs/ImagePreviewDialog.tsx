@@ -1,9 +1,8 @@
 import { DriveFile } from 'misskey-js/built/entities';
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import Modal from '../Modal';
+import Modal, { ModalProp } from '../Modal';
 
-import { ModalProp } from '../Modal';
 
 export type ImagePreviewDialogProp = ModalProp & {
   files: DriveFile[],

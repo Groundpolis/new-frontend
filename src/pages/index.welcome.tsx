@@ -1,22 +1,22 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Particles from 'react-tsparticles';
 import { ISourceOptions } from 'tsparticles';
-
-import Skyline from '../components/welcome/Skyline';
-import { useDarkTheme } from '../hooks/useDarkTheme';
-import { useAppSelector } from '../store';
 import groundpolisLogo from '../assets/icon_transparent.svg';
-import TimelinePreview from '../components/welcome/TimelinePreview';
-import VersionInfo from '../components/welcome/VersionInfo';
-import { Hero } from '../components/welcome/styled/Hero';
-import { Sky } from '../components/welcome/styled/Sky';
-import { Container } from '../components/welcome/styled/Container';
 import AboutGroundpolis from '../components/welcome/AboutGroundpolis';
 import AboutServer from '../components/welcome/AboutServer';
 import DisabledRegisterCard from '../components/welcome/DisabledRegisterCard';
-import { useAuthenticate } from '../hooks/useAuthenticate';
+import Skyline from '../components/welcome/Skyline';
 import { Article } from '../components/welcome/styled/Article';
+import { Container } from '../components/welcome/styled/Container';
+import { Hero } from '../components/welcome/styled/Hero';
+import { Sky } from '../components/welcome/styled/Sky';
+import TimelinePreview from '../components/welcome/TimelinePreview';
+import VersionInfo from '../components/welcome/VersionInfo';
+import { useAuthenticate } from '../hooks/useAuthenticate';
+import { useDarkTheme } from '../hooks/useDarkTheme';
 import { useFixedLayout } from '../hooks/useFixedLayout';
+import { useAppSelector } from '../store';
+
 
 const sky: ISourceOptions = {
   particles: {

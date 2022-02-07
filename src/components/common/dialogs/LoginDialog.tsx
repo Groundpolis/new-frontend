@@ -1,7 +1,6 @@
 import React from 'react';
+import Modal, { ModalProp } from '../Modal';
 
-import Modal from '../Modal';
-import { ModalProp } from '../Modal';
 
 export default function LoginDialog(p: ModalProp) {
   return (

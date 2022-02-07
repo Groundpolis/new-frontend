@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getName } from '../../../scripts/get-name';
-import { NoteViewProp } from './NoteView';
+import { Gpfm } from '../Gpfm';
+import TimeView from '../TimeView';
 import UserNameView from '../UserNameView';
 import { VisibilityIcon } from '../VisibilityIcon';
-import TimeView from '../TimeView';
-import { Gpfm } from '../Gpfm';
+import { NoteViewProp } from './NoteView';
 
 const Container = styled.header`
   white-space: nowrap;

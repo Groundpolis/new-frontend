@@ -1,7 +1,6 @@
 import React from 'react';
-import Modal from '../Modal';
+import Modal, { ModalProp } from '../Modal';
 
-import { ModalProp } from '../Modal';
 
 export default function TestDialog(prop: ModalProp) {
   return (

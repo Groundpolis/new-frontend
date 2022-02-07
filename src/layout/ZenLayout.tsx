@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
-
 import { useTheme } from '../hooks/useTheme';
+
 
 export default function ZenLayout(prop: PropsWithChildren<unknown>) {
   useTheme();

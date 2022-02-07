@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-
 import { useAppSelector } from '../../../store';
 import EmojiView from '../EmojiView';
 import Popup, { PopupProp } from '../Popup';
+
 
 const ITEM_WIDTH = 48;
 const HORIZONTAL_COUNT = 7;

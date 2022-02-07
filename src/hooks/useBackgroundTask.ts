@@ -1,12 +1,12 @@
-import { Stream, Channels } from 'misskey-js';
+import { Channels, Stream } from 'misskey-js';
 import { Note } from 'misskey-js/built/entities';
 import { useEffect, useState } from 'react';
 import { batch } from 'react-redux';
-
 import { TimelineSource } from '../models/timeline-source';
 import { useAppDispatch, useAppSelector } from '../store';
 import { appendNote, clearNotes, setFetchingNotes, setNotes, updateNote } from '../store/timeline';
 import { useMisskeyClient } from './useMisskeyClient';
+
 
 type ChannelName = keyof Channels;
 

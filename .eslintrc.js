@@ -39,7 +39,9 @@ module.exports = {
     ],
     'react/prop-types': ['off'],
     'max-len': ['error', {
-      length: 120,
+      code: 180,
+      ignoreUrls: true,
+      ignoreStrings: true,
     }],
   }
 };

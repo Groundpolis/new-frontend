@@ -2,8 +2,8 @@ import React, { ChangeEventHandler, useCallback } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import ActionBar from '../components/common/action-bar/ActionBar';
 import Dialog from '../components/common/dialogs/Dialog';
-import { showModal } from '../scripts/show-modal';
 import { initSession } from '../scripts/init-session';
+import { showModal } from '../scripts/show-modal';
 import { useAppDispatch, useAppSelector } from '../store';
 import { set } from '../store/setting';
 

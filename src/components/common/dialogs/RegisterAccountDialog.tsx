@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-
 import { useAppSelector } from '../../../store';
-import Modal from '../Modal';
-import { ModalProp } from '../Modal';
+import Modal, { ModalProp } from '../Modal';
+
 
 export default function RegisterAccountDialog(p: ModalProp) {
   const [isAgreeTos, setAgreeTos] = useState(false);

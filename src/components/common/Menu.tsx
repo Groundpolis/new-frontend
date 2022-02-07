@@ -29,6 +29,7 @@ export type ItemProp = {
   href: string,
 } | ({
   type: 'button',
+  disabled?: boolean,
 }));
 
 export function MenuItem(p: ItemProp) {
@@ -41,7 +42,7 @@ export function MenuItem(p: ItemProp) {
       <p.icon className="icon" /><span className="label">{p.label}</span>
     </a>
   ) : (
-    <button className="item clickable" onClick={p.onClick}>
+    <button className="item clickable" onClick={p.onClick} disabled={p.disabled}>
       <p.icon className="icon" /><span className="label">{p.label}</span>
     </button>
   );

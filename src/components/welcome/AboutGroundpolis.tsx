@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from 'react';
 import { IconType } from 'react-icons';
 import { FaIcons, FaProjectDiagram, FaSlidersH } from 'react-icons/fa';
-
-import { Article } from './styled/Article';
-import FeatureCard from './FeatureCard';
-import { Features } from './styled/Features';
 import featuresImageReaction from '../../assets/features/reaction.png';
 import { PropsWithMeta } from '../../models/PropsWithMeta';
+import FeatureCard from './FeatureCard';
+import { Article } from './styled/Article';
+import { Features } from './styled/Features';
+
 
 function DescriptionCard(p: PropsWithChildren<{title: string, icon: IconType}>) {
   return (

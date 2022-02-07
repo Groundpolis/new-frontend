@@ -1,9 +1,9 @@
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import session from './session';
-import timeline from './timeline';
-import setting from './setting';
 import screen from './screen';
+import session from './session';
+import setting from './setting';
+import timeline from './timeline';
 
 export const store = configureStore({
   reducer: {

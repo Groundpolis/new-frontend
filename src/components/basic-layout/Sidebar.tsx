@@ -4,7 +4,7 @@ import { FaBell, FaChevronDown, FaCloud, FaCog, FaEllipsisH, FaEnvelope, FaHasht
 import styled from 'styled-components';
 import { notImpl } from '../../scripts/not-impl';
 import { useAppSelector } from '../../store';
-import { Menu, MenuSection, MenuItem } from '../common/Menu';
+import { Menu, MenuItem, MenuSection } from '../common/Menu';
 
 
 const ProfileButton = styled.button`
@@ -45,7 +45,7 @@ export default function Sidebar(p: SidebarProp) {
       <Menu style={{position: 'relative'}} slim={p.slim}>
         <MenuSection>
           <MenuItem icon={FaHome} label={isLoggedIn ? 'タイムライン' : 'ホーム'} type="link" to="/" />
-          <MenuItem icon={FaBell} label="通知" type="button" onClick={notImpl} />
+          <MenuItem icon={FaBell} label="通知" type="link" to="/notifications" />
           <MenuItem icon={FaHashtag} label="みつける" type="button" onClick={notImpl} />
           {isLoggedIn && (
             <>

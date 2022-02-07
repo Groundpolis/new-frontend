@@ -1,12 +1,12 @@
-import React, { KeyboardEvent, MouseEvent, useCallback, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaFish, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaTimes } from 'react-icons/fa';
-import { useAppSelector } from '../../store';
-import { VisibilityIcon } from './VisibilityIcon';
 import { noteVisibilities } from 'misskey-js';
+import React, { KeyboardEvent, MouseEvent, useCallback, useRef, useState } from 'react';
+import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaFish, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaTimes } from 'react-icons/fa';
+import styled from 'styled-components';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
 import { showPopupAt } from '../../scripts/show-popup';
+import { useAppSelector } from '../../store';
 import MenuPopup from './popup/MenuPopup';
+import { VisibilityIcon } from './VisibilityIcon';
 
 const Textarea = styled.textarea`
 	height: 7em;
@@ -111,7 +111,8 @@ export default function NoteEditor() {
           <FaEyeSlash className="mr-1"/>投稿内容を伏せる
         </button>
       )}
-      <Textarea className="input-field mt-2" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
+      <Textarea className="input-field mt-2" ref={textareaRef} placeholder="好きなことを書きましょう。"
+        disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
       <div className="hstack dense mt-2">
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPlusCircle /></button>
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPollH /></button>

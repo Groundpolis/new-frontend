@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-
 import { PopupFunction, PopupProp } from '../components/common/Popup';
 import { store } from '../store';
 import { getPopupPositionByElement } from './get-popup-position-by-element';
+
 
 export function showPopup<P extends PopupProp = PopupProp>(Popup: PopupFunction<P>, props?: Omit<P, 'close'>): string {
   const modalParent = document.getElementById('modal');

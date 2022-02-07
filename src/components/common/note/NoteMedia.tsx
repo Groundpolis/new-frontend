@@ -2,7 +2,6 @@ import { DriveFile } from 'misskey-js/built/entities';
 import React from 'react';
 import { FaDownload } from 'react-icons/fa';
 import styled from 'styled-components';
-import { useBreakpoints } from '../../../hooks/useBreakpoints';
 import { showModal } from '../../../scripts/show-modal';
 import AspectView from '../AspectView';
 import ImagePreviewDialog from '../dialogs/ImagePreviewDialog';

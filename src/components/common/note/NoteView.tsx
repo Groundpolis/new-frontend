@@ -1,25 +1,25 @@
-import React, { MouseEvent, useState } from 'react';
 import { CustomEmoji, Note, UserDetailed } from 'misskey-js/built/entities';
+import React, { MouseEvent, useState } from 'react';
 import { FaCopy, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
 import styled, { css, keyframes } from 'styled-components';
-
 import { animationFade } from '../../../animation';
-import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
-import { notImpl } from '../../../scripts/not-impl';
-import { useAppSelector } from '../../../store';
-import Dialog from '../dialogs/Dialog';
-import { Gpfm } from '../Gpfm';
-import { showModal } from '../../../scripts/show-modal';
-import NoteHeader from './NoteHeader';
-import { getName } from '../../../scripts/get-name';
-import { showPopupAt } from '../../../scripts/show-popup';
-import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
-import copyToClipboard from '../../../scripts/copy-to-clipboard';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
-import EmojiView from '../EmojiView';
+import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
+import copyToClipboard from '../../../scripts/copy-to-clipboard';
+import { getName } from '../../../scripts/get-name';
 import { getSimilarEmojiFromLocal } from '../../../scripts/get-similar-emoji-from-local';
 import { isBlacklistedEmojiName } from '../../../scripts/is-blacklisted-emoji';
+import { notImpl } from '../../../scripts/not-impl';
+import { showModal } from '../../../scripts/show-modal';
+import { showPopupAt } from '../../../scripts/show-popup';
+import { useAppSelector } from '../../../store';
+import Dialog from '../dialogs/Dialog';
+import EmojiView from '../EmojiView';
+import { Gpfm } from '../Gpfm';
+import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
+import NoteHeader from './NoteHeader';
 import NoteMedia from './NoteMedia';
+
 
 export type NoteViewProp = {
   note: Note,

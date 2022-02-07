@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-
 import { Spinner } from '../components/common/Spinner';
 import { MiAuthResponse } from '../models/miauth-response';
 import { useAppSelector } from '../store';
 import { setToken, setUserCache } from '../store/session';
+
 
 const LoadingWrapper = styled.div`
   display: flex;

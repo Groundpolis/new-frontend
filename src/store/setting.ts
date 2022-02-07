@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ThemeType, Language } from '../models/unions';
+import { Language, ThemeType } from '../models/unions';
 
 interface SettingState {
 	/** テーマモード */
