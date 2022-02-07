@@ -30,7 +30,7 @@ export default function NoteHeader({note}: NoteViewProp) {
       <Link to={`/notes/${note.id}`} className="text-dimmed ml-auto time">
         <TimeView time={note.createdAt} />
       </Link>
-      {note.visibility !== 'public' || note.localOnly && (
+      {(note.visibility !== 'public' || note.localOnly) && (
         <span className="ml-1">
           <VisibilityIcon visibility={note.visibility} hiddenGlobal />
         </span>

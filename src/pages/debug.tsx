@@ -7,7 +7,7 @@ import ActionBar from '../components/common/action-bar/ActionBar';
 import Dialog from '../components/common/dialogs/Dialog';
 import { ImageGrid } from '../components/common/note/NoteMedia';
 import NoteView from '../components/common/note/NoteView';
-import EmojiPicker from '../components/common/popup/EmojiPicker';
+import EmojiMartPicker from '../components/common/popup/EmojiMartPicker';
 import { showModal } from '../scripts/show-modal';
 import { showPopupAt } from '../scripts/show-popup';
 
@@ -20,7 +20,7 @@ const ImageGridContainer = styled.div`
 
 export default function DebugPage() {
   const onClickOpenEmojiPicker = (e: MouseEvent) => {
-    showPopupAt(EmojiPicker, e.target as Element, {
+    showPopupAt(EmojiMartPicker, e.target as Element, {
       onChoose(e) {
         showModal(Dialog, {
           type: 'text',

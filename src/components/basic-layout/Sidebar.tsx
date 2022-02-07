@@ -4,6 +4,7 @@ import { FaBell, FaChevronDown, FaCloud, FaCog, FaEllipsisH, FaEnvelope, FaHasht
 import styled from 'styled-components';
 import { notImpl } from '../../scripts/not-impl';
 import { useAppSelector } from '../../store';
+import Avatar from '../common/Avatar';
 import { Menu, MenuItem, MenuSection } from '../common/Menu';
 
 
@@ -33,7 +34,9 @@ export default function Sidebar(p: SidebarProp) {
     <div {...p}>
       {userCache && (
         <ProfileButton className={`card circle clickable flex f-middle mb-2 ${p.slim ? 'f-center mx-auto pa-1' : 'px-2 py-1 f-left fluid'}`}>
-          <img src={userCache?.avatarUrl} className={`circle ${!p.slim ? 'mr-2' : ''}`} style={{width: 48, height: 48}} />
+          <div className={!p.slim ? 'mr-1' : ''}>
+            <Avatar user={userCache as UserDetailed} size={48} />
+          </div>
           {!p.slim && (
             <>
               <ProfileName>{userCache?.name}</ProfileName>

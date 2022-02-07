@@ -1,9 +1,8 @@
 import { CustomEmoji, Note, UserDetailed } from 'misskey-js/built/entities';
 import React, { MouseEvent, useState } from 'react';
 import { FaCopy, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { animationFade } from '../../../animation';
-import { useBreakpoints } from '../../../hooks/useBreakpoints';
 import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
 import copyToClipboard from '../../../scripts/copy-to-clipboard';
 import { getName } from '../../../scripts/get-name';
@@ -13,9 +12,11 @@ import { notImpl } from '../../../scripts/not-impl';
 import { showModal } from '../../../scripts/show-modal';
 import { showPopupAt } from '../../../scripts/show-popup';
 import { useAppSelector } from '../../../store';
+import Avatar from '../Avatar';
 import Dialog from '../dialogs/Dialog';
 import EmojiView from '../EmojiView';
 import { Gpfm } from '../Gpfm';
+import EmojiMartPicker from '../popup/EmojiMartPicker';
 import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
 import NoteHeader from './NoteHeader';
 import NoteMedia from './NoteMedia';
@@ -33,55 +34,6 @@ const BodyWrapper = styled.p`
   word-break: break-all;
   word-wrap: normal;
   margin: 0;
-`;
-
-const earwiggleleft = keyframes`
-	from { transform: rotate(37.6deg) skew(30deg); }
-	25% { transform: rotate(10deg) skew(30deg); }
-	50% { transform: rotate(20deg) skew(30deg); }
-	75% { transform: rotate(0deg) skew(30deg); }
-	to { transform: rotate(37.6deg) skew(30deg); }
-`;
-const earwiggleright = keyframes`
-	from { transform: rotate(-37.6deg) skew(-30deg); }
-	30% { transform: rotate(-10deg) skew(-30deg); }
-	55% { transform: rotate(-20deg) skew(-30deg); }
-	75% { transform: rotate(0deg) skew(-30deg); }
-	to { transform: rotate(-37.6deg) skew(-30deg); }
-`;
-
-const AvatarWrapper = styled.div<{size: number}>`
-position: relative;
-width: ${props => props.size ?? 64}px;
-height: ${props => props.size ?? 64}px;
-background-size: cover;
-&.cat {
-  &:before, &:after {
-      background: #df548f;
-      border: solid 4px currentColor;
-      box-sizing: border-box;
-      content: '';
-      display: inline-block;
-      height: 50%;
-      width: 50%;
-  }
-  &:before {
-      border-radius: 0 75% 75%;
-      transform: rotate(37.5deg) skew(30deg);
-  }
-  &:after {
-      border-radius: 75% 0 75% 75%;
-      transform: rotate(-37.5deg) skew(-30deg);
-  }
-  &.animated:hover {
-      &:before {
-          animation: ${earwiggleleft} 1s infinite;
-      }
-      &:after {
-          animation: ${earwiggleright} 1s infinite;
-      }
-  }
-}
 `;
 
 const QuoteContainer = styled.blockquote`
@@ -125,7 +77,6 @@ const Commands = styled.div`
 
 export default function NoteView(p: NoteViewProp) {
   const api = useMisskeyClient();
-  const {isMobile} = useBreakpoints();
   const {meta, userCache} = useAppSelector(state => state.session);
 
   if (!meta) throw new TypeError();
@@ -247,11 +198,9 @@ export default function NoteView(p: NoteViewProp) {
     renote();
   };
 
-  const onClickReaction = () => {
-    showModal(Dialog, {
-      type: 'input',
-      message: 'リアクションに使う絵文字を入力してください\n**例:**\n・`🥴`\n・`:iihanashi:`',
-      onSubmit(reaction: string) {
+  const onClickReaction = (e: MouseEvent) => {
+    showPopupAt(EmojiMartPicker, e.target as Element, {
+      onChoose(reaction: string) {
         api.request('notes/reactions/create', { noteId: appearNote.id, reaction });
       },
     });
@@ -302,15 +251,7 @@ export default function NoteView(p: NoteViewProp) {
           </div>
         )}
         <div className="hstack">
-          <AvatarWrapper size={isMobile ? 48 : 64} className={(appearNote.user as UserDetailed).isCat ? 'animated cat' : ''}>
-            <img src={user.avatarUrl} className="circle" style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              zIndex: 10,
-            }} />
-          </AvatarWrapper>
+          <Avatar user={appearNote.user as UserDetailed} />
           <main style={{flex: 1, minWidth: 0}}>
             <NoteHeader note={appearNote} />
             {appearNote.cw && (
