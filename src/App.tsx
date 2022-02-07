@@ -11,6 +11,7 @@ import IndexPage from './pages';
 import DebugPage from './pages/debug';
 import ManagePage from './pages/manage';
 import MiAuthPage from './pages/miauth';
+import NotePage from './pages/note';
 import NotificationsPage from './pages/notifications';
 import SettingsPage from './pages/settings';
 import { useAppDispatch, useAppSelector } from './store';
@@ -59,6 +60,7 @@ function App() {
         <CurrentLayout>
           <Routes>
             <Route path="/" element={<IndexPage />}/>
+            <Route path="/notes/:noteId" element={<NotePage />}/>
             <Route path="/notifications" element={<NotificationsPage />}/>
             <Route path="/debug" element={<DebugPage />} />
             <Route path="/manage" element={<ManagePage />} />
