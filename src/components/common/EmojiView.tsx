@@ -23,7 +23,7 @@ export function UnicodeEmojiView({emoji}: EmojiViewProp) {
 export function CustomEmojiView(p: EmojiViewProp) {
   const {meta} = useAppSelector(state => state.session);
   if (!meta) throw new TypeError();
-  const emojis = p.customEmojis ?? meta.emojis;
+  const emojis = [...(p.customEmojis ?? []), ...meta.emojis];
   const emoji = emojis.find(e => e.name === p.emoji.substring(1, p.emoji.length - 1));
   if (!emoji) {
     return <span>{p.emoji}</span>;

@@ -102,10 +102,14 @@ export function NotificationView({ data, slim }: { data: Notification; slim?: bo
     if (data.type === 'app') return <AppBody><Gpfm text={data.body} /></AppBody>;
     switch (data.type) {
     case 'reaction':
-    case 'renote':
     case 'pollVote': {
       const note = data.note;
       return <Link to={`/notes/${note.id}`} className="text-dimmed">{note.text || `${note.cw} [もっと見る]`}</Link>;
+    }
+    case 'renote': {
+      const note = data.note;
+      const renote = note.renote;
+      return <Link to={`/notes/${note.id}`} className="text-dimmed">{renote?.text || `${renote?.cw} [もっと見る]`}</Link>;
     }
     case 'receiveFollowRequest': return (
       <div className="vgroup fluid">

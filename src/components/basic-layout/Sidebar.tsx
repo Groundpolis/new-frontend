@@ -1,6 +1,6 @@
 import { UserDetailed } from 'misskey-js/built/entities';
 import React, { HTMLProps } from 'react';
-import { FaBell, FaChevronDown, FaCloud, FaCog, FaEllipsisH, FaEnvelope, FaHashtag, FaHome, FaServer, FaToolbox } from 'react-icons/fa';
+import { FaBell, FaChevronDown, FaCloud, FaCog, FaEllipsisH, FaEnvelope, FaHashtag, FaHome, FaServer, FaSmile, FaToolbox } from 'react-icons/fa';
 import styled from 'styled-components';
 import { notImpl } from '../../scripts/not-impl';
 import { useAppSelector } from '../../store';
@@ -64,6 +64,9 @@ export default function Sidebar(p: SidebarProp) {
           )}
           {localStorage['debug'] === 'えびはうまい' && <MenuItem icon={FaToolbox} label="デバッグモード" type="link" to="/debug" /> }
           <MenuItem icon={FaEllipsisH} label="もっと！" type="button" onClick={notImpl}/>
+        </MenuSection>
+        <MenuSection>
+          <MenuItem icon={FaSmile} label="フィードバック" type="link" to="/feedback"/>
         </MenuSection>
       </Menu>
     </div>

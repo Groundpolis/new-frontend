@@ -266,7 +266,7 @@ export default function NoteView(p: NoteViewProp) {
           <NoteHeader note={appearNote} />
           {appearNote.cw && (
             <aside className="mt-1">
-              <Gpfm text={appearNote.cw} />
+              <Gpfm text={appearNote.cw} emojis={appearNote.emojis} />
               <button className="btn flat text-75 ml-1 text-white" style={{padding: '4px 8px', background: 'var(--tone-4)'}} onClick={() => setCwOpened(!isCwOpened)}>
                 {isCwOpened ? '隠す' : `もっと見る(${appearNote.text?.length ?? 0}文字${appearNote.files && appearNote.files.length > 0 ? ', ' + appearNote.files.length + 'ファイル' : ''})`}
               </button>
@@ -274,7 +274,7 @@ export default function NoteView(p: NoteViewProp) {
           )}
           {isVisibleBody && (
             <>
-              {appearNote.text && <BodyWrapper className="mt-1"><Gpfm text={appearNote.text}/></BodyWrapper>}
+              {appearNote.text && <BodyWrapper className="mt-1"><Gpfm text={appearNote.text} emojis={appearNote.emojis}/></BodyWrapper>}
               {quote && appearNote.text && (
                 <QuoteContainer className="rounded mt-1 pa-1">
                   <TinyNoteView note={quote} />

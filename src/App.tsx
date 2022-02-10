@@ -9,6 +9,7 @@ import BasicLayout from './layout/BasicLayout';
 import ZenLayout from './layout/ZenLayout';
 import IndexPage from './pages';
 import DebugPage from './pages/debug';
+import FeedbackPage from './pages/feedback';
 import ManagePage from './pages/manage';
 import MiAuthPage from './pages/miauth';
 import NotePage from './pages/note';
@@ -65,6 +66,7 @@ function App() {
             <Route path="/debug" element={<DebugPage />} />
             <Route path="/manage" element={<ManagePage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
             <Route path="/miauth" element={<MiAuthPage />} />
           </Routes>
         </CurrentLayout>
