@@ -112,7 +112,7 @@ export default function NoteEditor() {
             <FaEyeSlash className="mr-1"/>投稿内容を伏せる
           </button>
         )}
-        <Textarea className="input-field mt-2" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
+        <Textarea className="input-field" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
       </div>
       <div className="hstack dense mt-2">
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPlusCircle /></button>

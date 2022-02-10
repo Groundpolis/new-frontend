@@ -10,7 +10,6 @@ import Avatar from './Avatar';
 import EmojiView from './EmojiView';
 import { Gpfm } from './Gpfm';
 import NoteView from './note/NoteView';
-import TimeView from './TimeView';
 
 const AppIcon = styled.img<{slim?: boolean}>`
   width: 42px;

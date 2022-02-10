@@ -85,3 +85,9 @@ button.btn.primary:disabled {
         border-top: 1px solid var(--tone-1);
     }
 }
+
+.gp-nowrap {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

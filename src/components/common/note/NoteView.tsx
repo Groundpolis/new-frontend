@@ -274,7 +274,7 @@ export default function NoteView(p: NoteViewProp) {
           )}
           {isVisibleBody && (
             <>
-              {appearNote.text && <BodyWrapper className="mt-1"><Gpfm text={appearNote.text} emojis={appearNote.emojis}/></BodyWrapper>}
+              {appearNote.text && <BodyWrapper className="mt-1">{appearNote.reply && <FaReply className="text-primary mr-1" />}<Gpfm className="inline" text={appearNote.text} emojis={appearNote.emojis}/></BodyWrapper>}
               {quote && appearNote.text && (
                 <QuoteContainer className="rounded mt-1 pa-1">
                   <TinyNoteView note={quote} />

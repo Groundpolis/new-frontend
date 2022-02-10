@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FaBell } from 'react-icons/fa';
 import styled from 'styled-components';
 import NotificationListView from '../common/NotificationListView';
