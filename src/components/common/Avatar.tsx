@@ -17,7 +17,8 @@ const earwiggleright = keyframes`
 	to { transform: rotate(-37.6deg) skew(-30deg); }
 `;
 
-const AvatarWrapper = styled.div<{size: string}>`
+const AvatarWrapper = styled.div<{size: string, inline?: boolean}>`
+display: ${p => p.inline ? 'inline-block' : 'block'};
 position: relative;
 width: ${props => props.size};
 height: ${props => props.size};
@@ -54,12 +55,13 @@ background-size: cover;
 export type AvatarProp = {
     user: UserDetailed,
     size?: number | string,
+    inline?: boolean,
 };
 
 export default function Avatar(prop: AvatarProp) {
   const size = !prop.size ? '64px' : typeof prop.size === 'string' ? prop.size : prop.size + 'px';
   return (
-    <AvatarWrapper size={size} className={prop.user.isCat ? 'animated cat' : ''}>
+    <AvatarWrapper size={size} inline={prop.inline} className={prop.user.isCat ? 'animated cat' : ''}>
       <img src={prop.user.avatarUrl} className="circle" style={{
         position: 'absolute',
         inset: 0,

@@ -12,18 +12,18 @@ import { Gpfm } from './Gpfm';
 import NoteView from './note/NoteView';
 import TimeView from './TimeView';
 
-const AppIcon = styled.img`
-  width: 48px;
-  height: 48px;
+const AppIcon = styled.img<{slim?: boolean}>`
+  width: 42px;
+  height: 42px;
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled.div<{slim?: boolean}>`
   position: relative;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
 `;
 
-const SubIcon = styled.div`
+const SubIcon = styled.div<{slim?: boolean}>`
   display: flex;
   position: absolute;
   right: -4px;
@@ -59,22 +59,34 @@ const AppBody = styled.div`
 `;
 
 const Container = styled.div`
-  min-height: 0;
   ${animationFade};
+  > * {
+    min-width: 0;
+  }
 `;
 
 const Article = styled.div`
   flex: 1;
+  > header {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    > span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 `;
 
-export function NotificationView({ data }: { data: Notification; }) {
+export function NotificationView({ data, slim }: { data: Notification; slim?: boolean }) {
   if (data.type === 'quote' || data.type === 'reply' || data.type === 'mention') {
     return <NoteView note={data.note} />;
   }
 
   const title = (() => {
     if (data.type === 'app') return <span>{data.header ?? null}</span>;
-    const name = <><Link className="text-dimmed" to={`/@${toString(data.user)}`}><Gpfm plain text={getName(data.user)} /></Link>さん</>;
+    const name = <Link style={{color: 'var(--fg)'}} to={`/@${toString(data.user)}`}><Gpfm plain text={getName(data.user)} emojis={data.user.emojis} /></Link>;
     switch (data.type) {
     case 'reaction': return <span>{name}がリアクションしました</span>;
     case 'renote': return <span>{name}がリノートしました</span>;
@@ -92,7 +104,7 @@ export function NotificationView({ data }: { data: Notification; }) {
     case 'reaction':
     case 'renote':
     case 'pollVote': {
-      const note = data.note.renote && !data.note.text ? data.note.renote : data.note;
+      const note = data.note;
       return <Link to={`/notes/${note.id}`} className="text-dimmed">{note.text || `${note.cw} [もっと見る]`}</Link>;
     }
     case 'receiveFollowRequest': return (
@@ -111,7 +123,7 @@ export function NotificationView({ data }: { data: Notification; }) {
   const icon = data.type === 'app' ? (
     <AppIcon src={data.icon ?? undefined} className="rounded" />
   ) : (
-    <Avatar size={48} user={data.user as UserDetailed} />
+    <Avatar size={42} user={data.user as UserDetailed} />
   );
 
   const subIcon = (() => {
@@ -120,7 +132,7 @@ export function NotificationView({ data }: { data: Notification; }) {
     case 'followRequestAccepted': return <FaCheck />;
     case 'groupInvited': return <FaIdCardAlt />;
     case 'pollVote': return <FaPollH />;
-    case 'reaction': return <EmojiView emoji={data.reaction} normal />;
+    case 'reaction': return <EmojiView emoji={data.reaction} customEmojis={data.note.emojis} normal />;
     case 'receiveFollowRequest': return <FaClock />;
     case 'renote': return <FaRetweet />;
     }
@@ -131,16 +143,15 @@ export function NotificationView({ data }: { data: Notification; }) {
       <IconContainer>
         {icon}
         {data.type !== 'app' && (
-          <SubIcon className={data.type}>
+          <SubIcon className={data.type} slim={slim}>
             {subIcon}
           </SubIcon>
         )}
       </IconContainer>
       <Article>
-        <h1 className="text-100 text-bold flex f-center">
+        <header className="mb-1">
           {title}
-          <span className="ml-auto text-normal text-dimmed"><TimeView time={data.createdAt} /></span>
-        </h1>
+        </header>
         <div>{body}</div>
       </Article>
     </Container>

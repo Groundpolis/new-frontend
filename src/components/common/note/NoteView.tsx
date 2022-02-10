@@ -20,6 +20,7 @@ import EmojiMartPicker from '../popup/EmojiMartPicker';
 import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
 import NoteHeader from './NoteHeader';
 import NoteMedia from './NoteMedia';
+import TinyNoteView from './TinyNoteView';
 
 
 export type NoteViewProp = {
@@ -30,7 +31,12 @@ const Container = styled.div`
   ${animationFade};
 `;
 
-const BodyWrapper = styled.p`
+const ReplyWrapper = styled.div`
+  margin-bottom: 24px;
+  opacity: 0.7;
+`;
+
+export const BodyWrapper = styled.p`
   word-break: break-all;
   word-wrap: normal;
   margin: 0;
@@ -239,64 +245,66 @@ export default function NoteView(p: NoteViewProp) {
   };
 
   return (
-    <Container className="card">
-      <div className="body pb-1">
-        {renotedUser && (
-          <div className="text-dimmed flex f-middle mb-2">
-            <FaRetweet className="mr-1 text-125"/>
-            <img src={renotedUser.avatarUrl} className="circle mr-1" style={{width: '1.5em', height: '1.5em'}} />
-            <span>
-              <Gpfm plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
-            </span>
-          </div>
-        )}
-        <div className="hstack">
-          <Avatar user={appearNote.user as UserDetailed} />
-          <main style={{flex: 1, minWidth: 0}}>
-            <NoteHeader note={appearNote} />
-            {appearNote.cw && (
-              <aside className="mt-1">
-                <Gpfm text={appearNote.cw} />
-                <button className="btn flat text-75 ml-1 text-white" style={{padding: '4px 8px', background: 'var(--tone-4)'}} onClick={() => setCwOpened(!isCwOpened)}>
-                  {isCwOpened ? '隠す' : `もっと見る(${appearNote.text?.length ?? 0}文字${appearNote.files && appearNote.files.length > 0 ? ', ' + appearNote.files.length + 'ファイル' : ''})`}
-                </button>
-              </aside>
-            )}
-            {isVisibleBody && (
-              <>
-                {appearNote.text && <BodyWrapper className="mt-1"><Gpfm text={appearNote.text}/></BodyWrapper>}
-                {quote && appearNote.text && (
-                  <QuoteContainer className="rounded mt-1 pa-1">
-                    <NoteHeader note={quote} />
-                    {quote.text && <BodyWrapper className="mt-1"><Gpfm text={quote.text}/></BodyWrapper>}
-                  </QuoteContainer>
-                )}
-                {appearNote.files.length > 0 && <NoteMedia files={appearNote.files} />}
-              </>
-            )}
-            <div className="hstack wrap slim mt-2">
-              {Object.entries(appearNote.reactions).map(([emoji, count]) => (
-                <ReactionButton className="clickable" key={emoji} active={appearNote.myReaction === emoji} onClick={() => toggleReaction(emoji)}>
-                  <EmojiView emoji={emoji} customEmojis={appearNote.emojis} normal />
-                  <span>{count}</span>
-                </ReactionButton>
-              ))}
-            </div>
-          </main>
+    <Container>
+      {reply && (
+        <ReplyWrapper>
+          <TinyNoteView note={reply} />
+        </ReplyWrapper>
+      )}
+      {renotedUser && (
+        <div className="text-dimmed flex f-middle mb-2">
+          <FaRetweet className="mr-1 text-125"/>
+          <img src={renotedUser.avatarUrl} className="circle mr-1" style={{width: '1.5em', height: '1.5em'}} />
+          <span>
+            <Gpfm plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
+          </span>
         </div>
-        <Commands className="hstack f-right">
-          <button className="btn flat" onClick={onClickReply}>
-            <FaReply />
-            {appearNote.repliesCount > 0 && <span className="text-dimmed ml-1">{appearNote.repliesCount < 10 ? appearNote.repliesCount : '9+'}</span>}
-          </button>
-          <button className="btn flat" onClick={onClickRenote} disabled={!canRenote}>
-            <FaRetweet />
-            {appearNote.renoteCount > 0 && <span className="text-dimmed ml-1">{appearNote.renoteCount < 10 ? appearNote.renoteCount : '9+'}</span>}
-          </button>
-          <button className="btn flat" onClick={onClickReaction}><FaSmile /><FaPlus /></button>
-          <button className="btn flat" onClick={onClickMore}><FaEllipsisH /></button>
-        </Commands>
+      )}
+      <div className="hstack">
+        <Avatar user={appearNote.user as UserDetailed} />
+        <main style={{flex: 1, minWidth: 0}}>
+          <NoteHeader note={appearNote} />
+          {appearNote.cw && (
+            <aside className="mt-1">
+              <Gpfm text={appearNote.cw} />
+              <button className="btn flat text-75 ml-1 text-white" style={{padding: '4px 8px', background: 'var(--tone-4)'}} onClick={() => setCwOpened(!isCwOpened)}>
+                {isCwOpened ? '隠す' : `もっと見る(${appearNote.text?.length ?? 0}文字${appearNote.files && appearNote.files.length > 0 ? ', ' + appearNote.files.length + 'ファイル' : ''})`}
+              </button>
+            </aside>
+          )}
+          {isVisibleBody && (
+            <>
+              {appearNote.text && <BodyWrapper className="mt-1"><Gpfm text={appearNote.text}/></BodyWrapper>}
+              {quote && appearNote.text && (
+                <QuoteContainer className="rounded mt-1 pa-1">
+                  <TinyNoteView note={quote} />
+                </QuoteContainer>
+              )}
+              {appearNote.files.length > 0 && <NoteMedia files={appearNote.files} />}
+            </>
+          )}
+          <div className="hstack wrap slim mt-2">
+            {Object.entries(appearNote.reactions).map(([emoji, count]) => (
+              <ReactionButton className="clickable" key={emoji} active={appearNote.myReaction === emoji} onClick={() => toggleReaction(emoji)}>
+                <EmojiView emoji={emoji} customEmojis={appearNote.emojis} normal />
+                <span>{count}</span>
+              </ReactionButton>
+            ))}
+          </div>
+        </main>
       </div>
+      <Commands className="hstack f-right">
+        <button className="btn flat" onClick={onClickReply}>
+          <FaReply />
+          {appearNote.repliesCount > 0 && <span className="text-dimmed ml-1">{appearNote.repliesCount < 10 ? appearNote.repliesCount : '9+'}</span>}
+        </button>
+        <button className="btn flat" onClick={onClickRenote} disabled={!canRenote}>
+          <FaRetweet />
+          {appearNote.renoteCount > 0 && <span className="text-dimmed ml-1">{appearNote.renoteCount < 10 ? appearNote.renoteCount : '9+'}</span>}
+        </button>
+        <button className="btn flat" onClick={onClickReaction}><FaSmile /><FaPlus /></button>
+        <button className="btn flat" onClick={onClickMore}><FaEllipsisH /></button>
+      </Commands>
     </Container>
   );
 }

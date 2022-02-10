@@ -45,7 +45,13 @@ export default function SessionPage() {
           <NoteEditor />
         </div>
         <div className="vgroup outline">
-          {notes.map(n => <NoteView note={n} key={n.id}/>)}
+          {notes.map(n => (
+            <div className="card" key={n.id}>
+              <div className="body">
+                <NoteView note={n}/>
+              </div>
+            </div>
+          ))}
         </div>
         {isFetchingNotes && (
           <div className="flex f-center">
