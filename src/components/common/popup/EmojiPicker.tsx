@@ -45,10 +45,6 @@ export default function EmojiPicker(p: EmojiPopupProp) {
   const {meta} = useAppSelector(state => state.session);
   if (!meta) throw new TypeError();
 
-  useEffect(() => {
-    // console.log(emojiList);
-  }, []);
-
   const {emojis} = meta;
 
   const customCategories = useMemo(() => (Array.from(new Set(emojis.map(e => e.category).filter(e => e)))), [emojis]);

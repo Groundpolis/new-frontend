@@ -8,6 +8,10 @@ body {
     --primary-d: #1c3d11;
     --primary-l: #8eb97e;
     --fg: var(--tone-9);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    &.dark {
+    --shadow-color: rgba(20, 20, 20, 0.3);
+    }
     font-size: 16px;
 }
 

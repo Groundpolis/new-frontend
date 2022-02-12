@@ -8,6 +8,7 @@ import NoteView from '../components/common/note/NoteView';
 import NoteEditor from '../components/common/NoteEditor';
 import { Spinner } from '../components/common/Spinner';
 import { Tab } from '../components/common/Tab';
+import { useBreakpoints } from '../hooks/useBreakpoints';
 import { TimelineSource } from '../models/timeline-source';
 import { useAppDispatch, useAppSelector } from '../store';
 import { setCurrentTimeline, setScrolling } from '../store/timeline';
@@ -28,6 +29,8 @@ export default function SessionPage() {
   if (!host || !token) throw new TypeError();
   if (!userCache) return null;
 
+  const {isMobile} = useBreakpoints();
+
   const tabItems = [
     { key: 'home', element: <FaHome /> },
     { key: 'local', element: <FaComments /> },
@@ -45,7 +48,6 @@ export default function SessionPage() {
   useEffect(() => {
     if (!triggerRef.current) return;
     const observer = new IntersectionObserver(([i]) => {
-      console.log(i.isIntersecting);
       dispatch(setScrolling(!i.isIntersecting));
     }, {
       threshold: 1,
@@ -72,7 +74,7 @@ export default function SessionPage() {
       )}
       <div className="container" style={{position: 'relative'}}>
         <div className="mb-2">
-          <NoteEditor />
+          {!isMobile && <NoteEditor />}
         </div>
         <div ref={triggerRef} />
         <div className="vgroup outline">

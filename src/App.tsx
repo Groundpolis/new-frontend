@@ -13,6 +13,7 @@ import DebugPage from './pages/debug';
 import FeedbackPage from './pages/feedback';
 import ManagePage from './pages/manage';
 import MiAuthPage from './pages/miauth';
+import NotImplPage from './pages/not-impl';
 import NotePage from './pages/note';
 import NotificationsPage from './pages/notifications';
 import SettingsPage from './pages/settings';
@@ -79,6 +80,8 @@ function App() {
             <Route path="/" element={<IndexPage />}/>
             <Route path="/notes/:noteId" element={<NotePage />}/>
             <Route path="/notifications" element={<NotificationsPage />}/>
+            <Route path="/explore" element={<NotImplPage />}/>
+            <Route path="/messaging" element={<NotImplPage />}/>
             <Route path="/debug" element={<DebugPage />} />
             <Route path="/manage" element={<ManagePage />} />
             <Route path="/settings" element={<SettingsPage />} />

@@ -2,10 +2,13 @@ import React, { PropsWithChildren, useRef } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/basic-layout/Sidebar';
 import Widgets from '../components/basic-layout/Widgets';
+import BottomCommandBar from '../components/common/mobile/BottomCommandBar';
 import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB } from '../const';
 import { useBreakpoints } from '../hooks/useBreakpoints';
 import { useStickyScroll } from '../hooks/useStickyScroll';
 import { useTheme } from '../hooks/useTheme';
+import { useAppDispatch, useAppSelector } from '../store';
+import { setVisibleMenu } from '../store/screen';
 
 
 const LayoutContainer = styled.div`
@@ -63,7 +66,10 @@ const Stick = styled.div`
 export default function BasicLayout(prop: PropsWithChildren<unknown>) {
   useTheme();
 
-  const {isLaptop} = useBreakpoints();
+  const {isLaptop, isMobile} = useBreakpoints();
+
+  const {isVisibleMenu} = useAppSelector(state => state.screen);
+  const dispatch = useAppDispatch();
 
   const menuSpacerRef = useRef<HTMLDivElement>(null);
   const widgetsSpacerRef = useRef<HTMLDivElement>(null);
@@ -84,6 +90,15 @@ export default function BasicLayout(prop: PropsWithChildren<unknown>) {
         <div ref={widgetsSpacerRef} />
         <Stick ref={widgetsRef}><Widgets /></Stick>
       </div>
+      {isMobile && <BottomCommandBar />}
+      {isMobile && (
+        <div className={`drawer-container ${isVisibleMenu ? 'active' : ''}`}>
+          <div className="backdrop" onClick={() => dispatch(setVisibleMenu(false))}/>
+          <div className="drawer" style={{minWidth: 0, width: 'calc(100vw - 96px)'}}>
+            <Sidebar />
+          </div>
+        </div>
+      )}
     </LayoutContainer>
   );
 }

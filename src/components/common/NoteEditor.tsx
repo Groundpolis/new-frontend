@@ -1,4 +1,5 @@
 import { noteVisibilities } from 'misskey-js';
+import { Note } from 'misskey-js/built/entities';
 import React, { KeyboardEvent, MouseEvent, useCallback, useRef, useState } from 'react';
 import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaFish, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaTimes } from 'react-icons/fa';
 import styled from 'styled-components';
@@ -12,7 +13,11 @@ const Textarea = styled.textarea`
 	height: 7em;
 `;
 
-export default function NoteEditor() {
+export type NoteEditorProp = {
+  onSubmit?: (note: Note) => void;
+};
+
+export default function NoteEditor(p: NoteEditorProp) {
   const {meta} = useAppSelector(state => state.session);
 
   const api = useMisskeyClient();
@@ -38,9 +43,10 @@ export default function NoteEditor() {
       text,
       cw: isEnableCw ? cwMessage : null,
       visibility,
-    }).then(() => {
+    }).then(({createdNote}) => {
       setSending(false);
       setText('');
+      if (p.onSubmit) p.onSubmit(createdNote);
     });
     textareaRef.current?.focus();
   }, [text, canSend, isEnableCw, cwMessage, visibility]);
@@ -118,7 +124,6 @@ export default function NoteEditor() {
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPlusCircle /></button>
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPollH /></button>
         <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaBullhorn /></button>
-        <button className="btn flat text-125 pa-1" disabled={true}><FaFish /></button>
         <div className="hstack dense ml-auto f-middle">
           <b className={`text-dimmed ${textLimit < 0 ? 'text-danger' : ''}`}>{textLimit}</b>
           <div className="hgroup ml-1">

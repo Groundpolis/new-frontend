@@ -170,7 +170,10 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
         </a>
       </div>
     );
-  
+  }
+
+  case 'marquee': {
+    return React.createElement('marquee', null, <Forest forest={tree.children}/>);
   }
 
   default:
