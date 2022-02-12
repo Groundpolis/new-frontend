@@ -23,10 +23,8 @@ const Img = styled.img<{visible: boolean, width: number, height: number,}>`
 
 export default function ImagePreviewDialog(p: ImagePreviewDialogProp) {
   const imageFiles = p.files.filter(f => f.type.startsWith('image/'));
-  const [index, setIndex] = useState(p.initialIndex ?? 0);
+  const [index] = useState(p.initialIndex ?? 0);
 
-  const hasPrevious = index > 0;
-  const hasNext = index < imageFiles.length - 1;
 
   return (
     <Modal close={p.close} closeByBackdrop>

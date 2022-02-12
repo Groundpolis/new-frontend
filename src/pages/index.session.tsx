@@ -21,7 +21,7 @@ const Alert = styled.div`
 
 export default function SessionPage() {
   const {userCache, host, token} = useAppSelector(state => state.session);
-  const {currentTimeline, notes, queue, isFetchingNotes, isScrolling} = useAppSelector(state => state.timeline);
+  const {currentTimeline, notes, queue, isFetchingNotes} = useAppSelector(state => state.timeline);
   const dispatch = useAppDispatch();
   const triggerRef = useRef<HTMLDivElement>(null);
 
