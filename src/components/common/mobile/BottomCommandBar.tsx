@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaBars, FaBell, FaEnvelope, FaHashtag, FaHome, FaPencilAlt } from 'react-icons/fa';
-import { Link, NavLink, NavLinkProps } from 'react-router-dom';
+import { NavLink, NavLinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 import { showModal } from '../../../scripts/show-modal';
 import { useAppDispatch } from '../../../store';
@@ -27,20 +27,6 @@ const Container = styled.div`
         top: 0;
         bottom: auto;
       }
-    }
-  }
-`;
-
-const FloatingButtonContainer = styled.div`
-  justify-content: space-between;
-  > .fab {
-    width: 64px;
-    height: 64px;
-    background: var(--panel);
-    font-size: 1.25rem;
-    &.primary {
-      color: var(--primary-fg);
-      background: var(--primary);
     }
   }
 `;

@@ -1,7 +1,7 @@
 import { noteVisibilities } from 'misskey-js';
 import { Note } from 'misskey-js/built/entities';
 import React, { KeyboardEvent, MouseEvent, useCallback, useRef, useState } from 'react';
-import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaFish, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaTimes } from 'react-icons/fa';
+import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaTimes } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
 import { showPopupAt } from '../../scripts/show-popup';

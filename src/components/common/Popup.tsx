@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { animationFadeUp } from '../../animation';
 
