@@ -7,7 +7,9 @@ import { storage } from '../scripts/storage';
 
 const initialState = {
   notes: [] as Note[],
+  queue: [] as Note[],
   isFetchingNotes: false,
+  isScrolling: false,
   untilId: null as string | null,
   currentTimeline: (storage.get('currentTimeline') ?? 'home') as TimelineSource,
   currentList: storage.get('currentList'),
@@ -34,7 +36,8 @@ const sessionSlice = createSlice({
       state.notes = [];
     },
     appendNote(state, {payload}: PayloadAction<Note>) {
-      state.notes.unshift(payload);
+      const target = state.isScrolling ? state.queue : state.notes;
+      target.unshift(payload);
     },
     appendNotesToTop(state, {payload}: PayloadAction<Note[]>) {
       state.notes.unshift(...payload);
@@ -91,6 +94,11 @@ const sessionSlice = createSlice({
     setFetchingNotes(state, {payload}: PayloadAction<boolean>) {
       state.isFetchingNotes = payload;
     },
+    setScrolling(state, {payload}: PayloadAction<boolean>) {
+      state.isScrolling = payload;
+      state.notes.unshift(...state.queue);
+      state.queue = [];
+    },
   },
 });
 
@@ -105,6 +113,7 @@ export const {
   setNotes,
   updateNote,
   setFetchingNotes,
+  setScrolling,
 } = sessionSlice.actions;
 
 export default sessionSlice.reducer;
