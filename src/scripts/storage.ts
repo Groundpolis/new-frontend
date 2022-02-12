@@ -5,6 +5,7 @@ export const storageKeys = [
   'currentTimeline',
   'currentList',
   'currentAntenna',
+  'version',
 ] as const;
 
 export type StorageKey = typeof storageKeys[number];

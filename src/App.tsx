@@ -3,7 +3,8 @@ import React, { createContext, useEffect, useMemo } from 'react';
 import {
   BrowserRouter, Route, Routes
 } from 'react-router-dom';
-import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB } from './const';
+import Dialog from './components/common/dialogs/Dialog';
+import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB, INTERNAL_VERSION } from './const';
 import { useBackgroundTask } from './hooks/useBackgroundTask';
 import BasicLayout from './layout/BasicLayout';
 import ZenLayout from './layout/ZenLayout';
@@ -15,6 +16,8 @@ import MiAuthPage from './pages/miauth';
 import NotePage from './pages/note';
 import NotificationsPage from './pages/notifications';
 import SettingsPage from './pages/settings';
+import { showModal } from './scripts/show-modal';
+import { storage } from './scripts/storage';
 import { useAppDispatch, useAppSelector } from './store';
 import { setLaptop, setMobile, setTablet } from './store/screen';
 
@@ -45,6 +48,19 @@ function App() {
       qMobile.removeEventListener('change', syncMobile);
       qLaptop.removeEventListener('change', syncLaptop);
     };
+  }, []);
+
+  useEffect(() => {
+    const savedVersion = storage.get('version');
+    if (savedVersion && savedVersion !== INTERNAL_VERSION) {
+      showModal(Dialog, {
+        type: 'text',
+        title: 'Groundpolis New ' + INTERNAL_VERSION,
+        message: '更新内容は、[リリースノート](https://github.com/Groundpolis/new-frontend/tree/master/CHANGELOG.md)でご確認ください。',
+        buttonType: 'ok',
+      });
+    }
+    storage.set('version', INTERNAL_VERSION);
   }, []);
 
   const CurrentLayout = useMemo(() => {
