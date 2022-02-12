@@ -8,6 +8,7 @@ import { storage } from '../scripts/storage';
 const initialState = {
   notes: [] as Note[],
   isFetchingNotes: false,
+  untilId: null as string | null,
   currentTimeline: (storage.get('currentTimeline') ?? 'home') as TimelineSource,
   currentList: storage.get('currentList'),
   currentAntenna: storage.get('currentAntenna'),

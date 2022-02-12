@@ -6,31 +6,27 @@ import { Spinner } from './Spinner';
 
 export default function NotificationListView({slim}: {slim?: boolean}) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [prevUntilId, setPrevUntilId] = useState<string | undefined>('');
   const [untilId, setUntilId] = useState<string | undefined>(undefined);
-  const [nextUntilId, setNextUntilId] = useState<string | undefined>(undefined);
   const [isLoading, setLoading] = useState(false);
 
   const api = useMisskeyClient();
 
   useEffect(() => {
-    if (isLoading || (untilId === prevUntilId)) return;
-    setPrevUntilId(untilId);
+    if (!api) return;
+    loadNextPage();
+  }, [api]);
+
+  const loadNextPage = () => {
     setLoading(true);
     api.request('i/notifications', {
       limit: 10,
       untilId,
     }).then(r => {
       setNotifications(n => [...n, ...r]);
-      setNextUntilId(r[r.length - 1].id);
+      setUntilId(r[r.length - 1].id);
       setLoading(false);
     });
-  }, [api, isLoading, prevUntilId, untilId]);
-
-  const onClickMore = () => {
-    setUntilId(nextUntilId);
   };
-
 
   return (
     <>
@@ -42,7 +38,7 @@ export default function NotificationListView({slim}: {slim?: boolean}) {
         ))}
       </div>
       <div className="flex f-center mt-2">
-        {isLoading ? <Spinner size={96} /> : <button className="btn" onClick={onClickMore}>もっと見る</button>}
+        {isLoading ? <Spinner size={96} /> : <button className="btn" onClick={loadNextPage}>もっと見る</button>}
       </div>
     </>
   );
