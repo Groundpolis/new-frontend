@@ -12,7 +12,7 @@ const Backdrop = styled.div<{full: boolean}>`
   inset: 0;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 100000;
   ${animationFade}
   &.top {
     align-items: flex-start;

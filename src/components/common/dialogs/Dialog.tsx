@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { Gpfm } from '../Gpfm';
 import Modal, { ModalProp } from '../Modal';
 
@@ -101,8 +101,11 @@ function InnerInput(p: DialogProp) {
 }
 
 export default function Dialog(p: DialogProp) {
+  const innerStyle: CSSProperties = {
+    width: 'min(100%, 400px)',
+  };
   return (
-    <Modal close={p.close} innerClassName="card shadow-3" closeByBackdrop={p.closeByBackdrop}>
+    <Modal close={p.close} innerClassName="card shadow-3 text-center" innerStyle={innerStyle} closeByBackdrop={p.closeByBackdrop}>
       <div className="body">
         {p.title && <h1 className="mt-1">{p.title}</h1>}
         <div className="my-2">
