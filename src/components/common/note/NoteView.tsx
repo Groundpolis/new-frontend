@@ -8,7 +8,6 @@ import copyToClipboard from '../../../scripts/copy-to-clipboard';
 import { getName } from '../../../scripts/get-name';
 import { getSimilarEmojiFromLocal } from '../../../scripts/get-similar-emoji-from-local';
 import { isBlacklistedEmojiName } from '../../../scripts/is-blacklisted-emoji';
-import { notImpl } from '../../../scripts/not-impl';
 import { showModal } from '../../../scripts/show-modal';
 import { showPopupAt } from '../../../scripts/show-popup';
 import { useAppSelector } from '../../../store';

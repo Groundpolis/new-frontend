@@ -8,7 +8,6 @@ import { Gpfm } from '../Gpfm';
 import TimeView from '../TimeView';
 import UserNameView from '../UserNameView';
 import { VisibilityIcon } from '../VisibilityIcon';
-import { NoteViewProp } from './NoteView';
 
 const Container = styled.header`
   white-space: nowrap;

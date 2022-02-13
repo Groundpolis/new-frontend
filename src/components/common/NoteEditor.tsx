@@ -39,7 +39,7 @@ export default function NoteEditor(p: NoteEditorProp) {
   const [text, setText] = useState('');
   const [visibility, setVisibility] = useState<typeof noteVisibilities[number]>('public');
   const [isSending, setSending] = useState(false);
-  const [quote, setQuote] = useState(p.quote);
+  const [quote] = useState(p.quote);
   
   const {reply} = p;
 
