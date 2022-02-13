@@ -145,6 +145,23 @@ export default function NoteView(p: NoteViewProp) {
     });
   };
 
+  const toDraft = () => {
+    showModal(Dialog, {
+      type: 'text',
+      message: 'このノートを削除してもう一度編集しますか？このノートへのリアクション、リノート、返信も全て削除されます。',
+      closeByBackdrop: true,
+      buttonType: 'yesNo',
+      onClick(i) {
+        if (i === 0) {
+          showModal(NoteEditorDialog, {initial: appearNote});
+          api.request('notes/delete', {
+            noteId: appearNote.id,
+          });
+        }
+      },
+    });
+  };
+
   const copyContent = () => {
     if (!appearNote.text) return;
     copyToClipboard(appearNote.text);
@@ -251,7 +268,7 @@ export default function NoteView(p: NoteViewProp) {
         type: 'button',
         icon: FaEdit,
         label: '削除して編集',
-        onClick: deleteNote,
+        onClick: toDraft,
       }, {
         type: 'button',
         icon: FaTrashAlt,
