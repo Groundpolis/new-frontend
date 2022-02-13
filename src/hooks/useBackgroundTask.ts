@@ -71,9 +71,6 @@ export function useBackgroundTask() {
     const channel = stream.useChannel(channelName);
     channel.on('note', (note: Note) => {
       dispatch(appendNote(note));
-      stream.send('sn', {
-        id: note.id,
-      });
     });
     
     return () => {
@@ -90,11 +87,6 @@ export function useBackgroundTask() {
       batch(() => {
         dispatch(setNotes(notes));
         dispatch(setFetchingNotes(false));
-      });
-      notes.forEach(n => {
-        stream?.send('sn', {
-          id: n.id,
-        });
       });
     });
   }, [api, currentTimeline, stream]);

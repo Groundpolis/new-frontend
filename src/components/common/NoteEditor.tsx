@@ -1,11 +1,13 @@
 import { noteVisibilities } from 'misskey-js';
+import { toString } from 'misskey-js/built/acct';
 import { Note } from 'misskey-js/built/entities';
-import React, { KeyboardEvent, MouseEvent, useCallback, useRef, useState } from 'react';
+import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaTimes } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
 import { showPopupAt } from '../../scripts/show-popup';
 import { useAppSelector } from '../../store';
+import TinyNoteView from './note/TinyNoteView';
 import MenuPopup from './popup/MenuPopup';
 import { VisibilityIcon } from './VisibilityIcon';
 
@@ -13,7 +15,15 @@ const Textarea = styled.textarea`
 	height: 7em;
 `;
 
+const QuoteContainer = styled.blockquote`
+  border: 1px solid var(--tone-4);
+  opacity: 0.5;
+`;
+
 export type NoteEditorProp = {
+  reply?: Note,
+  quote?: Note,
+  initial?: Partial<Note>,
   onSubmit?: (note: Note) => void;
 };
 
@@ -27,8 +37,11 @@ export default function NoteEditor(p: NoteEditorProp) {
   const [isEnableCw, setEnableCw] = useState(false);
   const [cwMessage, setCwMessage] = useState('');
   const [text, setText] = useState('');
-  const [isSending, setSending] = useState(false);
   const [visibility, setVisibility] = useState<typeof noteVisibilities[number]>('public');
+  const [isSending, setSending] = useState(false);
+  const [quote, setQuote] = useState(p.quote);
+  
+  const {reply} = p;
 
   const textLimit = (meta?.maxNoteTextLength ?? 500) - text.length;
 
@@ -43,6 +56,8 @@ export default function NoteEditor(p: NoteEditorProp) {
       text,
       cw: isEnableCw ? cwMessage : null,
       visibility,
+      renoteId: quote ? quote.id : undefined,
+      replyId: reply ? reply.id : undefined,
     }).then(({createdNote}) => {
       setSending(false);
       setText('');
@@ -50,6 +65,19 @@ export default function NoteEditor(p: NoteEditorProp) {
     });
     textareaRef.current?.focus();
   }, [text, canSend, isEnableCw, cwMessage, visibility]);
+
+  useEffect(() => {
+    if (!reply) return;
+    setText('@' + toString(reply.user));
+  }, [reply]);
+
+  useEffect(() => {
+    if (!p.initial) return;
+    setEnableCw(p.initial.cw !== null);
+    setCwMessage(p.initial.cw ?? '');
+    setText(p.initial.text ?? '');
+    setVisibility(p.initial.visibility ?? 'public');
+  }, [p.initial]);
 
   const onClickEnableCw = useCallback(() => {
     setEnableCw(true);
@@ -108,6 +136,16 @@ export default function NoteEditor(p: NoteEditorProp) {
   return (
     <div>
       <div className="vstack">
+        {reply && (
+          <QuoteContainer className="pa-2 rounded">
+            <TinyNoteView note={reply} noLink />
+          </QuoteContainer>
+        )}
+        {quote && (
+          <QuoteContainer className="pa-2 rounded">
+            <TinyNoteView note={quote} noLink />
+          </QuoteContainer>
+        )}
         {isEnableCw ? (
           <div className="hstack dense">
             <button className="btn flat pa-1 mr-1" onClick={onClickDisableCw} disabled={isSending}><FaTimes /></button>

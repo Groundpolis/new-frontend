@@ -1,3 +1,5 @@
+import { toString } from 'misskey-js/built/acct';
+import { Note } from 'misskey-js/built/entities';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -19,17 +21,36 @@ const Container = styled.header`
   }
 `;
 
-export default function NoteHeader({note}: NoteViewProp) {
+export type NoteHeaderProp = {
+  note: Note;
+  noLink?: boolean;
+};
+
+export default function NoteHeader({note, noLink}: NoteHeaderProp) {
   const user = note.user;
+  const nameSet = (
+    <>
+      <b className="item"><Gpfm plain emojis={user.emojis} text={getName(user)} /></b>
+      <UserNameView user={user} />
+    </>
+  );
   return (
     <Container className="text-100 flex f-center f-middle">
-      <Link className="item" to={`/@${user.username}${user.host ? `@${user.host}` : ''}`}>
-        <b className="item"><Gpfm plain emojis={user.emojis} text={getName(user)} /></b>
-        <UserNameView user={user} />
-      </Link>
-      <Link to={`/notes/${note.id}`} className="text-dimmed ml-auto time">
-        <TimeView time={note.createdAt} />
-      </Link>
+      {noLink ? (
+        <>
+          <span className="item">{nameSet}</span>
+          <span className="text-dimmed ml-auto time">
+            <TimeView time={note.createdAt} />
+          </span>
+        </>
+      ) : (
+        <>
+          <Link className="item" to={`/@${toString(user)}`}>{nameSet}</Link>
+          <Link to={`/notes/${note.id}`} className="text-dimmed ml-auto time">
+            <TimeView time={note.createdAt} />
+          </Link>
+        </>
+      )}
       {(note.visibility !== 'public' || note.localOnly) && (
         <span className="ml-1">
           <VisibilityIcon visibility={note.visibility} hiddenGlobal />

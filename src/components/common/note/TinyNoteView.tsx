@@ -19,15 +19,15 @@ const Container = styled.div`
 export type TinyNoteViewProp = {
   note: Note,
   isReply?: boolean,
+  noLink?: boolean,
 };
 
-export default function TinyNoteView({note, isReply}: TinyNoteViewProp) {
-
+export default function TinyNoteView({note, isReply, noLink}: TinyNoteViewProp) {
   return (
     <Container>
       <Avatar user={note.user as UserDetailed} size={48} />
       <main style={{flex: 1, minWidth: 0}}>
-        <NoteHeader note={note} />
+        <NoteHeader note={note} noLink={noLink} />
         {note.text && (
           <BodyWrapper className="mt-1">
             {isReply && <FaReply className="text-primary"/>}

@@ -1,6 +1,6 @@
 import { CustomEmoji, Note, UserDetailed } from 'misskey-js/built/entities';
 import React, { MouseEvent, useState } from 'react';
-import { FaCopy, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
+import { FaCopy, FaEdit, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaQuoteRight, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { animationFade } from '../../../animation';
 import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
@@ -14,6 +14,7 @@ import { showPopupAt } from '../../../scripts/show-popup';
 import { useAppSelector } from '../../../store';
 import Avatar from '../Avatar';
 import Dialog from '../dialogs/Dialog';
+import NoteEditorDialog from '../dialogs/NoteEditorDialog';
 import EmojiView from '../EmojiView';
 import { Gpfm } from '../Gpfm';
 import EmojiMartPicker from '../popup/EmojiMartPicker';
@@ -89,31 +90,42 @@ export default function NoteView(p: NoteViewProp) {
 
   const [isCwOpened, setCwOpened] = useState(false);
 
-  // Renoted を表示するかどうか
+  const hasContent = Boolean(p.note.text);
   const isRenote = Boolean(p.note.renote);
-  const appearNote = p.note.renote && !p.note.text ? p.note.renote : p.note;
+  const appearNote = p.note.renote && !hasContent ? p.note.renote : p.note;
   const reply = appearNote.reply;
   const quote = appearNote.renote;
   const user = appearNote.user;
   const renotedUser = isRenote ? p.note.user : null;
 
+  const me = userCache as UserDetailed;
+  const isStaff = me?.isModerator || me?.isAdmin;
   const isVisibleBody = !appearNote.cw || isCwOpened;
-  const isMyNote = user.id === userCache?.id;
-  const canRenote = !!userCache && (appearNote.visibility !== 'followers' || isMyNote);
+  const isMyNote = user.id === me?.id;
+  const canRenote = !!me && (appearNote.visibility !== 'followers' || isMyNote);
 
-  const renote = () => {
-    showModal(Dialog, {
-      type: 'text',
-      message: '本当にリノートしますか？',
-      buttonType: 'yesNo',
-      onClick(i: number) {
-        if (i === 0) {
+  const openRenoteMenu = (el: Element) => {
+    showPopupAt(MenuPopup, el, {
+      items: [[{
+        type: 'button',
+        icon: FaRetweet,
+        label: 'リノート',
+        onClick() {
           api.request('notes/create', {
             renoteId: appearNote.id,
             visibility: appearNote.visibility,
           });
-        }
-      }
+        },
+      }, {
+        type: 'button',
+        icon: FaQuoteRight,
+        label: '引用ノート',
+        onClick() {
+          showModal(NoteEditorDialog, {
+            quote: appearNote,
+          });
+        },
+      }]],
     });
   };
 
@@ -152,9 +164,8 @@ export default function NoteView(p: NoteViewProp) {
     } else {
       let reaction = emoji.startsWith(':') ? getSimilarEmojiFromLocal(emoji, meta) : emoji;
       if (!reaction) {
-        const u = userCache as UserDetailed;
         const [name, host] = emoji.substring(1, emoji.length - 1).split('@');
-        if (!isBlacklistedEmojiName(name) && (u?.isModerator || u?.isAdmin)) {
+        if (!isBlacklistedEmojiName(name) && isStaff) {
           const i = await new Promise<number>(res => showModal(Dialog, {
             type: 'text',
             message: 'そのリアクション絵文字は、まだ本サーバーには登録されていません。コピーしますか？\n<small>（コピー元絵文字は著作権で保護されている場合があります。必ずご確認ください。）</small>',
@@ -197,11 +208,13 @@ export default function NoteView(p: NoteViewProp) {
   };
 
   const onClickReply = () => {
-    notImpl();
+    showModal(NoteEditorDialog, {
+      reply: appearNote,
+    });
   };
 
-  const onClickRenote = () => {
-    renote();
+  const onClickRenote = (e: MouseEvent) => {
+    openRenoteMenu(e.target as Element);
   };
 
   const onClickReaction = (e: MouseEvent) => {
@@ -236,22 +249,35 @@ export default function NoteView(p: NoteViewProp) {
     if (isMyNote) {
       items.push([{
         type: 'button',
+        icon: FaEdit,
+        label: '削除して編集',
+        onClick: deleteNote,
+      }, {
+        type: 'button',
         icon: FaTrashAlt,
         label: '削除',
         onClick: deleteNote,
+        danger: true,
       }]);
+    }
+    if (isStaff && !isMyNote) {
+      items.push({
+        section: 'モデレーション',
+        items: [{
+          type: 'button',
+          icon: FaTrashAlt,
+          label: '削除',
+          onClick: deleteNote,
+          danger: true,
+        }],
+      });
     }
     showPopupAt(MenuPopup, e.target as Element, { items });
   };
 
   return (
     <Container>
-      {reply && (
-        <ReplyWrapper>
-          <TinyNoteView note={reply} />
-        </ReplyWrapper>
-      )}
-      {renotedUser && (
+      {renotedUser && !hasContent && (
         <div className="text-dimmed flex f-middle mb-2">
           <FaRetweet className="mr-1 text-125"/>
           <img src={renotedUser.avatarUrl} className="circle mr-1" style={{width: '1.5em', height: '1.5em'}} />
@@ -259,6 +285,11 @@ export default function NoteView(p: NoteViewProp) {
             <Gpfm plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
           </span>
         </div>
+      )}
+      {reply && (
+        <ReplyWrapper>
+          <TinyNoteView note={reply} />
+        </ReplyWrapper>
       )}
       <div className="hstack">
         <Avatar user={appearNote.user as UserDetailed} />

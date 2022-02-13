@@ -21,6 +21,7 @@ export type ItemProp = {
   icon: IconType,
   label: string,
   onClick?: MouseEventHandler<HTMLElement>,
+  danger?: boolean,
 } & ({
   type: 'link',
   to: To,
@@ -32,17 +33,19 @@ export type ItemProp = {
   disabled?: boolean,
 }));
 
+
 export function MenuItem(p: ItemProp) {
+  const itemClass = `item clickable ${p.danger ? 'text-danger' : ''}`;
   return p.type === 'link' ? (
-    <NavLink className={({isActive}) => `item clickable ${isActive ? 'active' : ''}`} to={p.to} onClick={p.onClick}>
+    <NavLink className={({isActive}) => `${itemClass} ${isActive ? 'active' : ''}`} to={p.to} onClick={p.onClick}>
       <p.icon className="icon" /><span className="label">{p.label}</span>
     </NavLink>
   ) : p.type === 'a' ? (
-    <a className="item clickable" href={p.href} target="_blank" rel="noreferrer noopener" onClick={p.onClick}>
+    <a className={itemClass} href={p.href} target="_blank" rel="noreferrer noopener" onClick={p.onClick}>
       <p.icon className="icon" /><span className="label">{p.label}</span>
     </a>
   ) : (
-    <button className="item clickable" onClick={p.onClick} disabled={p.disabled}>
+    <button className={itemClass} onClick={p.onClick} disabled={p.disabled}>
       <p.icon className="icon" /><span className="label">{p.label}</span>
     </button>
   );
