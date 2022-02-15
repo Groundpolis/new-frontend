@@ -22,6 +22,15 @@ const IconContainer = styled.div<{slim?: boolean}>`
   height: 42px;
 `;
 
+const StyledLink = styled(Link)`
+    text-overflow: ellipsis;
+    word-break: break-all;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    width: 100%;
+`;
+
 const SubIcon = styled.div<{slim?: boolean}>`
   display: flex;
   position: absolute;
@@ -103,12 +112,12 @@ export function NotificationView({ data, slim }: { data: Notification; slim?: bo
     case 'reaction':
     case 'pollVote': {
       const note = data.note;
-      return <Link to={`/notes/${note.id}`} className="text-dimmed">{note.text || `${note.cw} [もっと見る]`}</Link>;
+      return <StyledLink to={`/notes/${note.id}`} className="text-dimmed">{note.text || `${note.cw} [もっと見る]`}</StyledLink>;
     }
     case 'renote': {
       const note = data.note;
       const renote = note.renote;
-      return <Link to={`/notes/${note.id}`} className="text-dimmed">{renote?.text || `${renote?.cw} [もっと見る]`}</Link>;
+      return <StyledLink to={`/notes/${note.id}`} className="text-dimmed">{renote?.text || `${renote?.cw} [もっと見る]`}</StyledLink>;
     }
     case 'receiveFollowRequest': return (
       <div className="vgroup fluid">
