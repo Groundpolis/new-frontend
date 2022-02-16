@@ -11,7 +11,7 @@ import * as serviceWorker from './serviceWorker';
 import { store } from './store';
 import { setHost, setMeta, setStats, setUserCache } from './store/session';
 import './style.scss';
-
+import '@fortawesome/fontawesome-free/css/all.css';
 
 const host = store.getState().session.host;
 

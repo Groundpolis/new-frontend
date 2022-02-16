@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaBell } from 'react-icons/fa';
 import styled from 'styled-components';
 import NotificationListView from '../common/NotificationListView';
 
@@ -11,7 +10,7 @@ overflow: auto;
 export default function Notification() {
   return (
     <div className="card">
-      <header><FaBell/> 通知</header>
+      <header><i className="fas fa-bell" /> 通知</header>
       <Scroller>
         <NotificationListView slim/>
       </Scroller>

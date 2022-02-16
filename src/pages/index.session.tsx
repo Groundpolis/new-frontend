@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { FaAsterisk, FaBullhorn, FaChevronDown, FaComments, FaGlobe, FaHome, FaShareAlt } from 'react-icons/fa';
 import styled from 'styled-components';
 import { animationFadeUp } from '../animation';
 import ActionBar from '../components/common/action-bar/ActionBar';
@@ -32,10 +31,10 @@ export default function SessionPage() {
   const {isMobile} = useBreakpoints();
 
   const tabItems = [
-    { key: 'home', element: <FaHome /> },
-    { key: 'local', element: <FaComments /> },
-    { key: 'social', element: <FaShareAlt /> },
-    { key: 'global', element: <FaGlobe /> },
+    { key: 'home', element: <i className="fas fa-home" /> },
+    { key: 'local', element: <i className="fas fa-comments" /> },
+    { key: 'social', element: <i className="fas fa-share-alt" /> },
+    { key: 'global', element: <i className="fas fa-globe" /> },
   ];
 
   useEffect(() => {
@@ -64,12 +63,12 @@ export default function SessionPage() {
     <>
       <ActionBar>
         <Tab items={tabItems} selected={currentTimeline} onSelect={source => dispatch(setCurrentTimeline(source as TimelineSource))}/>
-        <ActionBarButton className="item clickable mr-auto"><FaChevronDown /></ActionBarButton>
-        <ActionBarButton className="item clickable"><FaBullhorn /></ActionBarButton>
+        <ActionBarButton className="item clickable mr-auto"><i className="fas fa-chevron-down" /></ActionBarButton>
+        <ActionBarButton className="item clickable"><i className="fas fa-bullhorn" /></ActionBarButton>
       </ActionBar>
       { queue.length > 0 && (
         <Alert className="alert bg-info shadow-3">
-          <FaAsterisk className="icon" /> {queue.length}件の新着ノートがあります
+          <i className="fas fa-asterisk icon" /> {queue.length}件の新着ノートがあります
         </Alert>
       )}
       <div className="container" style={{position: 'relative'}}>

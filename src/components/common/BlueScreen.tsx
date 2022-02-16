@@ -1,5 +1,4 @@
 import React, { useLayoutEffect } from 'react';
-import { FaDizzy } from 'react-icons/fa';
 import { initSession } from '../../scripts/init-session';
 
 export default function BlueScreen(p: {message: string, stack?: string}) {
@@ -13,7 +12,7 @@ export default function BlueScreen(p: {message: string, stack?: string}) {
 
   return (
     <div className="container">
-      <h1><FaDizzy/> サーバーへの接続に失敗しました</h1>
+      <h1><i className="fas fa-dizzy"/> サーバーへの接続に失敗しました</h1>
       <h2 className="text-125">エラーコード: {p.message}</h2>
       {p.stack && (
         <details className="mb-2">

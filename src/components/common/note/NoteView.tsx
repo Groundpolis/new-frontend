@@ -1,6 +1,5 @@
 import { CustomEmoji, Note, UserDetailed } from 'misskey-js/built/entities';
 import React, { MouseEvent, useState } from 'react';
-import { FaCopy, FaEdit, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaQuoteRight, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { animationFade } from '../../../animation';
 import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
@@ -107,7 +106,7 @@ export default function NoteView(p: NoteViewProp) {
     showPopupAt(MenuPopup, el, {
       items: [[{
         type: 'button',
-        icon: FaRetweet,
+        icon: 'fas fa-retweet',
         label: 'リノート',
         onClick() {
           api.request('notes/create', {
@@ -117,7 +116,7 @@ export default function NoteView(p: NoteViewProp) {
         },
       }, {
         type: 'button',
-        icon: FaQuoteRight,
+        icon: 'fas fa-quote-right',
         label: '引用ノート',
         onClick() {
           showModal(NoteEditorDialog, {
@@ -245,19 +244,19 @@ export default function NoteView(p: NoteViewProp) {
     const items: MenuItemSection[] = [];
     items.push([{
       type: 'button',
-      icon: FaCopy,
+      icon: 'fas fa-copy',
       label: '内容をコピー',
       onClick: copyContent,
     }, {
       type: 'button',
-      icon: FaLink,
+      icon: 'fas fa-link',
       label: 'リンクをコピー',
       onClick: copyLink,
     }]);
     if (appearNote.user.host) {
       items.push([{
         type: 'button',
-        icon: FaExternalLinkAlt,
+        icon: 'fas fa-external-link-alt',
         label: 'リモートで見る',
         onClick: showOnRemote,
       }]);
@@ -265,12 +264,12 @@ export default function NoteView(p: NoteViewProp) {
     if (isMyNote) {
       items.push([{
         type: 'button',
-        icon: FaEdit,
+        icon: 'fas fa-edit',
         label: '削除して編集',
         onClick: toDraft,
       }, {
         type: 'button',
-        icon: FaTrashAlt,
+        icon: 'fas fa-trash-alt',
         label: '削除',
         onClick: deleteNote,
         danger: true,
@@ -281,7 +280,7 @@ export default function NoteView(p: NoteViewProp) {
         section: 'モデレーション',
         items: [{
           type: 'button',
-          icon: FaTrashAlt,
+          icon: 'fas fa-trash-alt',
           label: '削除',
           onClick: deleteNote,
           danger: true,
@@ -295,7 +294,7 @@ export default function NoteView(p: NoteViewProp) {
     <Container>
       {renotedUser && !hasContent && (
         <div className="text-dimmed flex f-middle mb-2">
-          <FaRetweet className="mr-1 text-125"/>
+          <i className="fa fa-retweet fa-fw mr-1 text-125"/>
           <img src={renotedUser.avatarUrl} className="circle mr-1" style={{width: '1.5em', height: '1.5em'}} />
           <span>
             <Gpfm plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
@@ -321,7 +320,7 @@ export default function NoteView(p: NoteViewProp) {
           )}
           {isVisibleBody && (
             <>
-              {appearNote.text && <BodyWrapper className="mt-1">{appearNote.reply && <FaReply className="text-primary mr-1" />}<Gpfm className="inline" text={appearNote.text} emojis={appearNote.emojis}/></BodyWrapper>}
+              {appearNote.text && <BodyWrapper className="mt-1">{appearNote.reply && <i className="fas fa-reply text-primary mr-1" />}<Gpfm className="inline" text={appearNote.text} emojis={appearNote.emojis}/></BodyWrapper>}
               {quote && appearNote.text && (
                 <QuoteContainer className="rounded mt-1 pa-1">
                   <TinyNoteView note={quote} />
@@ -342,15 +341,18 @@ export default function NoteView(p: NoteViewProp) {
       </div>
       <Commands className="hstack f-right">
         <button className="btn flat" onClick={onClickReply}>
-          <FaReply />
+          <i className="fas fa-reply" />
           {appearNote.repliesCount > 0 && <span className="text-dimmed ml-1">{appearNote.repliesCount < 10 ? appearNote.repliesCount : '9+'}</span>}
         </button>
         <button className="btn flat" onClick={onClickRenote} disabled={!canRenote}>
-          <FaRetweet />
+          <i className="fas fa-retweet" />
           {appearNote.renoteCount > 0 && <span className="text-dimmed ml-1">{appearNote.renoteCount < 10 ? appearNote.renoteCount : '9+'}</span>}
         </button>
-        <button className="btn flat" onClick={onClickReaction}><FaSmile /><FaPlus /></button>
-        <button className="btn flat" onClick={onClickMore}><FaEllipsisH /></button>
+        <button className="btn flat" onClick={onClickReaction}>
+          <i className="fas fa-smile"></i>
+          <i className="fas fa-plus"></i>
+        </button>
+        <button className="btn flat" onClick={onClickMore}><i className="fas fa-ellipsis-h"></i></button>
       </Commands>
     </Container>
   );

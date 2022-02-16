@@ -1,6 +1,5 @@
 import { Note } from 'misskey-js/built/entities';
 import React, { MouseEvent, useCallback, useMemo, useState } from 'react';
-import { FaSmile } from 'react-icons/fa';
 import styled from 'styled-components';
 import pantaNote from '../assets/panta.min.json';
 import ActionBar from '../components/common/action-bar/ActionBar';
@@ -48,7 +47,7 @@ export default function DebugPage() {
         <article>
           <h2 className="underline">UI Test</h2>
           <h3>絵文字ピッカー</h3>
-          <button className="btn" onClick={onClickOpenEmojiPicker}><FaSmile /></button>
+          <button className="btn" onClick={onClickOpenEmojiPicker}><i className="fas fa-smile" /></button>
           <h3>ImageGrid</h3>
           <input type="number" className="input-field mb-2" value={gridCount} placeholder="グリッド数" min={1} max={4} onChange={e => setGridCount(parseInt(e.target.value))} />
           <ImageGridContainer>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaPencilAlt, FaProjectDiagram, FaStar, FaUser } from 'react-icons/fa';
 import { PropsWithMeta } from '../../models/PropsWithMeta';
 import { useAppSelector } from '../../store';
 import { Gpfm } from '../common/Gpfm';
@@ -17,21 +16,21 @@ export default function AboutServer({meta}: PropsWithMeta) {
         <dl>
           {meta.maintainerName && (
             <>
-              <dt><FaStar/>&ensp;管理者</dt>
+              <dt><i className="fas fa-star fa-fw"/>&ensp;管理者</dt>
               <dd>
                 {meta.maintainerEmail ? <a style={{color: 'inherit'}} href={`mailto:${meta.maintainerEmail}`}>{meta.maintainerName}</a> : meta.maintainerName}
               </dd>
             </>
           )}
-          <dt><FaPencilAlt/>&ensp;ノート数</dt>
+          <dt><i className="fas fa-pencil-alt fa-fw"/>&ensp;ノート数</dt>
           <dd>
             {stats ? <><span className="text-200">{stats.originalNotesCount}</span> ノート</> : '取得中…'}
           </dd>
-          <dt><FaUser />&ensp;ユーザー数</dt>
+          <dt><i className="fas fa-user fa-fw" />&ensp;ユーザー数</dt>
           <dd>
             {stats ? <><span className="text-200">{stats.originalUsersCount}</span> 人</> : '取得中…'}
           </dd>
-          <dt><FaProjectDiagram />&ensp;連合インスタンス数</dt>
+          <dt><i className="fas fa-project-diagram fa-fw" />&ensp;連合インスタンス数</dt>
           <dd>
             {stats ? <><span className="text-200">{stats.instances}</span></> : '取得中…'}
           </dd>

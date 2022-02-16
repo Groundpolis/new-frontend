@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler, useCallback } from 'react';
-import { FaSignOutAlt } from 'react-icons/fa';
 import ActionBar from '../components/common/action-bar/ActionBar';
 import Dialog from '../components/common/dialogs/Dialog';
 import { initSession } from '../scripts/init-session';
@@ -59,7 +58,7 @@ export default function SettingsPage() {
           <h1>危険な設定</h1>
           <div className="list-form">
             <button className="item text-danger" onClick={onClickLogout}>
-              <FaSignOutAlt className="icon"/>
+              <i className="icon fas fa-sign-out-alt"/>
               <div className="body">
                 <h1>ログアウト</h1>
                 <p className="desc">ログアウトしても、アカウントは削除されません。</p>

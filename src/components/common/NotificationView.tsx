@@ -1,7 +1,6 @@
 import { toString } from 'misskey-js/built/acct';
 import { Notification, UserDetailed } from 'misskey-js/built/entities';
 import React from 'react';
-import { FaCheck, FaClock, FaIdCardAlt, FaPlus, FaPollH, FaRetweet, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { animationFade } from '../../animation';
@@ -121,8 +120,8 @@ export function NotificationView({ data, slim }: { data: Notification; slim?: bo
     }
     case 'receiveFollowRequest': return (
       <div className="vgroup fluid">
-        <button className="btn primary"><FaCheck /></button>
-        <button className="btn danger"><FaTimes /></button>
+        <button className="btn primary"><i className="fas fa-check fa-fw" /></button>
+        <button className="btn danger"><i className="fas fa-times fa-fw" /></button>
       </div>
     );
     case 'follow': return (
@@ -140,13 +139,13 @@ export function NotificationView({ data, slim }: { data: Notification; slim?: bo
 
   const subIcon = (() => {
     switch (data.type) {
-    case 'follow': return <FaPlus />;
-    case 'followRequestAccepted': return <FaCheck />;
-    case 'groupInvited': return <FaIdCardAlt />;
-    case 'pollVote': return <FaPollH />;
+    case 'follow': return <i className="fas fa-plus fa-fw" />;
+    case 'followRequestAccepted': return <i className="fas fa-check fa-fw" />;
+    case 'groupInvited': return <i className="fas fa-id-card-alt fa-fw" />;
+    case 'pollVote': return <i className="fas fa-poll-h fa-fw" />;
     case 'reaction': return <EmojiView emoji={data.reaction} customEmojis={data.note.emojis} normal />;
-    case 'receiveFollowRequest': return <FaClock />;
-    case 'renote': return <FaRetweet />;
+    case 'receiveFollowRequest': return <i className="fas fa-clock fa-fw" />;
+    case 'renote': return <i className="fas fa-retweet fa-fw" />;
     }
   })();
 

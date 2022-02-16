@@ -1,6 +1,5 @@
 import { Note } from 'misskey-js/built/entities';
 import React from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useBreakpoints } from '../../../hooks/useBreakpoints';
 import Modal, { ModalProp } from '../Modal';
@@ -23,7 +22,7 @@ export default function NoteEditorDialog(prop: NoteEditorDialogProp) {
     <Modal close={prop.close} closeByBackdrop align="top" full={isMobile} innerClassName={isMobile ? 'fluid' : ''}>
       <Backdrop className={isMobile ? '' : 'rounded'} style={isMobile ? {} : {width: 700}}>
         <header className="text-125 flex f-middle">
-          <button className="btn flat pa-2" onClick={prop.close}><FaArrowLeft size="18" /></button>
+          <button className="btn flat pa-2" onClick={prop.close}><i className="fa-arrow-left" /></button>
           {prop.quote ? '引用' : prop.reply ? '返信' : '投稿を作成'}
         </header>
         <div className="pa-2">

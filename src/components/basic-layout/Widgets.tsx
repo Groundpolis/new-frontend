@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaPencilAlt } from 'react-icons/fa';
 import Calendar from '../widgets/Calendar';
 import Notification from '../widgets/Notification';
 
@@ -9,7 +8,7 @@ export default function Widgets() {
       <Calendar />
       <Notification />
       <button className="btn flat" disabled>
-        <FaPencilAlt className="mr-2"/> ウィジェットを編集
+        <i className="fas fa-pencil-alt mr-2"/> ウィジェットを編集
       </button>
     </div>
   );

@@ -107,7 +107,7 @@ export default function WelcomePage() {
                   <div className="hstack">
                     {/* {isDisabledRegistration ? ( */}
                     {/* <a href="https://join.misskey.page/instances" className="btn shadow-1 text-bold primary" target="_blank" rel="noreferrer noopener"> */}
-                    {/* サーバーを探す <FaExternalLinkAlt className="ml-1"/> */}
+                    {/* サーバーを探す <i className="fas fa-external-link-alt ml-1"/> */}
                     {/* </a> */}
                     {/* ) : ( */}
                     <button className="btn shadow-1 text-bold primary" onClick={authenticate}>ログイン</button>
