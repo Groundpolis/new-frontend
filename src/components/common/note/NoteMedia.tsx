@@ -1,6 +1,5 @@
 import { DriveFile } from 'misskey-js/built/entities';
 import React from 'react';
-import { FaDownload } from 'react-icons/fa';
 import styled from 'styled-components';
 import { showModal } from '../../../scripts/show-modal';
 import AspectView from '../AspectView';
@@ -88,7 +87,7 @@ export function MediaView({file, allFiles}: {file: DriveFile, allFiles?: DriveFi
   } else {
     return (
       <DownloadButton href={file.url} download className="btn flex f-left f-middle primary">
-        <FaDownload className="icon mr-1"/>
+        <i className="fas fa-download fa-fw icon"/>
         <div>{file.name}</div>
       </DownloadButton>
     );

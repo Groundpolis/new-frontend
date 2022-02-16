@@ -1,6 +1,5 @@
 import { Note, UserDetailed } from 'misskey-js/built/entities';
 import React from 'react';
-import { FaReply } from 'react-icons/fa';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
 import { Gpfm } from '../Gpfm';
@@ -30,7 +29,7 @@ export default function TinyNoteView({note, isReply, noLink}: TinyNoteViewProp) 
         <NoteHeader note={note} noLink={noLink} />
         {note.text && (
           <BodyWrapper className="mt-1">
-            {isReply && <FaReply className="text-primary"/>}
+            {isReply && <i className="fas fa-reply text-primary"/>}
             <Gpfm text={note.text}/>
           </BodyWrapper>
         )}

@@ -1,8 +1,7 @@
+import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { noteVisibilities } from 'misskey-js';
 import { toString } from 'misskey-js/built/acct';
 import { Note } from 'misskey-js/built/entities';
-import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { FaBullhorn, FaChevronDown, FaEnvelope, FaEyeSlash, FaGlobe, FaHome, FaLock, FaPlusCircle, FaPollH, FaTimes } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
 import { showPopupAt } from '../../scripts/show-popup';
@@ -99,22 +98,22 @@ export default function NoteEditor(p: NoteEditorProp) {
     new Promise<typeof noteVisibilities[number]>(res => showPopupAt(MenuPopup, e.target as Element, {
       items: [[{
         type: 'button',
-        icon: FaGlobe,
+        icon: 'fas fa-globe',
         label: 'パブリック',
         onClick: () => res('public'),
       },{
         type: 'button',
-        icon: FaHome,
+        icon: 'fas fa-globe',
         label: '未収載',
         onClick: () => res('home'),
       },{
         type: 'button',
-        icon: FaLock,
+        icon: 'fas fa-lock',
         label: 'フォロワー',
         onClick: () => res('followers'),
       },{
         type: 'button',
-        icon: FaEnvelope,
+        icon: 'fas fa-envelope',
         label: 'ダイレクト',
         onClick: () => res('specified'),
       },]],
@@ -148,20 +147,20 @@ export default function NoteEditor(p: NoteEditorProp) {
         )}
         {isEnableCw ? (
           <div className="hstack dense">
-            <button className="btn flat pa-1 mr-1" onClick={onClickDisableCw} disabled={isSending}><FaTimes /></button>
+            <button className="btn flat pa-1 mr-1" onClick={onClickDisableCw} disabled={isSending}><i className="fas fa-times fa-fw" /></button>
             <input type="text" className="input-field" placeholder="注釈" disabled={isSending} value={cwMessage} onChange={onChangeCw} />
           </div>
         ) : (
           <button className="btn text-left px-1 fluid" disabled={isSending} onClick={onClickEnableCw}>
-            <FaEyeSlash className="mr-1"/>投稿内容を伏せる
+            <i className="fas fa-eye-slash mr-1"/>投稿内容を伏せる
           </button>
         )}
         <Textarea className="input-field" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
       </div>
       <div className="hstack dense mt-2">
-        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPlusCircle /></button>
-        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaPollH /></button>
-        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><FaBullhorn /></button>
+        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-plus-circle fa-fw" /></button>
+        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-poll-h fa-fw" /></button>
+        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-bullhorn fa-fw" /></button>
         <div className="hstack dense ml-auto f-middle">
           <b className={`text-dimmed ${textLimit < 0 ? 'text-danger' : ''}`}>{textLimit}</b>
           <div className="hgroup ml-1">
@@ -170,7 +169,7 @@ export default function NoteEditor(p: NoteEditorProp) {
               <span className="ml-1">{isSending ? '送信中…' : '送信'}</span>
             </button>
             <button className="btn primary pa-1" style={{marginLeft: 1}} onClick={onClickVisibility}>
-              <FaChevronDown />
+              <i className="fas fa-chevron-down" />
             </button>
           </div>
         </div>

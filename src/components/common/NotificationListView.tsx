@@ -32,7 +32,7 @@ export default function NotificationListView({slim}: {slim?: boolean}) {
     <>
       <div className="vgroup outline">
         {notifications.map(n => (
-          <div className="pa-2" key={n.id}>
+          <div className="px-1 py-2" key={n.id}>
             <NotificationView data={n} slim={slim} />
           </div>
         ))}

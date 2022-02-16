@@ -1,6 +1,5 @@
 import { UserDetailed } from 'misskey-js/built/entities';
 import React, { HTMLProps } from 'react';
-import { FaBell, FaChevronDown, FaCloud, FaCog, FaEllipsisH, FaEnvelope, FaHashtag, FaHome, FaServer, FaSmile, FaToolbox } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useBreakpoints } from '../../hooks/useBreakpoints';
 import { notImpl } from '../../scripts/not-impl';
@@ -46,33 +45,33 @@ export default function Sidebar(p: SidebarProp) {
           {!p.slim && (
             <>
               <ProfileName>{userCache?.name}</ProfileName>
-              <FaChevronDown className="ml-auto" />
+              <i className="fas fa-chevron-down ml-auto" />
             </>
           )}
         </ProfileButton>
       )}
       <Menu style={{position: 'relative'}} slim={p.slim}>
         <MenuSection>
-          {!isMobile && <MenuItem icon={FaHome} label={isLoggedIn ? 'タイムライン' : 'ホーム'} type="link" to="/" onClick={closeMenu} />}
-          {!isMobile && <MenuItem icon={FaBell} label="通知" type="link" to="/notifications" onClick={closeMenu} />}
-          {!isMobile && <MenuItem icon={FaHashtag} label="みつける" type="button" onClick={notImpl} />}
+          {!isMobile && <MenuItem icon="fas fa-home" label={isLoggedIn ? 'タイムライン' : 'ホーム'} type="link" to="/" onClick={closeMenu} />}
+          {!isMobile && <MenuItem icon="fas fa-bell" label="通知" type="link" to="/notifications" onClick={closeMenu} />}
+          {!isMobile && <MenuItem icon="fas fa-hashtag" label="みつける" type="button" onClick={notImpl} />}
           {isLoggedIn && (
             <>
-              {!isMobile && <MenuItem icon={FaEnvelope} label="メッセージ" type="button" onClick={notImpl} />}
-              <MenuItem icon={FaCloud} label="ファイル" type="button" onClick={notImpl} />
+              {!isMobile && <MenuItem icon="fas fa-envelope" label="メッセージ" type="button" onClick={notImpl} />}
+              <MenuItem icon="fas fa-cloud" label="ファイル" type="button" onClick={notImpl} />
             </>
           )}
         </MenuSection>
         <MenuSection>
-          <MenuItem icon={FaCog} label="設定" type="link" to="/settings" onClick={closeMenu} />
+          <MenuItem icon="fas fa-cog" label="設定" type="link" to="/settings" onClick={closeMenu} />
           {(userCache as UserDetailed)?.isModerator && (
-            <MenuItem icon={FaServer} label="サーバー管理" type="button" onClick={notImpl} />
+            <MenuItem icon="fas fa-server" label="サーバー管理" type="button" onClick={notImpl} />
           )}
-          {localStorage['debug'] === 'えびはうまい' && <MenuItem icon={FaToolbox} label="デバッグモード" type="link" to="/debug" onClick={closeMenu} /> }
-          <MenuItem icon={FaEllipsisH} label="もっと！" type="button" onClick={notImpl}/>
+          {localStorage['debug'] === 'えびはうまい' && <MenuItem icon="fas fa-toolbox" label="デバッグモード" type="link" to="/debug" onClick={closeMenu} /> }
+          <MenuItem icon="fas fa-ellipsis-h" label="もっと！" type="button" onClick={notImpl}/>
         </MenuSection>
         <MenuSection>
-          <MenuItem icon={FaSmile} label="フィードバック" type="link" to="/feedback" onClick={closeMenu}/>
+          <MenuItem icon="fas fa-smile" label="フィードバック" type="link" to="/feedback" onClick={closeMenu}/>
         </MenuSection>
       </Menu>
     </div>

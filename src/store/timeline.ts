@@ -37,6 +37,7 @@ const sessionSlice = createSlice({
     appendNote(state, {payload}: PayloadAction<Note>) {
       const target = state.isScrolling ? state.queue : state.notes;
       target.unshift(payload);
+      state.notes = state.notes.slice(0, 100);
     },
     appendNotesToTop(state, {payload}: PayloadAction<Note[]>) {
       state.notes.unshift(...payload);
@@ -64,6 +65,7 @@ const sessionSlice = createSlice({
       state.isScrolling = payload;
       state.notes.unshift(...state.queue);
       state.queue = [];
+      state.notes = state.notes.slice(0, 300);
     },
   },
 });

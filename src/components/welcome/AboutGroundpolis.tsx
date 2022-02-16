@@ -1,6 +1,4 @@
 import React, { PropsWithChildren } from 'react';
-import { IconType } from 'react-icons';
-import { FaIcons, FaProjectDiagram, FaSlidersH } from 'react-icons/fa';
 import featuresImageReaction from '../../assets/features/reaction.png';
 import { PropsWithMeta } from '../../models/PropsWithMeta';
 import FeatureCard from './FeatureCard';
@@ -8,10 +6,10 @@ import { Article } from './styled/Article';
 import { Features } from './styled/Features';
 
 
-function DescriptionCard(p: PropsWithChildren<{title: string, icon: IconType}>) {
+function DescriptionCard(p: PropsWithChildren<{title: string, icon: string}>) {
   return (
     <div className="col-4 col-12-sm vstack f-middle text-center">
-      <p.icon fontSize="3rem" color="var(--primary)" />
+      <i className={`block text-primary ${p.icon}`} style={{fontSize: '3rem'}} />
       <h2>{p.title}</h2>
       {p.children}
     </div>
@@ -23,13 +21,13 @@ export default function AboutGroundpolis({meta}: PropsWithMeta) {
     <>
       <Article className="pa-4">
         <div className="row">
-          <DescriptionCard title="カスタマイズ" icon={FaSlidersH}>
+          <DescriptionCard title="カスタマイズ" icon="fas fa-sliders-h">
             <p>柔軟なカスタマイズ機能により、あなた好みに仕立てましょう。</p>
           </DescriptionCard>
-          <DescriptionCard title="多機能" icon={FaIcons}>
+          <DescriptionCard title="多機能" icon="fas fa-icons">
             <p>お絵かきツール、ページ作成ツール、ミニゲームなど、様々な機能を搭載。</p>
           </DescriptionCard>
-          <DescriptionCard title="分散" icon={FaProjectDiagram}>
+          <DescriptionCard title="分散" icon="fas fa-project-diagram">
             <p>業界標準分散SNSプロトコル「ActivityPub」対応。</p>
           </DescriptionCard>
         </div>

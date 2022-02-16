@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaBars, FaBell, FaEnvelope, FaHashtag, FaHome, FaPencilAlt } from 'react-icons/fa';
 import { NavLink, NavLinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 import { showModal } from '../../../scripts/show-modal';
@@ -66,17 +65,17 @@ export default function BottomCommandBar() {
   const item: NavLinkProps['className'] = p => `item ${p.isActive ? 'active' : ''}`;
   return (
     <Container>
-      <Fab className="left shadow-1 circle" onClick={onClickShowMenu}>
-        <FaBars />
+      <Fab className="left shadow-1 circle clickable" onClick={onClickShowMenu}>
+        <i className="fas fa-bars" />
       </Fab>
-      <Fab className="right shadow-1 circle primary" onClick={onClickCreateNote}>
-        <FaPencilAlt />
+      <Fab className="right shadow-1 circle clickable primary" onClick={onClickCreateNote}>
+        <i className="fas fa-pencil-alt" />
       </Fab>
       <div className="tab">
-        <NavLink to='/' className={item}><FaHome /></NavLink>
-        <NavLink to='/explore' className={item}><FaHashtag /></NavLink>
-        <NavLink to='/notifications' className={item}><FaBell /></NavLink>
-        <NavLink to='/messaging' className={item}><FaEnvelope /></NavLink>
+        <NavLink to='/' className={item}><i className="fas fa-home fa-fw"/></NavLink>
+        <NavLink to='/explore' className={item}><i className="fas fa-hashtag fa-fw"/></NavLink>
+        <NavLink to='/notifications' className={item}><i className="fas fa-bell fa-fw"/></NavLink>
+        <NavLink to='/messaging' className={item}><i className="fas fa-envelope fa-fw"/></NavLink>
       </div>
     </Container>
   );
