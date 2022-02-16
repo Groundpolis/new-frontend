@@ -1,8 +1,6 @@
 import { Stream } from 'misskey-js';
 import React, { createContext, useEffect, useMemo } from 'react';
-import {
-  BrowserRouter, Route, Routes
-} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Dialog from './components/common/dialogs/Dialog';
 import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB, INTERNAL_VERSION } from './const';
 import { useBackgroundTask } from './hooks/useBackgroundTask';
@@ -20,7 +18,7 @@ import SettingsPage from './pages/settings';
 import { showModal } from './scripts/show-modal';
 import { storage } from './scripts/storage';
 import { useAppDispatch, useAppSelector } from './store';
-import { setLaptop, setMobile, setTablet } from './store/screen';
+import { setLaptop, setLayoutType, setMobile, setTablet } from './store/screen';
 
 export const StreamingContext = createContext<Stream | null>(null);
 
@@ -71,6 +69,12 @@ function App() {
     default: return BasicLayout;
     }
   }, [layoutType]);
+
+  useEffect(() => {
+    if (location.search === '?zen') {
+      dispatch(setLayoutType('zen'));
+    }
+  }, []);
 
   return (
     <StreamingContext.Provider value={stream}>
