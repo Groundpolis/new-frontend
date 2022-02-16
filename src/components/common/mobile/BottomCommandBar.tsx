@@ -66,10 +66,10 @@ export default function BottomCommandBar() {
   const item: NavLinkProps['className'] = p => `item ${p.isActive ? 'active' : ''}`;
   return (
     <Container>
-      <Fab className="left shadow-1 circle" onClick={onClickShowMenu}>
+      <Fab className="left shadow-1 circle clickable" onClick={onClickShowMenu}>
         <FaBars />
       </Fab>
-      <Fab className="right shadow-1 circle primary" onClick={onClickCreateNote}>
+      <Fab className="right shadow-1 circle clickable primary" onClick={onClickCreateNote}>
         <FaPencilAlt />
       </Fab>
       <div className="tab">
