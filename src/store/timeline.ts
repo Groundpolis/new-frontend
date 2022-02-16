@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Note } from 'misskey-js/built/entities';
-import { NoteUpdatedEvent } from 'misskey-js/built/streaming.types';
 import { TimelineSource } from '../models/timeline-source';
 import { storage } from '../scripts/storage';
 
@@ -48,48 +47,15 @@ const sessionSlice = createSlice({
     setNotes(state, {payload}: PayloadAction<Note[]>) {
       state.notes = (payload);
     },
-    updateNote(state, {payload: e}: PayloadAction<NoteUpdatedEvent & {currentUserId?: string}>) {
-      switch (e.type as string) {
-      case 'reacted': {
-        const {reaction, userId, emoji} = e.body as {reaction: string, userId: string, emoji?: {name: string, url: string}};
-        const note = state.notes.find(n => n.id === e.id);
-        state.notes.filter(n => n.renoteId === e.id).map(n => n.renote).concat(note).forEach((n?: Note) => {
-          const rs = n?.reactions;
-          if (!n || !rs) return;
-          rs[reaction] = (rs[reaction] ?? 0) + 1;
-          if (emoji) {
-            n.emojis.push(emoji);
-          }
-          if (userId === e.currentUserId) {
-            n.myReaction = reaction;
-          }
-        });
-        break;
-      }
-      case 'unreacted': {
-        const {reaction, userId} = e.body as {reaction: string, userId: string};
-        const note = state.notes.find(n => n.id === e.id);
-        state.notes.filter(n => n.renoteId === e.id).map(n => n.renote).concat(note).forEach((n?: Note) => {
-          const rs = n?.reactions;
-          if (!n || !rs) return;
-          if (rs[reaction] <= 1) {
-            delete rs[reaction];
-          } else {
-            rs[reaction] = rs[reaction] - 1;
-          }
-          if (userId === e.currentUserId) {
-            n.myReaction = undefined;
-          }
-        });
-        break;
-      }
-      case 'deleted':
-        state.notes = state.notes.filter(n => n.id !== e.id && n.renoteId !== e.id);
-        break;
-      default:
-        console.warn('Unsupported or not implemented updateNote event type: ' + e.type);
-        break;
-      }
+    updateNote(state, {payload: newNote}: PayloadAction<Note>) {
+      const ni = state.notes.findIndex(n => n.id === newNote.id);
+      if (ni >= 0) state.notes[ni] = newNote;
+      const qi = state.queue.findIndex(n => n.id === newNote.id);
+      if (qi >= 0) state.queue[qi] = newNote;
+    },
+    deleteNote(state, {payload: id}: PayloadAction<string>) {
+      state.notes = state.notes.filter(n => n.id !== id);
+      state.queue = state.queue.filter(n => n.id !== id);
     },
     setFetchingNotes(state, {payload}: PayloadAction<boolean>) {
       state.isFetchingNotes = payload;
@@ -112,6 +78,7 @@ export const {
   appendNotesToBottom,
   setNotes,
   updateNote,
+  deleteNote,
   setFetchingNotes,
   setScrolling,
 } = sessionSlice.actions;

@@ -19,7 +19,7 @@ export default function NotePage() {
     <>
       <div className="container">
         {note ? (
-          <NoteView note={note} />
+          <NoteView note={note} onNoteUpdate={setNote} />
         ) : (
           <div className="skeleton" style={{height: 136}} />
         )}

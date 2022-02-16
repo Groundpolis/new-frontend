@@ -1,6 +1,6 @@
 import { toString } from 'misskey-js/built/acct';
-import { Notification, UserDetailed } from 'misskey-js/built/entities';
-import React from 'react';
+import { Note, Notification, UserDetailed } from 'misskey-js/built/entities';
+import React, { useLayoutEffect, useState } from 'react';
 import { FaCheck, FaClock, FaIdCardAlt, FaPlus, FaPollH, FaRetweet, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -79,8 +79,18 @@ const Article = styled.div`
 `;
 
 export function NotificationView({ data, slim }: { data: Notification; slim?: boolean }) {
-  if (data.type === 'quote' || data.type === 'reply' || data.type === 'mention') {
-    return <NoteView note={data.note} />;
+  const [note, setNote] = useState<Note | null>(null);
+
+  const isShowAsNote = data.type === 'quote' || data.type === 'reply' || data.type === 'mention';
+
+  useLayoutEffect(() => {
+    if (isShowAsNote) {
+      setNote(data.note);
+    }
+  }, [isShowAsNote]);
+
+  if (isShowAsNote) {
+    return <NoteView note={note ?? data.note} onNoteUpdate={setNote} />;
   }
 
   const title = (() => {

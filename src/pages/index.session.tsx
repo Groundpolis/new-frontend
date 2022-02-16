@@ -11,7 +11,7 @@ import { Tab } from '../components/common/Tab';
 import { useBreakpoints } from '../hooks/useBreakpoints';
 import { TimelineSource } from '../models/timeline-source';
 import { useAppDispatch, useAppSelector } from '../store';
-import { setCurrentTimeline, setScrolling } from '../store/timeline';
+import { deleteNote, setCurrentTimeline, setScrolling, updateNote } from '../store/timeline';
 
 const Alert = styled.div`
   position: sticky;
@@ -81,7 +81,7 @@ export default function SessionPage() {
           {notes.map(n => (
             <div className="card" key={n.id}>
               <div className="body">
-                <NoteView note={n}/>
+                <NoteView note={n} onNoteUpdate={it => dispatch(updateNote(it))} onNoteDelete={() => dispatch(deleteNote(n.id))} />
               </div>
             </div>
           ))}

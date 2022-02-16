@@ -1,15 +1,19 @@
+import produce from 'immer';
 import { CustomEmoji, Note, UserDetailed } from 'misskey-js/built/entities';
-import React, { MouseEvent, useState } from 'react';
+import { NoteUpdatedEvent } from 'misskey-js/built/streaming.types';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import { FaCopy, FaEdit, FaEllipsisH, FaExternalLinkAlt, FaLink, FaPlus, FaQuoteRight, FaReply, FaRetweet, FaSmile, FaTrashAlt } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { animationFade } from '../../../animation';
 import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
+import { useStreaming } from '../../../hooks/useStreaming';
 import copyToClipboard from '../../../scripts/copy-to-clipboard';
 import { getName } from '../../../scripts/get-name';
 import { getSimilarEmojiFromLocal } from '../../../scripts/get-similar-emoji-from-local';
 import { isBlacklistedEmojiName } from '../../../scripts/is-blacklisted-emoji';
 import { showModal } from '../../../scripts/show-modal';
 import { showPopupAt } from '../../../scripts/show-popup';
+import { updateNoteViaEvent } from '../../../scripts/update-note-via-event';
 import { useAppSelector } from '../../../store';
 import Avatar from '../Avatar';
 import Dialog from '../dialogs/Dialog';
@@ -25,6 +29,8 @@ import TinyNoteView from './TinyNoteView';
 
 export type NoteViewProp = {
   note: Note,
+  onNoteUpdate?: (updatedNote: Note) => void;
+  onNoteDelete?: () => void;
 };
 
 const Container = styled.div`
@@ -83,6 +89,7 @@ const Commands = styled.div`
 
 export default function NoteView(p: NoteViewProp) {
   const api = useMisskeyClient();
+  const stream = useStreaming();
   const {meta, userCache} = useAppSelector(state => state.session);
 
   if (!meta) throw new TypeError();
@@ -291,6 +298,33 @@ export default function NoteView(p: NoteViewProp) {
     showPopupAt(MenuPopup, e.target as Element, { items });
   };
 
+  useEffect(() => {
+    if (!stream) return;
+    const noteUpdated = (e: NoteUpdatedEvent) => {
+      if (e.id !== p.note.id && e.id !== p.note.renote?.id) return;
+      if (e.type === 'deleted') {
+        p.onNoteDelete?.call(null);
+        return;
+      }
+      if (!p.onNoteUpdate) return;
+      const renote = p.note.renote;
+      if (!renote) {
+        p.onNoteUpdate(updateNoteViaEvent(p.note, e, userCache?.id));
+      } else {
+        p.onNoteUpdate(produce(p.note, it => {
+          it.renote = updateNoteViaEvent(renote, e, userCache?.id);
+        }));
+      }
+    };
+    stream.send('sn', {
+      id: appearNote.id,
+    });
+    stream.on('noteUpdated', noteUpdated);
+    return () => {
+      stream.off('noteUpdated', noteUpdated);
+    };
+  }, [stream, appearNote.id, p.note.id]);
+
   return (
     <Container>
       {renotedUser && !hasContent && (
@@ -322,7 +356,7 @@ export default function NoteView(p: NoteViewProp) {
           {isVisibleBody && (
             <>
               {appearNote.text && <BodyWrapper className="mt-1">{appearNote.reply && <FaReply className="text-primary mr-1" />}<Gpfm className="inline" text={appearNote.text} emojis={appearNote.emojis}/></BodyWrapper>}
-              {quote && appearNote.text && (
+              {quote && (
                 <QuoteContainer className="rounded mt-1 pa-1">
                   <TinyNoteView note={quote} />
                 </QuoteContainer>

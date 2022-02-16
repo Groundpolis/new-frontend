@@ -17,7 +17,7 @@
     "@types/uuid": "^8.3.4",
     "emoji-mart": "^3.0.1",
     "mfm-js": "groundpolis/gpfm.js",
-    "misskey-js": "^0.0.13",
+    "misskey-js": "^0.0.14",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
