@@ -31,15 +31,15 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
   }
 
   case 'bold': {
-    return <b>{<Forest forest={tree.children}/>}</b>;
+    return <b>{<Forest forest={tree.children} emojis={emojis}/>}</b>;
   }
 
   case 'strike': {
-    return <del>{<Forest forest={tree.children}/>}</del>;
+    return <del>{<Forest forest={tree.children} emojis={emojis}/>}</del>;
   }
 
   case 'italic': {
-    return <i>{<Forest forest={tree.children}/>}</i>;
+    return <i>{<Forest forest={tree.children} emojis={emojis}/>}</i>;
   }
 
   case 'fn': {
@@ -80,18 +80,18 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
     }
     }
     if (style == null) {
-      return <Forest forest={tree.children} />;
+      return <Forest forest={tree.children} emojis={emojis} />;
     } else {
-      return <span style={{display: 'inline-block', ...style}}>{<Forest forest={tree.children}/>}</span>;
+      return <span style={{display: 'inline-block', ...style}}>{<Forest forest={tree.children} emojis={emojis}/>}</span>;
     }
   }
 
   case 'small': {
-    return <small style={{opacity: 0.7}}>{<Forest forest={tree.children}/>}</small>;
+    return <small style={{opacity: 0.7}}>{<Forest forest={tree.children} emojis={emojis}/>}</small>;
   }
 
   case 'center': {
-    return <div style={{textAlign: 'center'}}>{<Forest forest={tree.children}/>}</div>;
+    return <div style={{textAlign: 'center'}}>{<Forest forest={tree.children} emojis={emojis}/>}</div>;
   }
 
   case 'url': {
@@ -101,7 +101,7 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
   case 'link': {
     return (
       <a href={tree.props.url} target="_blank" rel="noopener noreferrer">
-        {<Forest forest={tree.children}/>}
+        {<Forest forest={tree.children} emojis={emojis}/>}
       </a>
     );
   }
@@ -137,7 +137,7 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
   }
 
   case 'quote': {
-    return <blockquote className="mfm-quote">{<Forest forest={tree.children}/>}</blockquote>;
+    return <blockquote className="mfm-quote">{<Forest forest={tree.children} emojis={emojis}/>}</blockquote>;
   }
 
   case 'emojiCode': {
@@ -173,7 +173,7 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
   }
 
   case 'marquee': {
-    return React.createElement('marquee', null, <Forest forest={tree.children}/>);
+    return React.createElement('marquee', null, <Forest forest={tree.children} emojis={emojis}/>);
   }
 
   default:
