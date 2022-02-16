@@ -1,7 +1,7 @@
-import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { noteVisibilities } from 'misskey-js';
 import { toString } from 'misskey-js/built/acct';
 import { Note } from 'misskey-js/built/entities';
+import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
 import { showPopupAt } from '../../scripts/show-popup';
@@ -103,7 +103,7 @@ export default function NoteEditor(p: NoteEditorProp) {
         onClick: () => res('public'),
       },{
         type: 'button',
-        icon: 'fas fa-globe',
+        icon: 'fas fa-home',
         label: '未収載',
         onClick: () => res('home'),
       },{
