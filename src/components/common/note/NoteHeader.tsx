@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getName } from '../../../scripts/get-name';
-import { Gpfm } from '../Gpfm';
+import { GpfmView } from '../GpfmView';
 import TimeView from '../TimeView';
 import UserNameView from '../UserNameView';
 import { VisibilityIcon } from '../VisibilityIcon';
@@ -29,7 +29,7 @@ export default function NoteHeader({note, noLink}: NoteHeaderProp) {
   const user = note.user;
   const nameSet = (
     <>
-      <b className="item"><Gpfm plain emojis={user.emojis} text={getName(user)} /></b>
+      <b className="item"><GpfmView plain emojis={user.emojis} text={getName(user)} /></b>
       <UserNameView user={user} />
     </>
   );

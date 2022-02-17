@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropsWithMeta } from '../../models/PropsWithMeta';
 import { useAppSelector } from '../../store';
-import { Gpfm } from '../common/Gpfm';
+import { GpfmView } from '../common/GpfmView';
 import { InstanceData } from './styled/InstanceData';
 import { InstanceWindow } from './styled/InstanceWindow';
 
@@ -10,7 +10,7 @@ export default function AboutServer({meta}: PropsWithMeta) {
   return (
     <InstanceWindow style={{backgroundImage: meta.backgroundImageUrl ? `url(${meta.backgroundImageUrl})` : 'var(--bg)'}}>
       <InstanceData style={{flex: 3}}>
-        {meta.description && <Gpfm text={meta.description ?? ''} />}
+        {meta.description && <GpfmView text={meta.description ?? ''} />}
       </InstanceData>
       <InstanceData style={{flex: 1}}>
         <dl>

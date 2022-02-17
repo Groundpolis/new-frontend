@@ -7,7 +7,7 @@ import { animationFade } from '../../animation';
 import { getName } from '../../scripts/get-name';
 import Avatar from './Avatar';
 import EmojiView from './EmojiView';
-import { Gpfm } from './Gpfm';
+import { GpfmView } from './GpfmView';
 import NoteView from './note/NoteView';
 
 const AppIcon = styled.img<{slim?: boolean}>`
@@ -103,7 +103,7 @@ export function NotificationView({ data, slim }: { data: Notification; slim?: bo
 
   const title = (() => {
     if (data.type === 'app') return <span>{data.header ?? null}</span>;
-    const name = <Link style={{color: 'var(--fg)'}} to={`/@${toString(data.user)}`}><Gpfm plain text={getName(data.user)} emojis={data.user.emojis} /></Link>;
+    const name = <Link style={{color: 'var(--fg)'}} to={`/@${toString(data.user)}`}><GpfmView plain text={getName(data.user)} emojis={data.user.emojis} /></Link>;
     switch (data.type) {
     case 'reaction': return <span>{name}がリアクションしました</span>;
     case 'renote': return <span>{name}がリノートしました</span>;
@@ -116,7 +116,7 @@ export function NotificationView({ data, slim }: { data: Notification; slim?: bo
   })();
 
   const body = (() => {
-    if (data.type === 'app') return <AppBody><Gpfm text={data.body} /></AppBody>;
+    if (data.type === 'app') return <AppBody><GpfmView text={data.body} /></AppBody>;
     switch (data.type) {
     case 'reaction':
     case 'pollVote': {

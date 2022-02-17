@@ -6,7 +6,7 @@ import { notImpl } from '../../scripts/not-impl';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { setVisibleMenu } from '../../store/screen';
 import Avatar from '../common/Avatar';
-import { Menu, MenuItem, MenuSection } from '../common/Menu';
+import { MenuItem, MenuSection, MenuView } from '../common/MenuView';
 
 
 const ProfileButton = styled.button`
@@ -50,7 +50,7 @@ export default function Sidebar(p: SidebarProp) {
           )}
         </ProfileButton>
       )}
-      <Menu style={{position: 'relative'}} slim={p.slim}>
+      <MenuView style={{position: 'relative'}} slim={p.slim}>
         <MenuSection>
           {!isMobile && <MenuItem icon="fas fa-home" label={isLoggedIn ? 'タイムライン' : 'ホーム'} type="link" to="/" onClick={closeMenu} />}
           {!isMobile && <MenuItem icon="fas fa-bell" label="通知" type="link" to="/notifications" onClick={closeMenu} />}
@@ -73,7 +73,7 @@ export default function Sidebar(p: SidebarProp) {
         <MenuSection>
           <MenuItem icon="fas fa-smile" label="フィードバック" type="link" to="/feedback" onClick={closeMenu}/>
         </MenuSection>
-      </Menu>
+      </MenuView>
     </div>
   );
 }

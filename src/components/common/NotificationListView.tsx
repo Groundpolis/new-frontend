@@ -1,15 +1,9 @@
 import { Notification } from 'misskey-js/built/entities';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { animationFade } from '../../animation';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
 import { useStreaming } from '../../hooks/useStreaming';
 import { NotificationView } from './NotificationView';
 import { Spinner } from './Spinner';
-
-const NotificationWrapper = styled.div`
-  ${animationFade}
-`;
 
 export default function NotificationListView({slim}: {slim?: boolean}) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -49,9 +43,9 @@ export default function NotificationListView({slim}: {slim?: boolean}) {
     <>
       <div className="vgroup outline">
         {notifications.map(n => (
-          <NotificationWrapper className="px-1 py-2" key={n.id}>
+          <div className="gp-anm-fade px-1 py-2" key={n.id}>
             <NotificationView data={n} slim={slim} />
-          </NotificationWrapper>
+          </div>
         ))}
       </div>
       <div className="flex f-center mt-2">

@@ -1,5 +1,5 @@
 import React, { CSSProperties, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { Gpfm } from '../Gpfm';
+import { GpfmView } from '../GpfmView';
 import Modal, { ModalProp } from '../Modal';
 
 
@@ -109,7 +109,7 @@ export default function Dialog(p: DialogProp) {
       <div className="body">
         {p.title && <h1 className="mt-1">{p.title}</h1>}
         <div className="my-2">
-          <Gpfm text={p.message} />
+          <GpfmView text={p.message} />
         </div>
         {p.type === 'text' ? (
           <InnerText {...p}/>

@@ -185,7 +185,7 @@ const Forest: React.VFC<{forest?: MfmNode[], plain?: boolean, emojis?: CustomEmo
   return !forest ? null : <>{forest.map((n, i) => <Tree key={i} tree={n}  plain={plain} emojis={emojis} />)}</>;
 };
 
-export const Gpfm: React.VFC<MfmProps> = (p) => {
+export const GpfmView: React.VFC<MfmProps> = (p) => {
   const forest = useMemo(() => p.plain ? parsePlain(p.text) : parse(p.text), [p.text, p.plain]);
 
   const inner = <Forest forest={forest} plain={p.plain} emojis={p.emojis} />;

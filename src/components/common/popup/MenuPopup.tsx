@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ItemProp, Menu, MenuItem } from '../Menu';
+import { ItemProp, MenuItem, MenuView } from '../MenuView';
 import Popup, { PopupProp } from '../Popup';
 
 export type MenuItemSection = {
@@ -29,9 +29,9 @@ export default function MenuPopup(p: MenuPopupProp) {
   return (
     <Popup {...p} innerClassName="card pa-1">
       <MenuWrapper>
-        <Menu>
+        <MenuView>
           {items}
-        </Menu>
+        </MenuView>
       </MenuWrapper>
     </Popup>
   );

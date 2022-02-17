@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { animationFade, animationFadeLeft, animationFadeUp } from './animation';
 
 export default createGlobalStyle`
 body {
@@ -93,5 +94,17 @@ button.btn.primary:disabled {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.gp-anm {
+  &-fade {
+    ${animationFade};
+    &-up {
+      ${animationFadeUp}
+    }
+    &-left {
+      ${animationFadeLeft}
+    }
+  }
 }
 `;

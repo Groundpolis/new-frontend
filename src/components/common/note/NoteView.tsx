@@ -3,7 +3,6 @@ import { CustomEmoji, Note, UserDetailed } from 'misskey-js/built/entities';
 import { NoteUpdatedEvent } from 'misskey-js/built/streaming.types';
 import React, { MouseEvent, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { animationFade } from '../../../animation';
 import { useMisskeyClient } from '../../../hooks/useMisskeyClient';
 import { useStreaming } from '../../../hooks/useStreaming';
 import copyToClipboard from '../../../scripts/copy-to-clipboard';
@@ -18,7 +17,7 @@ import Avatar from '../Avatar';
 import Dialog from '../dialogs/Dialog';
 import NoteEditorDialog from '../dialogs/NoteEditorDialog';
 import EmojiView from '../EmojiView';
-import { Gpfm } from '../Gpfm';
+import { GpfmView } from '../GpfmView';
 import EmojiMartPicker from '../popup/EmojiMartPicker';
 import MenuPopup, { MenuItemSection } from '../popup/MenuPopup';
 import NoteHeader from './NoteHeader';
@@ -31,10 +30,6 @@ export type NoteViewProp = {
   onNoteUpdate?: (updatedNote: Note) => void;
   onNoteDelete?: () => void;
 };
-
-const Container = styled.div`
-  ${animationFade};
-`;
 
 const ReplyWrapper = styled.div`
   margin-bottom: 24px;
@@ -325,13 +320,13 @@ export default function NoteView(p: NoteViewProp) {
   }, [stream, appearNote.id, p.note.id]);
 
   return (
-    <Container>
+    <div className="gp-anm-fade">
       {renotedUser && !hasContent && (
         <div className="text-dimmed flex f-middle mb-2">
           <i className="fa fa-retweet fa-fw mr-1 text-125"/>
           <img src={renotedUser.avatarUrl} className="circle mr-1" style={{width: '1.5em', height: '1.5em'}} />
           <span>
-            <Gpfm plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
+            <GpfmView plain emojis={renotedUser.emojis} text={getName(renotedUser)} /> さんがリノートしました
           </span>
         </div>
       )}
@@ -346,7 +341,7 @@ export default function NoteView(p: NoteViewProp) {
           <NoteHeader note={appearNote} />
           {appearNote.cw && (
             <aside className="mt-1">
-              <Gpfm text={appearNote.cw} emojis={appearNote.emojis} />
+              <GpfmView text={appearNote.cw} emojis={appearNote.emojis} />
               <button className="btn flat text-75 ml-1 text-white" style={{padding: '4px 8px', background: 'var(--tone-4)'}} onClick={() => setCwOpened(!isCwOpened)}>
                 {isCwOpened ? '隠す' : `もっと見る(${appearNote.text?.length ?? 0}文字${appearNote.files && appearNote.files.length > 0 ? ', ' + appearNote.files.length + 'ファイル' : ''})`}
               </button>
@@ -354,7 +349,7 @@ export default function NoteView(p: NoteViewProp) {
           )}
           {isVisibleBody && (
             <>
-              {appearNote.text && <BodyWrapper className="mt-1">{appearNote.reply && <i className="fas fa-reply text-primary mr-1" />}<Gpfm className="inline" text={appearNote.text} emojis={appearNote.emojis}/></BodyWrapper>}
+              {appearNote.text && <BodyWrapper className="mt-1">{appearNote.reply && <i className="fas fa-reply text-primary mr-1" />}<GpfmView className="inline" text={appearNote.text} emojis={appearNote.emojis}/></BodyWrapper>}
               {quote && (
                 <QuoteContainer className="rounded mt-1 pa-1">
                   <TinyNoteView note={quote} />
@@ -388,6 +383,6 @@ export default function NoteView(p: NoteViewProp) {
         </button>
         <button className="btn flat" onClick={onClickMore}><i className="fas fa-ellipsis-h"></i></button>
       </Commands>
-    </Container>
+    </div>
   );
 }
