@@ -19,6 +19,7 @@ import { showModal } from './scripts/show-modal';
 import { storage } from './scripts/storage';
 import { useAppDispatch, useAppSelector } from './store';
 import { setLaptop, setLayoutType, setMobile, setTablet } from './store/screen';
+import GlobalStyle from './style';
 
 export const StreamingContext = createContext<Stream | null>(null);
 
@@ -80,6 +81,7 @@ function App() {
     <StreamingContext.Provider value={stream}>
       <BrowserRouter>
         <CurrentLayout>
+          <GlobalStyle />
           <Routes>
             <Route path="/" element={<IndexPage />}/>
             <Route path="/notes/:noteId" element={<NotePage />}/>

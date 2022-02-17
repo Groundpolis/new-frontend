@@ -1,7 +1,6 @@
-// Global SCSS
-// 全体的なスタイリングに留める
-// 基本的には Styled Components をつかってください
+import { createGlobalStyle } from 'styled-components';
 
+export default createGlobalStyle`
 body {
     font-family: "Koruri", sans-serif;
     --primary: #60B241;
@@ -95,3 +94,4 @@ button.btn.primary:disabled {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+`;
