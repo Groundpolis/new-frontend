@@ -63,8 +63,8 @@ export default function SessionPage() {
     <>
       <ActionBar>
         <Tab items={tabItems} selected={currentTimeline} onSelect={source => dispatch(setCurrentTimeline(source as TimelineSource))}/>
-        <ActionBarButton className="item clickable mr-auto"><i className="fas fa-chevron-down" /></ActionBarButton>
-        <ActionBarButton className="item clickable"><i className="fas fa-bullhorn" /></ActionBarButton>
+        <ActionBarButton disabled className="item clickable mr-auto"><i className="fas fa-chevron-down" /></ActionBarButton>
+        <ActionBarButton disabled className="item clickable"><i className="fas fa-bullhorn" /></ActionBarButton>
       </ActionBar>
       { queue.length > 0 && (
         <Alert className="alert bg-info shadow-3">

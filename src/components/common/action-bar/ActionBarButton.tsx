@@ -1,22 +1,25 @@
-import React, { HTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 export const StyledButton = styled.button`
 display: flex;
-color: var();
+color: var(--fg);
 width: 50px;
 align-items: center;
 justify-content: center;
 border-radius: var(--radius);
-&:hover {
+&:disabled {
+  color: var(--dimmed);
+}
+&:not(:disabled):hover {
   background: var(--hover);
 }
-&.active {
+&:not(:disabled).active {
   background: var(--hover);
 }
 `;
 
-export default function ActionBarButton(p: HTMLAttributes<HTMLButtonElement>) {
+export default function ActionBarButton(p: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <StyledButton {...p} className={`item clickable ${p.className ?? ''}`}>
       {p.children}

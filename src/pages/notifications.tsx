@@ -8,7 +8,7 @@ export default function NotificationsPage() {
     <>
       <ActionBar>
         <h1>通知</h1>
-        <ActionBarButton className="ml-auto"><i className="fas fa-filter" /></ActionBarButton>
+        <ActionBarButton disabled className="ml-auto"><i className="fas fa-filter" /></ActionBarButton>
       </ActionBar>
       <div className="container">
         <div className="bg-panel rounded">
