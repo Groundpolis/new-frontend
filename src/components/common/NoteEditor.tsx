@@ -10,8 +10,13 @@ import TinyNoteView from './note/TinyNoteView';
 import MenuPopup from './popup/MenuPopup';
 import { VisibilityIcon } from './VisibilityIcon';
 
+const Input = styled.input`
+  background: var(--panel) !important;
+`;
+
 const Textarea = styled.textarea`
 	height: 7em;
+  background: var(--panel) !important;
 `;
 
 const QuoteContainer = styled.blockquote`
@@ -23,11 +28,14 @@ export type NoteEditorProp = {
   reply?: Note,
   quote?: Note,
   initial?: Partial<Note>,
+  focus?: boolean,
   onSubmit?: (note: Note) => void;
 };
 
 export default function NoteEditor(p: NoteEditorProp) {
-  const {meta} = useAppSelector(state => state.session);
+  const {meta, userCache} = useAppSelector(state => state.session);
+
+  if (!userCache) throw new TypeError();
 
   const api = useMisskeyClient();
 
@@ -39,6 +47,7 @@ export default function NoteEditor(p: NoteEditorProp) {
   const [visibility, setVisibility] = useState<typeof noteVisibilities[number]>('public');
   const [isSending, setSending] = useState(false);
   const [quote] = useState(p.quote);
+  const [isVisiblePreview, setVisiblePreview] = useState(false);
   
   const {reply} = p;
 
@@ -78,13 +87,9 @@ export default function NoteEditor(p: NoteEditorProp) {
     setVisibility(p.initial.visibility ?? 'public');
   }, [p.initial]);
 
-  const onClickEnableCw = useCallback(() => {
-    setEnableCw(true);
-  }, []);
-
-  const onClickDisableCw = useCallback(() => {
-    setEnableCw(false);
-  }, []);
+  const onClickToggleCw = useCallback(() => {
+    setEnableCw(!isEnableCw);
+  }, [isEnableCw]);
 
   const onChangeCw = useCallback<React.ChangeEventHandler<HTMLInputElement>>((e) => {
     setCwMessage(e.target.value);
@@ -132,9 +137,14 @@ export default function NoteEditor(p: NoteEditorProp) {
     }
   }, [send]);
 
+  useEffect(() => {
+    if (!textareaRef.current || !p.focus) return;
+    textareaRef.current.focus();
+  }, [p.focus, textareaRef.current]);
+
   return (
     <div>
-      <div className="vstack">
+      <div>
         {reply && (
           <QuoteContainer className="pa-2 rounded">
             <TinyNoteView note={reply} noLink />
@@ -145,35 +155,61 @@ export default function NoteEditor(p: NoteEditorProp) {
             <TinyNoteView note={quote} noLink />
           </QuoteContainer>
         )}
-        {isEnableCw ? (
-          <div className="hstack dense">
-            <button className="btn flat pa-1 mr-1" onClick={onClickDisableCw} disabled={isSending}><i className="fas fa-times fa-fw" /></button>
-            <input type="text" className="input-field" placeholder="注釈" disabled={isSending} value={cwMessage} onChange={onChangeCw} />
-          </div>
-        ) : (
-          <button className="btn text-left px-1 fluid" disabled={isSending} onClick={onClickEnableCw}>
-            <i className="fas fa-eye-slash mr-1"/>投稿内容を伏せる
-          </button>
+        <div className="hstack dense mb-1">
+          <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-paperclip fa-fw" /></button>
+          <button className={`btn text-125 pa-1 mr-1 ${isEnableCw ? 'primary' : 'flat'}`} onClick={onClickToggleCw}><i className="fas fa-eye-slash fa-fw" /></button>
+          <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-poll-h fa-fw" /></button>
+          <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-bullhorn fa-fw" /></button>
+        </div>
+        {isEnableCw && (
+          <Input type="text" className="input-field ghost mb-2" placeholder="注釈" disabled={isSending} value={cwMessage} onChange={onChangeCw} />
         )}
-        <Textarea className="input-field" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />
-      </div>
-      <div className="hstack dense mt-2">
-        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-plus-circle fa-fw" /></button>
-        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-poll-h fa-fw" /></button>
-        <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-bullhorn fa-fw" /></button>
-        <div className="hstack dense ml-auto f-middle">
-          <b className={`text-dimmed ${textLimit < 0 ? 'text-danger' : ''}`}>{textLimit}</b>
-          <div className="hgroup ml-1">
-            <button className="btn primary" disabled={isSending || !canSend} onClick={onClickSend}>
-              <VisibilityIcon visibility={visibility} />
-              <span className="ml-1">{isSending ? '送信中…' : '送信'}</span>
-            </button>
-            <button className="btn primary pa-1" style={{marginLeft: 1}} onClick={onClickVisibility}>
-              <i className="fas fa-chevron-down" />
-            </button>
-          </div>
+        <div style={{position: 'relative'}}>
+          <Textarea className="input-field ghost" ref={textareaRef} placeholder="好きなことを書きましょう。" disabled={isSending} value={text} onChange={onChangeText} onKeyDown={onKeyDownTextarea} />          
+          <span className={`abs-bottom-right-2 text-dimmed  ${textLimit < 0 ? 'text-danger' : ''}`}>{textLimit}</span>
         </div>
       </div>
+      <div className="hstack dense mt-1">
+        {canSend && (
+          <button className="btn flat" onClick={() => setVisiblePreview(f => !f)}>
+            <i className={`fas fa-chevron-${isVisiblePreview ? 'up' : 'down'} mr-1`} />
+            プレビュー
+          </button>
+        )}
+        <div className="hstack slim ml-auto f-middle">
+          <button className="btn flat pa-1" style={{marginLeft: 1}} onClick={onClickVisibility}>
+            <VisibilityIcon visibility={visibility} />
+          </button>
+          <button className="btn primary" disabled={isSending || !canSend} onClick={onClickSend}>
+            {isSending ? (
+              <><i className="fas fa-spinner fa-spin-pulse fa-fw mr-1"/>送信中…</>
+            ) : (
+              <><i className="fas fa-paper-plane fa-fw mr-1" />送信</>
+            )}
+          </button>
+        </div>
+      </div>
+      {canSend && isVisiblePreview && (
+        <div className="mt-2">
+          <TinyNoteView note={{
+            id: 'preview',
+            createdAt: new Date().toISOString(),
+            text: text,
+            cw: isEnableCw ? cwMessage : null,
+            visibility,
+            user: userCache,
+            userId: userCache.id,
+            replyId: '',
+            renoteId: '',
+            files: [],
+            fileIds: [],
+            reactions: {},
+            renoteCount: 0,
+            repliesCount: 0,
+            emojis: [],
+          }} noLink isReply={!!reply} />
+        </div>
+      )}
     </div>
   );
 }

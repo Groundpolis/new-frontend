@@ -22,11 +22,11 @@ export default function NoteEditorDialog(prop: NoteEditorDialogProp) {
     <Modal close={prop.close} closeByBackdrop align="top" full={isMobile} innerClassName={isMobile ? 'fluid' : ''}>
       <Backdrop className={isMobile ? '' : 'rounded'} style={isMobile ? {} : {width: 700}}>
         <header className="text-125 flex f-middle">
-          <button className="btn flat pa-2" onClick={prop.close}><i className="fa-arrow-left" /></button>
+          <button className="btn flat pa-2" onClick={prop.close}><i className="fas fa-arrow-left" /></button>
           {prop.quote ? '引用' : prop.reply ? '返信' : '投稿を作成'}
         </header>
         <div className="pa-2">
-          <NoteEditor {...prop} onSubmit={onSubmit}/>
+          <NoteEditor {...prop} focus onSubmit={onSubmit}/>
         </div>
       </Backdrop>
     </Modal>
