@@ -2,6 +2,7 @@ import { Stream } from 'misskey-js';
 import React, { createContext, useEffect, useMemo } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Dialog from './components/common/dialogs/Dialog';
+import { ToastListView } from './components/common/ToastListView';
 import { BREAKPOINT_LAPTOP, BREAKPOINT_SM, BREAKPOINT_TB, INTERNAL_VERSION } from './const';
 import { useBackgroundTask } from './hooks/useBackgroundTask';
 import BasicLayout from './layout/BasicLayout';
@@ -82,6 +83,7 @@ function App() {
       <BrowserRouter>
         <CurrentLayout>
           <GlobalStyle />
+          <ToastListView />
           <Routes>
             <Route path="/" element={<IndexPage />}/>
             <Route path="/notes/:noteId" element={<NotePage />}/>

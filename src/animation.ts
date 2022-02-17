@@ -16,6 +16,17 @@ to {
 }
 `;
 
+export const fadeLeft = keyframes`
+from {
+  opacity: 0;
+  transform: translateX(24px);
+}
+to {
+  opacity: 1;
+  transform: none;
+}
+`;
+
 const duration = '0.3s';
 const bezier = 'cubic-bezier(0, .5, .5, 1)';
 
@@ -25,4 +36,8 @@ export const animationFade = css`
 
 export const animationFadeUp = css`
   animation: ${duration} ${bezier} ${fadeUp};
+`;
+
+export const animationFadeLeft = css`
+  animation: ${duration} ${bezier} ${fadeLeft};
 `;
