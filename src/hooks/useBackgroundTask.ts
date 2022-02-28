@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { batch } from 'react-redux';
 import { TimelineSource } from '../models/timeline-source';
 import { useAppDispatch, useAppSelector } from '../store';
-import { appendNote, clearNotes, setFetchingNotes, setNotes, updateNote } from '../store/timeline';
+import { appendNote, clearNotes, setFetchingNotes, setNotes } from '../store/timeline';
 import { useMisskeyClient } from './useMisskeyClient';
 
 
@@ -36,7 +36,7 @@ const getTimelineEndpoint = (timeline: TimelineSource) => {
  * バックグラウンド タスク
  */
 export function useBackgroundTask() {
-  const {token, host, userCache} = useAppSelector(state => state.session);
+  const {token, host} = useAppSelector(state => state.session);
   const {currentTimeline} = useAppSelector(state => state.timeline);
   const dispatch = useAppDispatch();
 
@@ -51,10 +51,6 @@ export function useBackgroundTask() {
     const mainChannel = stream.useChannel('main');
 
     setStream(stream);
-
-    stream.on('noteUpdated', (e) => {
-      dispatch(updateNote({...e, currentUserId: userCache?.id}));
-    });
 
     // Dispose
     return () => {
