@@ -9623,9 +9623,9 @@ ws@^8.4.2:
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.4.2.tgz#18e749868d8439f2268368829042894b6907aa0b"
   integrity sha512-Kbk4Nxyq7/ZWqr/tarI9yIt/+iNNFOjBXEWgTb4ydaNHBNGgvf2QHbS9fdfsndfjFlFwEd4Al+mw83YkaD10ZA==
 
-xeltica-ui@xeltica/ui:
-  version "1.0.0-alpha.15"
-  resolved "https://codeload.github.com/xeltica/ui/tar.gz/d8088a79e78f0795a92a542d872b3449ad34dbcb"
+xeltica-ui@xeltica/design-system:
+  version "1.0.0-beta.6"
+  resolved "https://codeload.github.com/xeltica/design-system/tar.gz/d59b24b18ea56ed90ae8d66d06951fe64ba77e01"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
