@@ -24,6 +24,10 @@ export const useTheme = () => {
     } else {
       document.body.classList.remove('dark');
     }
+    const themeColor = document.head.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
+    if (themeColor) {
+      themeColor.content = getComputedStyle(document.body).getPropertyValue('--bg');
+    }
   }, [enforceDark, systemTheme, themeMode]);
 
 };
