@@ -61,11 +61,13 @@ export default function NoteMedia(p: {files: DriveFile[]}) {
   return (
     <div className="vstack slim">
       {nonImageFiles.map(f => <MediaView file={f} key={f.id} />)}
-      <AspectView aspectRatio={16 / 9}>
-        <ImageGrid className={`layout-${imageFiles.length} rounded`}>
-          {imageFiles.map(f => <MediaView file={f} key={f.id} allFiles={allImageFiles}/>)}
-        </ImageGrid>
-      </AspectView>
+      {imageFiles.length > 0 && (
+        <AspectView aspectRatio={16 / 9}>
+          <ImageGrid className={`layout-${imageFiles.length} rounded`}>
+            {imageFiles.map(f => <MediaView file={f} key={f.id} allFiles={allImageFiles}/>)}
+          </ImageGrid>
+        </AspectView>
+      )}
       {awayedImageFiles.map(f => <MediaView file={f} key={f.id} />)}
     </div>
   );
@@ -81,9 +83,9 @@ export function MediaView({file, allFiles}: {file: DriveFile, allFiles?: DriveFi
       <Img src={file.thumbnailUrl} alt={file.name} className="block bg-black" onClick={preview}/>
     );
   } else if (file.type.startsWith('audio/')) {
-    return <audio src={file.url} controls  className="rounded block"/>;
+    return <audio src={file.url} controls className="rounded block fluid"/>;
   } else if (file.type.startsWith('video/')) {
-    return <video src={file.url} controls  className="rounded block"/>;
+    return <video src={file.url} controls className="rounded block fluid"/>;
   } else {
     return (
       <DownloadButton href={file.url} download className="btn flex f-left f-middle primary">
