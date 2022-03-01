@@ -3,7 +3,7 @@ import { api } from 'misskey-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider as ReduxProvider } from 'react-redux';
-import 'xeltica-ui/dist/css/xeltica-ui.min.css';
+
 import App from './App';
 import BlueScreen from './components/common/BlueScreen';
 import Dialog from './components/common/dialogs/Dialog';
@@ -11,6 +11,8 @@ import { showModal } from './scripts/show-modal';
 import * as serviceWorker from './serviceWorker';
 import { store } from './store';
 import { setHost, setMeta, setStats, setUserCache } from './store/session';
+
+import 'xeltica-ui/dist/css/xeltica-ui.min.css';
 
 const host = store.getState().session.host;
 

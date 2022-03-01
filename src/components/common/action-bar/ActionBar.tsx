@@ -10,7 +10,7 @@ overflow: hidden;
 z-index: 11;
 > h1 {
   margin: auto 0;
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin-left: var(--margin);
 }
 > .item {

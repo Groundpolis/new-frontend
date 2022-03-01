@@ -77,7 +77,7 @@ export default function WelcomePage() {
   return (
     <>
       <Sky className="flex f-bottom">
-        <Particles className="stars bg-skyblue-d" options={sky} params={{preset: 'stars', autoPlay: true,}} />
+        <Particles className="stars bg-skyblue-9" options={sky} params={{preset: 'stars', autoPlay: true,}} />
         {!isInvisible && new Array(repeat).fill(<Skyline/>)}
         <Hero>
           <div className="main">

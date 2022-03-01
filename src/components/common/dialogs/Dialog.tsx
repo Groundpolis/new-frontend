@@ -102,7 +102,7 @@ function InnerInput(p: DialogProp) {
 
 export default function Dialog(p: DialogProp) {
   const innerStyle: CSSProperties = {
-    width: 'min(100%, 400px)',
+    width: 'min(100%, 600px)',
   };
   return (
     <Modal close={p.close} innerClassName="card shadow-3 text-center" innerStyle={innerStyle} closeByBackdrop={p.closeByBackdrop}>

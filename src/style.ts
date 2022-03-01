@@ -2,20 +2,15 @@ import { createGlobalStyle } from 'styled-components';
 import { animationFade, animationFadeLeft, animationFadeUp } from './animation';
 
 export default createGlobalStyle`
-body {
-    font-family: "Koruri", sans-serif;
-    --primary: #60B241;
-    --primary-d: #1c3d11;
-    --primary-l: #8eb97e;
-    --fg: var(--tone-9);
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    &.dark {
-    --shadow-color: rgba(20, 20, 20, 0.3);
-    }
+html {
     font-size: 16px;
 }
 
-button.btn:not(.primary):not(.info):not(.success):not(.warn):not(.danger):not(.lift):not(:disabled) {
+body {
+    font-family: "Koruri", sans-serif;
+}
+
+/* button.btn:not(.primary):not(.info):not(.success):not(.warn):not(.danger):not(.lift):not(:disabled) {
     border-color: var(--dimmed);
     color: var(--fg);
     &:active, &:focus {
@@ -27,45 +22,15 @@ button.btn:not(.primary):not(.info):not(.success):not(.warn):not(.danger):not(.l
 button.btn.primary:disabled {
     background: transparent;
     color: var(--dimmed);
-}
+} */
 
-.vstack:not(.dense) {
-    gap: var(--stack-margin);
-    > * + * {
-        margin-top: 0;
-    }
-}
-
-.hstack:not(.dense) {
-    gap: var(--stack-margin);
-    > * + * {
-        margin-left: 0;
-    }
-}
-
-.vstack:not(.dense).slim,
-.hstack:not(.dense).slim {
-    gap: 4px;
+.menu .item .icon {
+    color: currentColor;
 }
 
 .gp-disabled {
     opacity: 0.5;
     pointer-events: none;
-}
-
-.menu.large .item {
-    display: flex;
-    align-items: center;
-    border: none;
-    border-radius: var(--radius);
-    width: 100%;
-    > .icon {
-        color: currentColor;
-        margin-right: var(--margin);
-    }
-    &.active {
-        color: var(--primary);
-    }
 }
 
 .menu.slim .item {

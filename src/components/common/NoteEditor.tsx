@@ -21,7 +21,8 @@ const Textarea = styled.textarea`
 
 const QuoteContainer = styled.blockquote`
   border: 1px solid var(--tone-4);
-  opacity: 0.5;
+  opacity: 0.9;
+  pointer-events: none;
 `;
 
 export type NoteEditorProp = {
@@ -100,28 +101,31 @@ export default function NoteEditor(p: NoteEditorProp) {
   }, []);
 
   const onClickVisibility = (e: MouseEvent<HTMLButtonElement>) => {
-    new Promise<typeof noteVisibilities[number]>(res => showPopupAt(MenuPopup, e.target as Element, {
-      items: [[{
-        type: 'button',
-        icon: 'fas fa-globe',
-        label: 'パブリック',
-        onClick: () => res('public'),
-      },{
-        type: 'button',
-        icon: 'fas fa-home',
-        label: '未収載',
-        onClick: () => res('home'),
-      },{
-        type: 'button',
-        icon: 'fas fa-lock',
-        label: 'フォロワー',
-        onClick: () => res('followers'),
-      },{
-        type: 'button',
-        icon: 'fas fa-envelope',
-        label: 'ダイレクト',
-        onClick: () => res('specified'),
-      },]],
+    new Promise<typeof noteVisibilities[number]>(res => showPopupAt(MenuPopup, e.target as Element, { 
+      items: [{
+        section: '公開範囲を選択してください',
+        items: [{
+          type: 'button',
+          icon: 'fas fa-globe',
+          label: 'パブリック',
+          onClick: () => res('public'),
+        },{
+          type: 'button',
+          icon: 'fas fa-home',
+          label: '未収載',
+          onClick: () => res('home'),
+        },{
+          type: 'button',
+          icon: 'fas fa-lock',
+          label: 'フォロワー',
+          onClick: () => res('followers'),
+        },{
+          type: 'button',
+          icon: 'fas fa-envelope',
+          label: 'ダイレクト',
+          onClick: () => res('specified'),
+        },],
+      }],
     })).then((res) => {
       setVisibility(res);
     });
@@ -156,10 +160,10 @@ export default function NoteEditor(p: NoteEditorProp) {
           </QuoteContainer>
         )}
         <div className="hstack dense mb-1">
-          <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-paperclip fa-fw" /></button>
-          <button className={`btn text-125 pa-1 mr-1 ${isEnableCw ? 'primary' : 'flat'}`} onClick={onClickToggleCw}><i className="fas fa-eye-slash fa-fw" /></button>
-          <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-poll-h fa-fw" /></button>
-          <button className="btn flat text-125 pa-1 mr-1" disabled={true}><i className="fas fa-bullhorn fa-fw" /></button>
+          <button className="btn flat mr-1" disabled={true}><i className="fas fa-paperclip fa-fw" /></button>
+          <button className={`btn mr-1 ${isEnableCw ? 'primary' : 'flat'}`} onClick={onClickToggleCw}><i className="fas fa-eye-slash fa-fw" /></button>
+          <button className="btn flat mr-1" disabled={true}><i className="fas fa-poll-h fa-fw" /></button>
+          <button className="btn flat mr-1" disabled={true}><i className="fas fa-bullhorn fa-fw" /></button>
         </div>
         {isEnableCw && (
           <Input type="text" className="input-field ghost mb-2" placeholder="注釈" disabled={isSending} value={cwMessage} onChange={onChangeCw} />

@@ -8,8 +8,10 @@ type FeatureCardProp = {
 export default function FeatureCard({src, title, children}: PropsWithChildren<FeatureCardProp>) {
   return (
     <div className="card">
+      <figure className="fluid bottom-shadow">
+        <img src={src} alt="Reaction" />
+      </figure>
       <div className="body">
-        <img src={src} alt="Reaction" className="rounded fixed" />
         <h1 className="mb-1">{title}</h1>
         {children}
       </div>

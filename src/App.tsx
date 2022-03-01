@@ -16,6 +16,7 @@ import NotImplPage from './pages/not-impl';
 import NotePage from './pages/note';
 import NotificationsPage from './pages/notifications';
 import SettingsPage from './pages/settings';
+import UserPage from './pages/user';
 import { showModal } from './scripts/show-modal';
 import { storage } from './scripts/storage';
 import { useAppDispatch, useAppSelector } from './store';
@@ -88,6 +89,7 @@ function App() {
             <Route path="/" element={<IndexPage />}/>
             <Route path="/notes/:noteId" element={<NotePage />}/>
             <Route path="/notifications" element={<NotificationsPage />}/>
+            <Route path="/@:acct" element={<UserPage />}/>
             <Route path="/explore" element={<NotImplPage />}/>
             <Route path="/messaging" element={<NotImplPage />}/>
             <Route path="/debug" element={<DebugPage />} />
