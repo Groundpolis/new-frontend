@@ -108,7 +108,7 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
 
   case 'mention': {
     return (
-      <Link to={`/${tree.props.acct}`} target="_blank" rel="noopener noreferrer">
+      <Link to={`/${tree.props.acct}`}>
         {tree.props.acct}
       </Link>
     );
@@ -116,7 +116,7 @@ const Tree: React.VFC<{tree: MfmNode, plain?: boolean, emojis?: CustomEmojiLite[
 
   case 'hashtag': {
     return (
-      <Link to={`/tags/${encodeURIComponent(tree.props.hashtag)}`} target="_blank" rel="noopener noreferrer">
+      <Link to={`/tags/${encodeURIComponent(tree.props.hashtag)}`}>
         #{tree.props.hashtag}
       </Link>
     );

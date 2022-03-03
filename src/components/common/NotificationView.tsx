@@ -45,6 +45,7 @@ const SubIcon = styled.div<{slim?: boolean}>`
   align-items: center;
   justify-content: center;
   box-sizing: content-box;
+  pointer-events: none;
   &.renote {
     background: var(--green);
   }
