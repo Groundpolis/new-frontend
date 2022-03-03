@@ -2,10 +2,10 @@ import { parse, toString } from 'misskey-js/built/acct';
 import { UserDetailed } from 'misskey-js/built/entities';
 import React, { useEffect, useState } from 'react';
 import { useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import ActionBar from '../components/common/action-bar/ActionBar';
 import Avatar from '../components/common/Avatar';
+import FollowButton from '../components/common/FollowButton';
 import { GpfmView } from '../components/common/GpfmView';
 import { Spinner } from '../components/common/Spinner';
 import { Tab } from '../components/common/Tab';
@@ -13,6 +13,7 @@ import TimeView from '../components/common/TimeView';
 import { useMisskeyClient } from '../hooks/useMisskeyClient';
 import { User } from '../models/user';
 import { getName } from '../scripts/get-name';
+import { useAppSelector } from '../store';
 import UserFollowersSubPage from './user.followers';
 import UserFollowingSubPage from './user.following';
 import UserTimelineSubPage from './user.timeline';
@@ -103,6 +104,8 @@ export default function UserPage(p: {mode: 'notes' | 'following' | 'followers'})
   const api = useMisskeyClient();
   const navigate = useNavigate();
 
+  const {userCache} = useAppSelector(state => state.session);
+
   const [user, setUser] = useState<User | null>(null);
 
   if (!acctString) throw new TypeError();
@@ -157,16 +160,26 @@ export default function UserPage(p: {mode: 'notes' | 'following' | 'followers'})
               </div>
             </div>
             <_Avatar size={120} user={detailed} />
-            <div className="abs-top-left-2 rounded pa-1 bg-black text-white text-75">
-              フォローされています
-            </div>
+            {detailed.isFollowed && (
+              <div className="abs-top-left-2 rounded pa-1 bg-black text-white text-75">
+                {detailed.isFollowing ? '相互フォロー' : 'フォローされています'}
+              </div>
+            )}
+            {detailed.isBlocked ? (
+              <div className="abs-top-left-2 rounded pa-1 bg-red text-white text-75">
+                {detailed.isBlocking ? '相互ブロック' : 'ブロックされています'}
+              </div>
+            ) : detailed.isBlocking ? (
+              <div className="abs-top-left-2 rounded pa-1 bg-red text-white text-75">
+                ブロック中
+              </div>
+            ) : null}
             <div className="circle bg-black-50 abs-top-right-2 hstack dense pa-1" style={{backdropFilter: 'blur(8px)'}}>
               <button className="btn flat circle text-white">
                 <i className="fas fa-ellipsis-h" />
               </button>
-              <button className="btn circle outline primary">
-                フォローする
-              </button>
+              {!detailed.isBlocked && !detailed.isBlocking && (detailed.id !== userCache?.id) && <FollowButton user={detailed} onChange={setUser} />}
+              {detailed.id === userCache?.id && <Link to='/settings/profile' className="btn success">プロフィールを編集</Link>}
             </div>
           </Header>
           <div className="vgroup outline">
