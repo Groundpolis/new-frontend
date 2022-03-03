@@ -1,4 +1,5 @@
 import React from 'react';
+import { HTMLAttributes } from 'react';
 
 export type TabItem = {
 	element: JSX.Element;
@@ -8,6 +9,7 @@ export type TabItem = {
 
 export type TabProps = {
 	items: TabItem[];
+  className?: HTMLAttributes<Element>['className'];
 	selected: string;
 	onSelect: (key: string) => void;
 };
@@ -15,7 +17,7 @@ export type TabProps = {
 // タブコンポーネント
 export const Tab: React.VFC<TabProps> = (props) => {
   return (
-    <div className="tab">
+    <div className={`tab ${props.className}`}>
       {props.items.map((item) => {
         return (
           <button

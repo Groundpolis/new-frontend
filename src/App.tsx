@@ -89,7 +89,9 @@ function App() {
             <Route path="/" element={<IndexPage />}/>
             <Route path="/notes/:noteId" element={<NotePage />}/>
             <Route path="/notifications" element={<NotificationsPage />}/>
-            <Route path="/@:acct" element={<UserPage />}/>
+            <Route path="/@:acct" element={<UserPage mode="notes" />} />
+            <Route path="/@:acct/following" element={<UserPage mode="following" />}/>
+            <Route path="/@:acct/followers" element={<UserPage mode="followers" />}/>
             <Route path="/explore" element={<NotImplPage />}/>
             <Route path="/messaging" element={<NotImplPage />}/>
             <Route path="/debug" element={<DebugPage />} />

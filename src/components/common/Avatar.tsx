@@ -1,6 +1,6 @@
 import { toString } from 'misskey-js/built/acct';
 import { UserDetailed } from 'misskey-js/built/entities';
-import React, { useMemo } from 'react';
+import React, { HTMLAttributes, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { extractAvgColorFromBlurhash } from '../../scripts/extract-avg-color-from-blurhash';
@@ -25,6 +25,7 @@ display: ${p => p.inline ? 'inline-block' : 'block'};
 position: relative;
 width: ${props => props.size};
 height: ${props => props.size};
+border-radius: 999px;
 background-size: cover;
 &.cat {
   &:before, &:after {
@@ -56,6 +57,7 @@ background-size: cover;
 `;
 
 export type AvatarProp = {
+    className?: HTMLAttributes<Element>['className'],
     user: UserDetailed,
     size?: number | string,
     inline?: boolean,
@@ -67,7 +69,7 @@ export default function Avatar(prop: AvatarProp) {
 
   const avgColor = useMemo(() => extractAvgColorFromBlurhash(prop.user.avatarBlurhash), [prop.user.avatarBlurhash]);
   const inner = useMemo(() => (
-    <AvatarWrapper size={size} inline={prop.inline} className={prop.user.isCat ? 'animated cat' : ''} earColor={avgColor ?? 'var(--fg)'}>
+    <AvatarWrapper size={size} inline={prop.inline} className={`${prop.user.isCat ? 'animated cat' : ''} ${prop.className}`} earColor={avgColor ?? 'var(--fg)'}>
       <img src={prop.user.avatarUrl} className="circle" style={{
         position: 'absolute',
         inset: 0,
