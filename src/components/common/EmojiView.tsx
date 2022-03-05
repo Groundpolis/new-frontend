@@ -28,7 +28,7 @@ export function CustomEmojiView(p: EmojiViewProp) {
   if (!emoji) {
     return <span>{p.emoji}</span>;
   } else {
-    return <EmojiImg src={emoji.url} alt={emoji.name} style={p.normal ? undefined : { height: '2.5em'}} loading="lazy" />;
+    return <EmojiImg src={emoji.url} alt={emoji.name} title={emoji.name} style={p.normal ? undefined : { height: '2.5em'}} loading="lazy" />;
   }
 }
 

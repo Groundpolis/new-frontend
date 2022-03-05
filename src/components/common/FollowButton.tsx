@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { User, UserDetailed } from 'misskey-js/built/entities';
-import { useAppSelector } from '../../store';
 import { useMisskeyClient } from '../../hooks/useMisskeyClient';
 import { useStreaming } from '../../hooks/useStreaming';
 
 export default function FollowButton({user, onChange}: {user: UserDetailed, onChange?: (user: User) => void}) {
-  const { userCache } = useAppSelector(state => state.session);
   const api = useMisskeyClient();
   const stream = useStreaming();
 
